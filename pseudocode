@@ -1,0 +1,40 @@
+main class
+- Initiate all variables
+- Initiate all objects in 2D array
+- Gets user input
+- win method
+- lose method
+- options method
+- beginGame method
+- restartGame method
+- leaderboard method
+- getFile method
+- writeFile method
+- Graphics Class
+- GetUserKey Class
+
+abstract Characters Class
+- Initiate #varibles in constructor
+  - String: #eyeColor
+  - String: #hairLength
+  - Boolean: #wearingHat
+  - Boolean: #visibleTeeth
+  - Boolean: #glasses
+  - Boolean: #facialHair
+  - String: #skinTone
+  - String: #hariColor
+  - Boolean: #gender
+
+- Initiate abstract method
+  - getGender()
+  - getHairColor()
+  - getSkinTone()
+  - getFacialHair()
+  - getGlasses()
+  - getVisibleTeeth()
+  - getWearHat()
+  - getHairLength()
+  - getEyeColor()
+
+Class Olivia extends Character 
+
