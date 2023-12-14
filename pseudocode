@@ -1,7 +1,12 @@
 main class
 - Initiate all variables
     - GUI Variables
-    - Array variables
+        - JButton startButton = new JButton(); 
+        - JFrame frame = new JFrame(); 
+        - JText text = new JText(); 
+    - Arrays
+        - Character[][] char
+        - JButton[][] charButton
     - Integer variables
       - int wins = 0; 
       - int losses = 0; 
@@ -10,29 +15,29 @@ main class
 
 - Initiate all objects and put them in a 2D array
   - char[0][0] = new Olivia(); 
-  - char[1][0]  = new Nick(); 
-  - char[2][0]  = new David(); 
-  - char[3][0]  = new Leo(); 
-  - char[0][1]  = new Emma(); 
-  - char[1][1]  = new Ben(); 
-  - char[2][1]  = new Eric(); 
-  - char[3][1]  = new Rachel(); 
-  - char[0][2]  = new Amy(); 
-  - char[1][2]  = new Mike(); 
-  - char[2][2]  = new Gabe(); 
-  - char[3][2]  = new Jordan(); 
-  - char[0][3]  = new Carmen(); 
-  - char[1][3]  = new Joe(); 
-  - char[2][3]  = new Mia(); 
-  - char[3][3]  = new Sam(); 
-  - char[0][4]  = new Sofia(); 
-  - char[1][4]  = new Lily(); 
-  - char[2][4]  = new Daniel(); 
-  - char[3][4]  = new Al(); 
-  - char[0][5]  = new Laruna(); 
-  - char[1][5]  = new Liz(); 
-  - char[2][5]  = new Katie(); 
-  - char[4][5]  = new Farah(); 
+  - char[1][0] = new Nick(); 
+  - char[2][0] = new David(); 
+  - char[3][0] = new Leo(); 
+  - char[0][1] = new Emma(); 
+  - char[1][1] = new Ben(); 
+  - char[2][1] = new Eric(); 
+  - char[3][1] = new Rachel(); 
+  - char[0][2] = new Amy(); 
+  - char[1][2] = new Mike(); 
+  - char[2][2] = new Gabe(); 
+  - char[3][2] = new Jordan(); 
+  - char[0][3] = new Carmen(); 
+  - char[1][3] = new Joe(); 
+  - char[2][3] = new Mia(); 
+  - char[3][3] = new Sam(); 
+  - char[0][4] = new Sofia(); 
+  - char[1][4] = new Lily(); 
+  - char[2][4] = new Daniel(); 
+  - char[3][4] = new Al(); 
+  - char[0][5] = new Laruna(); 
+  - char[1][5] = new Liz(); 
+  - char[2][5] = new Katie(); 
+  - char[4][5] = new Farah(); 
         
 - Gets user input
     - JButton
@@ -40,38 +45,47 @@ main class
     - MyKeyListener
 
 - win method
-  - If player wins
+  - If the player wins
     - add title 
-    - set restartButton visible
-    - set questionsButton invisible
+    - set the visibility of the restart button to true 
+    - set the visibility of the questions button to false
     - add 1 to wins 
+
 - lose method
-   - If player loses
+   - If a player loses
     - add title 
-    - set restartButton visible
-    - set questionsButton invisible
+    - set the visibility of the restart button to true
+    - set the visibility of the questions button to false
     - add 1 to losses 
+
 - options method
   - selection
     - player vs player
     - player vs computer
     - computer vs computer 
+
 - beginGame method
   - set startButton invisible
   - set questionsButton visible
   - set title invisible
   - add gameInterface
+
 - restartGame method
   - set all images to default image
   - set all questions visible
+
 - leaderboard method
   - puts the wins/loses onto a leadership GUI
+
 - getFile method
   - gets the wins/loses score from a file
+
 - writeFile method
   - saves the wins/loses score into a file
+
 - Graphics Class
  - animation 
+
 - GetUserKey Class
   - press 'a' = scroll quesition left
   - press 'd' = scroll questions right
