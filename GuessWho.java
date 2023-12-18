@@ -105,9 +105,11 @@ public class GuessWho {
 		confirm.addActionListener(new Confirm());
 		confirm.setFont(font);
 		
+		//Set properties for character selection GUI
 		character.setBounds(600, 150, 300, 100);
 		character.setFont(font2);
 		
+		//Set properties for game option menu
 		window.add(options);
 		options.setBounds(window.getWidth()/2-250, 200, 500, 500);
 		options.add(title); 
@@ -115,44 +117,56 @@ public class GuessWho {
 		title.setFont(font);
 		title.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
+		//Set properties for player vs computer button
 		options.add(playerComp);
 		playerComp.setAlignmentX(Component.CENTER_ALIGNMENT);
 		playerComp.addActionListener(new StartPlayerComp()); 
 		
+		//Set properties for computer vs computer button
 		options.add(CompComp);
 		CompComp.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
+		//Set properties for player vs player button
 		options.add(playerPlayer);
 		playerPlayer.setAlignmentX(Component.CENTER_ALIGNMENT);		
 		
+		//Set properties for questions text
 		questions.setBounds(500, 120, 300, 50); 
 		questions.setFont(font);
 		
+		//Set properties for confirm question button
 		confirmQuest.setBounds(500, 200, 150, 50); 
 		confirmQuest.setFont(font); 
 		confirmQuest.addActionListener(new AskQuestion()); 
 		
+		//Set properties for computer output text
 		computerText.setBounds(500, 50, 500, 50); 
 		computerText.setFont(font); 
 		
+		//Set properties for confirm changes button
 		confirmChanges.setBounds(500, 200, 300, 50);
 		confirmChanges.setFont(font);
 		confirmChanges.addActionListener(new ConfirmChanges()); 
 		
+		//Set properties for yes button
 		yes.setBounds(480, 200, 100, 50); 
 		yes.setFont(font);
 		yes.addActionListener(new YesButton());
 		
+		//Set properties for no button
 		no.setBounds(580, 200, 100, 50);
 		no.setFont(font);
 		no.addActionListener(new NoButton());
 		
+		//Set properties for answer text
 		answer.setBounds(20, 400, 300, 50);
 		answer.setFont(font);
 		
+		//Set properties for confirm answer button
 		confirmAnswer.setBounds(350, 400, 200, 50); 
 		confirmAnswer.setFont(font); 
 		
+		//Set grid for button
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 4; j++) {
 				
@@ -165,6 +179,7 @@ public class GuessWho {
 		}	
 	}
 	
+	//Implement action for yes button
 	static class YesButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -182,6 +197,7 @@ public class GuessWho {
 		}
 	}
 	
+	//Implement action for no button
 	static class NoButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -199,6 +215,7 @@ public class GuessWho {
 		}
 	}
 	
+	//Implement action for confirm changes button
 	static class ConfirmChanges implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -223,6 +240,7 @@ public class GuessWho {
 		}
 	}
 	
+	//Implement action for character selection button
 	static class CharSelection implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -237,6 +255,7 @@ public class GuessWho {
 		}
 	}
 	
+	//Implement action for ask questions button
 	static class AskQuestion implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -260,6 +279,7 @@ public class GuessWho {
 		}
 	}
 	
+	//Implement action for confirm button
 	static class Confirm implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -289,6 +309,7 @@ public class GuessWho {
 		}
 	}
 	
+	//Implement action for start player vs computer button
 	static class StartPlayerComp implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 	
@@ -303,3 +324,4 @@ public class GuessWho {
 		}
 	}
 }
+
