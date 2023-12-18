@@ -14,7 +14,7 @@ main class
     - Boolean variables
 
 - Initiate all objects and put them in a 2D array
-  - char[0][0] = new Olivia(); 
+  - char[0][0] = new Olivia("Olivia", ); 
   - char[1][0] = new Nick(); 
   - char[2][0] = new David(); 
   - char[3][0] = new Leo(); 
@@ -91,7 +91,7 @@ main class
   - press 'd' = scroll questions right
   - press 'enter' = confirm quesiton 
 
-abstract Characters Class
+Characters Class
 - Initiate #varibles in the constructor
   - String: #eyeColor
   - String: #hairLength
@@ -114,19 +114,20 @@ abstract Characters Class
   - getHairLength()
   - getEyeColor()
 
-Class (Name of character) extends Character 
+Constructor Method (Character)
   - initiate variables
-    - String: #eyeColor
-    - String: #hairLength
-    - Boolean: #wearingHat
-    - Boolean: #visibleTeeth
-    - Boolean: #glasses
-    - Boolean: #facialHair
-    - String: #hairColor
-    - String: #skinTone
-    - Boolean: #gender
+    - String: -name
+    - String: -eyeColor
+    - String: -hairLength
+    - Boolean: -wearingHat //true if wearing hat, false if not wearing hat
+    - Boolean: -visibleTeeth //true if teeth are visible, false if teeth are not visible
+    - Boolean: -glasses //true if they are wearing glasses, false if not wearing glasses
+    - Boolean: -facialHair //true if they have facial hair, false if they do not have facial hair
+    - String: -hairColor
+    - String: -skinTone
+    - Boolean: -gender //true if Male, false if Female
 
-  - Initiate methods
+- Initiate methods
     - getGender()
     - getHairColor()
     - getSkinTone()
@@ -136,5 +137,6 @@ Class (Name of character) extends Character
     - getWearHat()
     - getHairLength()
     - getEyeColor()
+
 
 
