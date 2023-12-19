@@ -92,29 +92,7 @@ main class
   - press 'enter' = confirm quesiton 
 
 Characters Class
-- Initiate #varibles in the constructor
-  - String: #eyeColor
-  - String: #hairLength
-  - Boolean: #wearingHat
-  - Boolean: #visibleTeeth
-  - Boolean: #glasses
-  - Boolean: #facialHair
-  - String: #skinTone
-  - String: #hariColor
-  - Boolean: #gender
-
-- Initiate abstract method
-  - getGender()
-  - getHairColor()
-  - getSkinTone()
-  - getFacialHair()
-  - getGlasses()
-  - getVisibleTeeth()
-  - getWearHat()
-  - getHairLength()
-  - getEyeColor()
-
-Constructor Method (Character)
+- Constructor Method (Character)
   - initiate variables
     - String: -name
     - String: -eyeColor
