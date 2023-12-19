@@ -9,10 +9,11 @@ public class Characters {
 	private boolean glasses;
 	private boolean facialHair; 
 	private boolean gender; 
+	private boolean piercings; 
 	private String skinTone;
 	private String hairColor; 
 	
-	public void Character(String fname, String feyeColor, String fhairLength, boolean fwearingHat, boolean fvisibleTeeth, boolean fglasses, boolean ffacialHair, String fskinTone, String fhairColor, Boolean fgender) {
+	public void Character(String fname, String feyeColor, boolean fgender, String fskinTone, String fhairColor, boolean ffacialHair, boolean fglasses, boolean fvisibleTeeth, boolean fwearingHat, String fhairLength, boolean fpiercings) {
 		
 		name = fname; 
 		eyeColor = feyeColor;
@@ -24,6 +25,7 @@ public class Characters {
 		gender = fgender; 
 		skinTone = fskinTone; 
 		hairColor = fhairColor;
+		piercings = fpiercings; 
 		
 	}
 	public String getName() {
