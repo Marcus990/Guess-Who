@@ -76,7 +76,7 @@ public class GuessWho {
 	static boolean gameStarted = false;
 	static boolean won = false; 
 	
-	static String[] questionList = new String[25]; 
+	static String[] questionList = new String[25]; //are there not only 24 questions? i will check again but im sure there are only 24...
 	static String selectedQuestion; 
 	
 	static int aiCards = 24; 
