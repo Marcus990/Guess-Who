@@ -53,7 +53,7 @@ public class GuessWho{
       - chars[2][2] = new Gabe("Gabe", "Brown", True, "Dark Skin", "Black", False, False, False, False, "Short", False); 
       - chars[3][2] = new Jordan("Jordan", "Brown", True, "Dark Skin", "Black", True, False, False, False, "Short", True); 
       - chars[0][3] = new Carmen("Carmen", "Brown", False, "Dark Skin", "White", False, False, True, False, "Short", True); 
-      - chars[1][3] = new Joe("Joe", "Brown", True, "Dark Skin", "White", True, True, True, False, "Bald", True); 
+      - chars[1][3] = new Joe("Joe", "Brown", True, "Dark Skin", "White", True, True, True, False, "Bald", False); 
       - chars[2][3] = new Mia("Mia", "Brown", False, "Dark Skin", "Black", False, False, True, False, "Long", False); 
       - chars[3][3] = new Sam("Sam", "Green", True, "Dark Skin", "Black", False, False, False, True, "Short", False); 
       - chars[0][4] = new Sofia("Sofia", "Green", False, "Dark Skin", "Brown", False, False, True, False, "Short", True); 
