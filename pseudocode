@@ -154,6 +154,7 @@ public class GuessWho{
             - MyKeyListener
         
         - win method
+	  - If player enters correct name, then set win boolean to true; 
           - If the player wins
             - add title 
             - set the visibility of the restart button to true 
@@ -161,6 +162,8 @@ public class GuessWho{
             - add 1 to wins 
         
         - lose method
+	   - If player enters wrong name, then set lose boolean to true; 
+	   - Else if computer wins before player, then set lose boolean to true; 
            - If a player loses
             - add title 
             - set the visibility of the restart button to true
