@@ -1,6 +1,14 @@
-Program: GuessWho.java
+//Programmers: Kevin and Marcus
+//Date: December 20, 2023
+//Programming Language: Java 17.0.8
+//Purpose: This is the pseudocode for our Guess Who game, which is an assessment for our ICS4U course. This pseudocode document contains all
+//the logic and information required to code the game in the Java programming language. All methods, import lines, object instantiations, attributes, 
+//methods, and more are included in this document that will be used for the programming of the Guess Who game.
+
+First Program: GuessWho.java
+
 //Import lines
-import java.awt.CardLayout; //can we do import java.awt.*;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
