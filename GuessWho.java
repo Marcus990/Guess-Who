@@ -72,7 +72,7 @@ public class GuessWho {
 	static Font font = new Font("Size", Font.BOLD , 20);
 	static Font font2 = new Font("Character", Font.BOLD, 50); 
 	
-	//Initiate standard variables
+	//Initiate variables used for the logic of the program
 	static boolean gameStarted = false;
 	static boolean won = false; 
 	
