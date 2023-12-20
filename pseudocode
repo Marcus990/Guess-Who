@@ -37,7 +37,7 @@ public class GuessWho{
             - boolean won
             - String [] questionList
             - int numCards
-            - and more variables as needed...
+            - and more variables as needed....
     
     //Initiate all objects and put them in a 2D array
             chars[0][0] = new Characters("Olivia", "Brown", false, "Dark Skin", "Black", false, false, false, false, "Tied", false); 
