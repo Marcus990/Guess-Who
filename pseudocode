@@ -14,30 +14,43 @@ main class
     - Boolean variables
 
 - Initiate all objects and put them in a 2D array
-  - char[0][0] = new Olivia("Olivia", ); 
-  - char[1][0] = new Nick(); 
-  - char[2][0] = new David(); 
-  - char[3][0] = new Leo(); 
-  - char[0][1] = new Emma(); 
-  - char[1][1] = new Ben(); 
-  - char[2][1] = new Eric(); 
-  - char[3][1] = new Rachel(); 
-  - char[0][2] = new Amy(); 
-  - char[1][2] = new Mike(); 
-  - char[2][2] = new Gabe(); 
-  - char[3][2] = new Jordan(); 
-  - char[0][3] = new Carmen(); 
-  - char[1][3] = new Joe(); 
-  - char[2][3] = new Mia(); 
-  - char[3][3] = new Sam(); 
-  - char[0][4] = new Sofia(); 
-  - char[1][4] = new Lily(); 
-  - char[2][4] = new Daniel(); 
-  - char[3][4] = new Al(); 
-  - char[0][5] = new Laruna(); 
-  - char[1][5] = new Liz(); 
-  - char[2][5] = new Katie(); 
-  - char[4][5] = new Farah(); 
+
+    - String: -name
+    - String: -eyeColor
+    - Boolean: -gender //true if Male, false if Female
+    - String: -skinTone
+    - String: -hairColor
+    - Boolean: -facialHair //true if they have facial hair, false if they do not have facial hair
+    - Boolean: -glasses //true if they are wearing glasses, false if not wearing glasses
+    - Boolean: -visibleTeeth //true if teeth are visible, false if teeth are not visible
+    - Boolean: -wearingHat //true if wearing hat, false if not wearing hat
+    - String: -hairLength
+    - Boolean: -piercings //true if they have piercings, false if they don't
+
+  - char[0][0] = new Olivia("Olivia", "Brown", false, "Dark Skin", "Black", False, False, False, False, "Tied", False); 
+  - char[1][0] = new Nick("Nick", "Brown", True, "Light Skin", "Blonde", False, False, False, False, "Short", True); 
+  - char[2][0] = new David("David", "Brown", True, "Light Skin", "Blonde", True, False, True, True, "Short", False); 
+  - char[3][0] = new Leo("Leo", "Brown", True, "Dark Skin", "White", True, False, True, False, "Short", False); 
+  - char[0][1] = new Emma("Emma", "Brown", False, "Light Skin", "Ginger", False, False, False, False, "Tied", False); 
+  - char[1][1] = new Ben("Ben", "Brown", True, "Light Skin", "Brown", False, True, False, False, "Short", True); 
+  - char[2][1] = new Eric("Eric", "Blue", True, "Light Skin", "Black", False, False, False, False, "Short", False); 
+  - char[3][1] = new Rachel("Rachel", "Blue", False, "Light Skin", "Brown", False, True, False, False, "Long", True); 
+  - char[0][2] = new Amy("Amy", "Brown", False, "Light Skin", "Black", False, True, False, False, "Short", False); 
+  - char[1][2] = new Mike("Mike", "Brown", True, "Light Skin", "Black", False, False, True, True, "Short", False); 
+  - char[2][2] = new Gabe("Gabe", "Brown", True, "Dark Skin", "Black", False, False, False, False, "Short", False); 
+  - char[3][2] = new Jordan("Jordan", "Brown", True, "Dark Skin", "Black", True, False, False, False, "Short", True); 
+  - char[0][3] = new Carmen("Carmen", "Brown", False, "Dark Skin", "White", False, False, True, False, "Short", True); 
+  - char[1][3] = new Joe("Joe", "Brown", True, "Dark Skin", "White", True, True, True, False, "Bald", False); 
+  - char[2][3] = new Mia("Mia", "Brown", False, "Dark Skin", "Black", False, False, True, False, "Long", False); 
+  - char[3][3] = new Sam("Sam", "Green", True, "Dark Skin", "Black", False, False, False, True, "Short", False); 
+  - char[0][4] = new Sofia("Sofia", "Green", False, "Dark Skin", "Brown", False, False, True, False, "Short", True); 
+  - char[1][4] = new Lily("Lily", "Green", False, "Dark Skin", "Brown", False, False, True, True, "Long", False); 
+  - char[2][4] = new Daniel("Daniel", "Green", True, "Light Skin", "Ginger", True, False, False, False, "Tied", False); 
+  - char[3][4] = new Al("Al", "Green", True, "Dark Skin", "White", True, True, False, False, "Bald", False); 
+  - char[0][5] = new Laura("Laura", "Green", False, "Dark Skin", "Black", False, False, True, False, "Long", True); 
+  - char[1][5] = new Liz("Liz", "Blue", False, "Light Skin", "White", False, True, True, False, "Long", False); 
+  - char[2][5] = new Katie("Katie", "Blue", False, "Light Skin", "Blonde", False, False, False, True, "Tied", False); 
+  - char[4][5] = new Farah("Farah", "Blue", False, "Dark Skin", "Black", False, False, False, False, "Tied", False); 
         
 - Gets user input
     - JButton
