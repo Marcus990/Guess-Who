@@ -1,9 +1,14 @@
-main class
-- Initiate all variables
+GuessWho.java: Main Class
+//Import lines
+
+
+//Initiate all variables
     - GUI Variables
         - JButton startButton = new JButton(); 
         - JFrame frame = new JFrame(); 
-        - JText text = new JText(); 
+        - JText text = new JText();
+    - GUI Character Images
+    - Fonts
     - Arrays
         - Character[][] char
         - JButton[][] charButton
