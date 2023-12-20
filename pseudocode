@@ -74,30 +74,29 @@ public class GuessWho{
         - Setting resizable option
 
         //Set properties for the game panel
-		- gamePanel.setLayout(new GridLayout(4, 6));
-		- gamePanel.setBounds(50, 50, 400, 500);
-		- gamePanel.setVisible(true);
+	- Setting layout
+	- Setting bounds
 
         //Set properties for the selection screen
-		- selection.setBounds(600, 20, 500, 100);
-		- selection.setFont(font);
+	- Setting bounds
+	- Setting the font 
 
         //Set properties for the confirm button
-		- confirm.setBounds(600, 250, 300, 100);
-		- confirm.addActionListener(new Confirm());
-		- confirm.setFont(font);
+	- Setting the bounds
+	- Adding an action listener
+	- Setting the font
 
         //Set properties for character selection label
-		- character.setBounds(600, 150, 300, 100);
-		- character.setFont(font2);
+	- Setting the bounds
+	- Setting the font
 
         //Set properties for game option menu
-		- window.add(options);
-		- options.setBounds(window.getWidth()/2-250, 200, 500, 500);
-		- options.add(title); 
-		- options.setLayout(new BoxLayout(options, BoxLayout.Y_AXIS));
-		- title.setFont(font);
-		- title.setAlignmentX(Component.CENTER_ALIGNMENT);
+	- Adding the game option menu to the window
+	- Setting the bounds
+	- Adding a title
+	- Setting the layout as BoxLayout
+	- Setting the font
+	- Setting the alignment
 
         //Set properties for player vs computer button
 
@@ -202,8 +201,10 @@ public class GuessWho{
           - press 'a' = scroll quesition left
           - press 'd' = scroll questions right
           - press 'enter' = confirm quesiton 
-        
-        Characters Class
+
+
+Second Program: Characters.java
+Characters Class
         - Constructor Method (Character)
           - initiate variables
             - String: -name
