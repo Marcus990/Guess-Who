@@ -96,16 +96,17 @@ Characters Class
   - initiate variables
     - String: -name
     - String: -eyeColor
-    - String: -hairLength
-    - Boolean: -wearingHat //true if wearing hat, false if not wearing hat
-    - Boolean: -visibleTeeth //true if teeth are visible, false if teeth are not visible
-    - Boolean: -glasses //true if they are wearing glasses, false if not wearing glasses
-    - Boolean: -facialHair //true if they have facial hair, false if they do not have facial hair
-    - String: -hairColor
-    - String: -skinTone
     - Boolean: -gender //true if Male, false if Female
+    - String: -skinTone
+    - String: -hairColor
+    - Boolean: -facialHair //true if they have facial hair, false if they do not have facial hair
+    - Boolean: -glasses //true if they are wearing glasses, false if not wearing glasses
+    - Boolean: -visibleTeeth //true if teeth are visible, false if teeth are not visible
+    - Boolean: -wearingHat //true if wearing hat, false if not wearing hat
+    - String: -hairLength
+    - Boolean: -piercings //true if they have piercings, false if they don't
 
-- Initiate methods
+//Getter methods
     - getGender()
     - getHairColor()
     - getSkinTone()
