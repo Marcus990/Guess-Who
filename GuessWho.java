@@ -84,6 +84,8 @@ public class GuessWho {
 	static ArrayList<ImageIcon> images = new ArrayList<ImageIcon>(); 
 	
 	//Initiate images
+	//for these images we're going to need to change it from path name to putting the images in the same file as the program and referring
+	//to it from there. this is because mr. a's computer will not have the same path name as us
 	static ImageIcon Olivia = new ImageIcon("C:/Files/IMG_3789.jpg");
 	static ImageIcon Nick = new ImageIcon("C:/Files/IMG_3792.jpg");
 	static ImageIcon David = new ImageIcon("C:/Files/IMG_3781.jpg");
