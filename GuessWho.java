@@ -42,7 +42,8 @@ public class GuessWho {
 	static JLabel selection = new JLabel("Choose your character");
 	static JLabel character = new JLabel("N/A"); 
 	static JLabel computerText = new JLabel("Your opponent is waiting for your question...");
-	static JLabel compCards = new JLabel("Your opponent has flipped 0 cards..."); 
+	static JLabel compCards = new JLabel("Your opponent has flipped 0 cards...");
+	static JLabel yourCharacter = new JLabel("Your character is..."); 
 	static JLabel playerGUI = new JLabel(); 
 	static JComboBox questions;
 	static JTextArea answer = new JTextArea("Insert your answer here"); 
@@ -50,9 +51,6 @@ public class GuessWho {
 	static Characters[][] chars = new Characters[4][6];
 	static Characters compChar; 
 	static Characters playerChar; 
-
-	//Set background photo
-	window.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("OfficialPlaidBackground.png")))));
 	
 	//Initiate various fonts
 	static Font font = new Font("Size", Font.BOLD , 20);
@@ -202,6 +200,13 @@ public class GuessWho {
 		confirmAnswer.setBounds(800, 400, 100, 50); 
 		confirmAnswer.setFont(font); 
 		confirmAnswer.addActionListener(new ConfirmAnswer()); 
+		
+		//Set properties for player's selected character gui
+		playerGUI.setBounds(500, 500, 80, 120);
+		
+		//Set properties for text that shows player's character
+		yourCharacter.setBounds(590, 500, 300, 50); 
+		yourCharacter.setFont(font); 
 		
 		//Set grid for button
 		for (int i = 0; i < 4; i++) {
@@ -364,6 +369,8 @@ public class GuessWho {
 			
 			window.remove(winLoseScreen);
 			window.remove(compCards); 
+			window.remove(playerGUI);
+			window.remove(yourCharacter);
 			compCards.setText("Your opponent has flipped 0 cards...");
 			window.add(options); 
 			window.repaint();
@@ -373,7 +380,6 @@ public class GuessWho {
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 6; j++) {
 					
-					charButton[i][j].setEnabled(true);
 					charButton[i][j].setBackground(null);
 					aiChars[i][j] = true; 
 					charButton[0][0].setIcon(Olivia);
@@ -1652,14 +1658,7 @@ public class GuessWho {
 			computerText.setText(aiSelectedQuestion);
 			window.add(no);
 			window.add(yes);
-			
-			for (int i = 0; i < 4; i++) {
-				for (int j = 0; j < 6; j++) {
 					
-					charButton[i][j].setEnabled(false); 
-					
-				}
-			}			
 		}
 	}
 	
@@ -1671,6 +1670,124 @@ public class GuessWho {
 			
 			if (gameStarted == false) {
 				character.setText(button.getText());
+				if (button.getText() == "Olivia") {
+					playerGUI.setIcon(Olivia);
+					yourCharacter.setText("Your character is Olivia");
+				}
+				else if (button.getText() == "Nick") {
+					playerGUI.setIcon(Nick);
+					yourCharacter.setText("Your character is Nick");
+				}
+				else if (button.getText() == "Leo") {
+					playerGUI.setIcon(Leo);
+					yourCharacter.setText("Your character is Leo");
+
+				}
+				else if (button.getText() == "Emma") {
+					playerGUI.setIcon(Emma);
+					yourCharacter.setText("Your character is Emma");
+
+				}
+				else if (button.getText() == "Ben") {
+					playerGUI.setIcon(Ben);
+					yourCharacter.setText("Your character is Ben");
+
+				}
+				else if (button.getText() == "Eric") {
+					playerGUI.setIcon(Eric);
+					yourCharacter.setText("Your character is Eric");
+
+				}
+				else if (button.getText() == "Rachel") {
+					playerGUI.setIcon(Rachel);
+					yourCharacter.setText("Your character is Rachel");
+
+				}
+				else if (button.getText() == "Amy") {
+					playerGUI.setIcon(Amy);
+					yourCharacter.setText("Your character is Amy");
+
+				}
+				else if (button.getText() == "Mike") {
+					playerGUI.setIcon(Mike);
+					yourCharacter.setText("Your character is Mike");
+
+				}
+				else if (button.getText() == "Gabe") {
+					playerGUI.setIcon(Gabe);
+					yourCharacter.setText("Your character is Gabe");
+
+				}
+				else if (button.getText() == "Jordan") {
+					playerGUI.setIcon(Jordan);
+					yourCharacter.setText("Your character is Jordan");
+
+				}
+				else if (button.getText() == "Carmen") {
+					playerGUI.setIcon(Carmen);
+					yourCharacter.setText("Your character is Carmen");
+
+				}
+				else if (button.getText() == "Joe") {
+					playerGUI.setIcon(Joe);
+					yourCharacter.setText("Your character is Joe");
+
+				}
+				else if (button.getText() == "Mia") {
+					playerGUI.setIcon(Mia);
+					yourCharacter.setText("Your character is Mia");
+
+				}
+				else if (button.getText() == "Sam") {
+					playerGUI.setIcon(Sam);
+					yourCharacter.setText("Your character is Sam");
+
+				}
+				else if (button.getText() == "Sofia") {
+					playerGUI.setIcon(Sofia);
+					yourCharacter.setText("Your character is Sofia");
+
+				}
+				else if (button.getText() == "Lily") {
+					playerGUI.setIcon(Lily);
+					yourCharacter.setText("Your character is Lily");
+
+				}
+				else if (button.getText() == "Daniel") {
+					playerGUI.setIcon(Daniel);
+					yourCharacter.setText("Your character is Daniel");
+
+				}
+				else if (button.getText() == "Al") {
+					playerGUI.setIcon(Al);
+					yourCharacter.setText("Your character is Al");
+
+				}
+				else if (button.getText() == "Laura") {
+					playerGUI.setIcon(Laura);
+					yourCharacter.setText("Your character is Laura");
+
+				}
+				else if (button.getText() == "Liz") {
+					playerGUI.setIcon(Liz);
+					yourCharacter.setText("Your character is Liz");
+
+				}
+				else if (button.getText() == "Katie") {
+					playerGUI.setIcon(Katie);
+					yourCharacter.setText("Your character is Katie");
+
+				}
+				else if (button.getText() == "Farah") {
+					playerGUI.setIcon(Farah);
+					yourCharacter.setText("Your character is Farah");
+
+				}
+				else if (button.getText() == "David") {
+					playerGUI.setIcon(David);
+					yourCharacter.setText("Your character is David");
+
+				}
 			}
 			else if (button.getBackground() != Color.black){
 				button.setIcon(null);
@@ -2010,13 +2127,7 @@ public class GuessWho {
 			}
 			
 			window.add(confirmChanges); 
-			for (int i = 0; i < 4; i++) {
-				for (int j = 0; j < 6; j++) {
-					
-					charButton[i][j].setEnabled(true); 
-					
-				}
-			}
+			
 		}
 	}
 	
@@ -2031,6 +2142,8 @@ public class GuessWho {
 				window.remove(selection);
 				window.remove(confirm);
 				window.remove(character);
+				window.add(playerGUI); 
+				window.add(yourCharacter); 
 				window.add(questions);
 				window.add(confirmQuest); 
 				window.add(computerText); 
@@ -2043,14 +2156,7 @@ public class GuessWho {
 				gamePanel.setBounds(20, window.getHeight()/2-300, 400, 500);
 				
 				selectedQuestion = String.valueOf(questions.getSelectedItem());
-				
-				for (int i = 0; i < 4; i++) {
-					for (int j = 0; j < 6; j++) {
-						
-						charButton[i][j].setEnabled(false); 
-						
-					}
-				}
+		
 			}
 		}
 	}
@@ -2072,4 +2178,3 @@ public class GuessWho {
 		}
 	}
 }
-
