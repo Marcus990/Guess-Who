@@ -50,6 +50,9 @@ public class GuessWho {
 	static Characters[][] chars = new Characters[4][6];
 	static Characters compChar; 
 	static Characters playerChar; 
+
+	//Set background photo
+	window.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("OfficialPlaidBackground.png")))));
 	
 	//Initiate various fonts
 	static Font font = new Font("Size", Font.BOLD , 20);
