@@ -13,7 +13,7 @@ public class Characters {
 	private String skinTone;
 	private String hairColor; 
 	
-	public void Character(String fname, String feyeColor, boolean fgender, String fskinTone, String fhairColor, boolean ffacialHair, boolean fglasses, boolean fvisibleTeeth, boolean fwearingHat, String fhairLength, boolean fpiercings) {
+	public Characters(String fname, String feyeColor, boolean fgender, String fskinTone, String fhairColor, boolean ffacialHair, boolean fglasses, boolean fvisibleTeeth, boolean fwearingHat, String fhairLength, boolean fpiercings) {
 		
 		name = fname; 
 		eyeColor = feyeColor;
@@ -67,6 +67,9 @@ public class Characters {
 	public String getEyeColor() {
 	
 		return eyeColor;
+	}
+	public boolean getPiercings(){
+		return piercings;
 	}
 
 }
