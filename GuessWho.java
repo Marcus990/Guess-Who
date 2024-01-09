@@ -1,8 +1,10 @@
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -10,6 +12,7 @@ import java.awt.Toolkit;
 import java.awt.GraphicsDevice.WindowTranslucency;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -22,7 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-public class GuessWho {
+public class GuessWho{
 	
 	//Initiate GUI variables
 	static JFrame window = new JFrame("Window");
@@ -31,14 +34,14 @@ public class GuessWho {
 	static JPanel winLoseScreen = new JPanel(); 
 	static JPanel whoGoFirst = new JPanel(); 
 	static JButton charButton[][] = new JButton[4][6]; 
-	static JButton playerComp = new JButton("Player vs Computer");
+	static JButton playerComp = new JButton("Player vs Computer (Non-Official)");
 	static JButton playerPlayer = new JButton("Player vs Player");
 	static JButton CompComp = new JButton("Computer vs Computer");
-	static JButton realWorld = new JButton("Play with real items");
+	static JButton realWorld = new JButton("      Player vs Computer (Official)      ");
 	static JButton confirm = new JButton("Confirm"); 
 	static JButton confirmQuest = new JButton("Confirm"); 
 	static JButton confirmChanges = new JButton("Confirm changes"); 
-	static JButton confirmAnswer = new JButton("Confirm answer"); 
+	static JButton confirmAnswer = new JButton("Confirm"); 
 	static JButton yes = new JButton("Yes");
 	static JButton no = new JButton("No"); 
 	static JButton restart = new JButton("Restart"); 
@@ -46,24 +49,25 @@ public class GuessWho {
 	static JButton player2First = new JButton("Player 2"); 
 	static JLabel chooseText = new JLabel("Choose the player that goes first"); 
 	static JLabel winLose = new JLabel(); 
-	static JLabel title = new JLabel("Choose the game mode"); 
+	static JLabel title = new JLabel("Choose the Game Mode"); 
+	static JLabel credits = new JLabel("By Marcus Ng and Kevin Wang");
 	static JLabel selection = new JLabel("Choose your character");
 	static JLabel character = new JLabel("N/A"); 
 	static JLabel computerText = new JLabel("Your opponent is waiting for your question...");
 	static JLabel compCards = new JLabel("Your opponent has flipped 0 cards...");
+	static JLabel guessAICharacterLabel = new JLabel("Have a final answer? Guess it here! Only one try!");
 	static JLabel yourCharacter = new JLabel("Your character is..."); 
 	static JLabel playerGUI = new JLabel(); 
-	static JLabel chooseChar = new JLabel("Please choose a character from your deck"); 
+	static JLabel chooseChar = new JLabel("Please Choose a Character from your Deck of Guess Who Cards!"); 
+	static JLabel confirmWhenChosenChar = new JLabel("Press Confirm when you have Chosen a Character!"); 
+	static JLabel guessWhoLogo = new JLabel();
+	static JLabel guessWhoLogoInitial = new JLabel();
 	static JComboBox questions;
 	static JTextArea answer = new JTextArea("Insert your answer here"); 
 	
 	static Characters[][] chars = new Characters[4][6];
 	static Characters compChar; 
 	static Characters playerChar; 
-	
-	//Initiate various fonts
-	static Font font = new Font("Size", Font.BOLD , 20);
-	static Font font2 = new Font("Character", Font.BOLD, 50); 
 	
 	//Initiate standard variables
 	static boolean[][] aiChars = new boolean[4][6]; 
@@ -80,39 +84,39 @@ public class GuessWho {
 	
 	static ArrayList<ImageIcon> images = new ArrayList<ImageIcon>(); 
 	
-	static Canvas background = new Canvas(); 
-	
 	//Initiate images
-	static ImageIcon Olivia = new ImageIcon("C:/Files/IMG_3789.jpg");
-	static ImageIcon Nick = new ImageIcon("C:/Files/IMG_3792.jpg");
-	static ImageIcon David = new ImageIcon("C:/Files/IMG_3781.jpg");
+	static ImageIcon Olivia = new ImageIcon("IMG_3789.jpg");
+	static ImageIcon Nick = new ImageIcon("IMG_3792.jpg");
+	static ImageIcon David = new ImageIcon("IMG_3781.jpg");
 	static ImageIcon Leo = new ImageIcon("IMG_3794.jpg");
-	static ImageIcon Emma = new ImageIcon("C:/Files/IMG_3777.jpg");
-	static ImageIcon Ben = new ImageIcon("C:/Files/IMG_3778.jpg");
-	static ImageIcon Eric = new ImageIcon("C:/Files/IMG_3791.jpg");
-	static ImageIcon Rachel = new ImageIcon("C:/Files/IMG_3784.jpg");
-	static ImageIcon Amy = new ImageIcon("C:/Files/IMG_3771.jpg");
-	static ImageIcon Mike = new ImageIcon("C:/Files/IMG_3779.jpg");
-	static ImageIcon Gabe = new ImageIcon("C:/Files/IMG_3786.jpg");
-	static ImageIcon Jordan = new ImageIcon("C:/Files/IMG_3785.jpg");
-	static ImageIcon Carmen = new ImageIcon("C:/Files/IMG_3790.jpg");
-	static ImageIcon Joe = new ImageIcon("C:/Files/IMG_3772.jpg");
-	static ImageIcon Mia = new ImageIcon("C:/Files/IMG_3782.jpg");
-	static ImageIcon Sam = new ImageIcon("C:/Files/IMG_3774.jpg");
-	static ImageIcon Sofia = new ImageIcon("C:/Files/IMG_3783.jpg");
-	static ImageIcon Lily = new ImageIcon("C:/Files/IMG_3788.jpg");
-	static ImageIcon Daniel = new ImageIcon("C:/Files/IMG_3776.jpg");
-	static ImageIcon Al = new ImageIcon("C:/Files/IMG_3787.jpg");
-	static ImageIcon Laura = new ImageIcon("C:/Files/IMG_3793.jpg");
-	static ImageIcon Liz = new ImageIcon("C:/Files/IMG_3773.jpg");
-	static ImageIcon Katie = new ImageIcon("C:/Files/IMG_3775.jpg");
-	static ImageIcon Farah = new ImageIcon("C:/Files/IMG_3780.jpg");
-	
-	//Set Images
-	static Image test = Toolkit.getDefaultToolkit().getImage("C:/Files/WinScreen.png");
+	static ImageIcon Emma = new ImageIcon("IMG_3777.jpg");
+	static ImageIcon Ben = new ImageIcon("IMG_3778.jpg");
+	static ImageIcon Eric = new ImageIcon("IMG_3791.jpg");
+	static ImageIcon Rachel = new ImageIcon("IMG_3784.jpg");
+	static ImageIcon Amy = new ImageIcon("IMG_3771.jpg");
+	static ImageIcon Mike = new ImageIcon("IMG_3779.jpg");
+	static ImageIcon Gabe = new ImageIcon("IMG_3786.jpg");
+	static ImageIcon Jordan = new ImageIcon("IMG_3785.jpg");
+	static ImageIcon Carmen = new ImageIcon("IMG_3790.jpg");
+	static ImageIcon Joe = new ImageIcon("IMG_3772.jpg");
+	static ImageIcon Mia = new ImageIcon("IMG_3782.jpg");
+	static ImageIcon Sam = new ImageIcon("IMG_3774.jpg");
+	static ImageIcon Sofia = new ImageIcon("IMG_3783.jpg");
+	static ImageIcon Lily = new ImageIcon("IMG_3788.jpg");
+	static ImageIcon Daniel = new ImageIcon("IMG_3776.jpg");
+	static ImageIcon Al = new ImageIcon("IMG_3787.jpg");
+	static ImageIcon Laura = new ImageIcon("IMG_3793.jpg");
+	static ImageIcon Liz = new ImageIcon("IMG_3773.jpg");
+	static ImageIcon Katie = new ImageIcon("IMG_3775.jpg");
+	static ImageIcon Farah = new ImageIcon("IMG_3780.jpg");
+	static ImageIcon PlaidBackground = new ImageIcon("OfficialPlaidBackground.png");
+	static ImageIcon GuessWhoLogo = new ImageIcon("GuessWhoLogo.png");
 	
 	//Main method
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, FontFormatException{
+		
+		//Initiate custom font
+		Font font = Font.createFont(Font.TRUETYPE_FONT, new File("GuessWhoFont.otf")).deriveFont(20f);
 		
 		//Set properties for the game window
 		window.setSize(1000, 700);
@@ -120,18 +124,29 @@ public class GuessWho {
 		window.setVisible(true);
 		window.setLayout(null);
 		window.setResizable(false);
-		
-		window.add(background); 
 
-		/*
-		startButton.setBounds(window.getWidth()/2-50, window.getHeight()/2-10, 100, 20);
-		startButton.setText("Start Game");
-		startButton.addActionListener(new StartGame());
-		window.add(startButton); 
-		*/
+		//Setting the background image of the window to OfficialPlaidBackground.png
+		JLabel contentPane = new JLabel();
+		contentPane.setIcon(PlaidBackground);
+		window.setContentPane(contentPane);
 		
-		//Set properties for the computer flipped cards
-		compCards.setBounds(500, 330, 400, 30);
+		//Set properties for the Guess Who Logo JPanel on the game panel
+		guessWhoLogo.setIcon(GuessWhoLogo);
+		guessWhoLogo.setBounds(600, 25, 256, 118);
+		
+		//Set properties for the Guess Who Logo JPanel on the main menu
+		guessWhoLogoInitial.setIcon(GuessWhoLogo);
+		guessWhoLogoInitial.setBounds(375, 80, 256, 118);
+		guessWhoLogoInitial.setAlignmentX(Component.CENTER_ALIGNMENT);
+		window.add(guessWhoLogoInitial);
+		
+		//Set properties for the credits JLabel on the main menu
+		credits.setFont(font);
+		credits.setBounds(350, 200, 500, 50);
+		window.add(credits);
+		
+		//Set properties for the computer flipped cards (Your opponent has flipped 0 cards...)
+		compCards.setBounds(525, 320, 400, 30);
 		compCards.setFont(font);
 		
 		//Set properties for the win/lose screen
@@ -149,18 +164,26 @@ public class GuessWho {
 		gamePanel.setBounds(50, 50, 400, 500);
 		gamePanel.setVisible(true);
 		
-		//Set properties for the selection screen
-		selection.setBounds(600, 20, 500, 100);
+		//Set properties for Confirm that you have chosen a character from a deck of cards in real life JLabel
+		chooseChar.setFont(font);
+		chooseChar.setBounds(160, 250, 700, 50);
+		
+		//Set properties for next line under confirm button to confirm you have chosen a character (Press Confirm when you have chosen a Character!)
+		confirmWhenChosenChar.setFont(font);
+		confirmWhenChosenChar.setBounds(250, 300, 600, 50);
+		
+		//Set properties for the selection screen 
+		selection.setBounds(600, 0, 400, 75);
 		selection.setFont(font);
 		
-		//Set properties for the confirm button
-		confirm.setBounds(600, 250, 300, 100);
+		//Set properties for the confirm button when chosen char (JButton)
+		confirm.setBounds(355, 400, 300, 100);
 		confirm.addActionListener(new Confirm());
 		confirm.setFont(font);
 		
 		//Set properties for character selection label
-		character.setBounds(600, 150, 300, 100);
-		character.setFont(font2);
+		character.setBounds(600, 0, 300, 100);
+		character.setFont(font);
 		
 		//Set properties for which player goes first GUI
 		//window.add(whoGoFirst); 
@@ -179,7 +202,8 @@ public class GuessWho {
 				
 		//Set properties for game option menu
 		window.add(options);
-		options.setBounds(window.getWidth()/2-250, 200, 500, 500);
+		options.setOpaque(false); //sets the background of the options jpanel to transparent
+		options.setBounds(window.getWidth()/2-250, 300, 500, 500);
 		options.add(title); 
 		options.setLayout(new BoxLayout(options, BoxLayout.Y_AXIS));
 		title.setFont(font);
@@ -187,22 +211,28 @@ public class GuessWho {
 				
 		//Set properties for player vs computer button
 		options.add(playerComp);
+		playerComp.setFont(font);
 		playerComp.setAlignmentX(Component.CENTER_ALIGNMENT);
 		playerComp.addActionListener(new StartPlayerComp()); 
 		
 		//Set properties for player 
 		options.add(realWorld);
+		realWorld.setFont(font);
 		realWorld.addActionListener(new StartRealGame()); 
 		realWorld.setAlignmentX(Component.CENTER_ALIGNMENT); 
 		
-		//Set properties for confirm question button
-		confirmQuest.setBounds(500, 200, 150, 50); 
+		//Set properties for confirm question button (the confirm button on the game panel screen for confirming your question to ask the AI)
+		confirmQuest.setBounds(650, 250, 150, 50); 
 		confirmQuest.setFont(font); 
 		confirmQuest.addActionListener(new AskQuestion()); 
 		
-		//Set properties for computer output text
-		computerText.setBounds(500, 50, 500, 50); 
+		//Set properties for computer output text (Your opponent is waiting for your question...)
+		computerText.setBounds(500, 150, 500, 50); 
 		computerText.setFont(font); 
+		
+		//Set properties for the guessAICharacterLabel (Have an answer? Guess it here! You have one try, or you lose!)
+		guessAICharacterLabel.setBounds(450, 360, 550, 50); 
+		guessAICharacterLabel.setFont(font);
 		
 		//Set properties for confirm changes button
 		confirmChanges.setBounds(500, 200, 300, 50);
@@ -219,12 +249,12 @@ public class GuessWho {
 		no.setFont(font);
 		no.addActionListener(new NoButton());
 		
-		//Set properties for answer text
-		answer.setBounds(500, 400, 300, 50);
+		//Set properties for answer text (Confirm your guess of the AI's character text box)
+		answer.setBounds(500, 420, 300, 50);
 		answer.setFont(font);
 		
-		//Set properties for confirm answer button
-		confirmAnswer.setBounds(800, 400, 100, 50); 
+		//Set properties for confirm answer button (Confirm button for guessing AI's character)
+		confirmAnswer.setBounds(800, 420, 150, 50); 
 		confirmAnswer.setFont(font); 
 		confirmAnswer.addActionListener(new ConfirmAnswer()); 
 		
@@ -356,7 +386,7 @@ public class GuessWho {
 
 		//Set properties for questions text
 		questions = new JComboBox(questionList); 
-		questions.setBounds(500, 120, 400, 50); 
+		questions.setBounds(525, 200, 400, 50); 
 		questions.setFont(font);
 		
 		for (int i = 0; i < 4; i++) {
@@ -366,30 +396,9 @@ public class GuessWho {
 				
 			}
 		}
-		/*
-		int num = 50; 
-		while (num >= 0) {
-			num--;
-			compCharacter();
-		}
-		*/
 		
+		window.setVisible(true);
 		window.repaint();
-	}
-	
-	static class Canvas extends JPanel {
-		public Canvas() {
-			
-			setFocusable(true); 
-			requestFocusInWindow(); 
-			
-		}
-		public void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			
-			g.drawImage(test, 0, 0, getWidth(), getHeight(), this);
-
-		}
 	}
 	
 	public static void getRanQuestion() {
@@ -2193,6 +2202,9 @@ public class GuessWho {
 				window.remove(confirm);
 				window.remove(character);
 				window.remove(chooseChar);
+				window.remove(confirmWhenChosenChar);
+				window.remove(guessWhoLogoInitial);
+				
 				//window.remove(gamePanel); 
 				
 				//window.add(whoGoFirst); 
@@ -2209,10 +2221,13 @@ public class GuessWho {
 				window.add(confirmAnswer); 
 				window.add(compCards);
 				window.add(gamePanel); 
+				window.add(guessWhoLogo);
+				window.add(guessAICharacterLabel);
 				
 				gamePanel.setBounds(20, window.getHeight()/2-300, 400, 500);
 	
 				window.repaint();
+				window.setVisible(true);
 								
 				selectedQuestion = String.valueOf(questions.getSelectedItem());
 		
@@ -2227,13 +2242,18 @@ public class GuessWho {
 			compCharacter(); 
 
 			window.remove(options);
+			window.remove(guessWhoLogoInitial);
+			window.remove(credits);
+			window.add(questions);
 			window.add(gamePanel); 
 			window.add(selection); 
 			window.add(confirm); 
 			window.add(character); 
+			window.add(guessWhoLogo);
+			window.add(guessAICharacterLabel);
 			window.setSize(999, 700);
 			window.setSize(1000, 700);
-			
+			window.repaint();
 		}
 	}
 	
@@ -2247,13 +2267,13 @@ public class GuessWho {
 			compCharacter(); 
 
 			window.remove(options);
-							
-			window.add(chooseChar); 
-			chooseChar.setFont(font);
-			chooseChar.setBounds(0, 0, 500, 500);
+			window.remove(credits);
 			
+			window.add(chooseChar); 
+			window.add(confirmWhenChosenChar);
 			window.add(confirm); 
 			
+			window.setVisible(true);
 			window.repaint();
 
 			selectedQuestion = String.valueOf(questions.getSelectedItem());
