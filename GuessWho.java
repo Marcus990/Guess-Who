@@ -3,7 +3,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.GraphicsDevice.WindowTranslucency;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,10 +29,12 @@ public class GuessWho {
 	static JPanel gamePanel = new JPanel(); 
 	static JPanel options = new JPanel(); 
 	static JPanel winLoseScreen = new JPanel(); 
+	static JPanel whoGoFirst = new JPanel(); 
 	static JButton charButton[][] = new JButton[4][6]; 
 	static JButton playerComp = new JButton("Player vs Computer");
 	static JButton playerPlayer = new JButton("Player vs Player");
-	static JButton CompComp = new JButton("Computer vs Computer"); 
+	static JButton CompComp = new JButton("Computer vs Computer");
+	static JButton realWorld = new JButton("Play with real items");
 	static JButton confirm = new JButton("Confirm"); 
 	static JButton confirmQuest = new JButton("Confirm"); 
 	static JButton confirmChanges = new JButton("Confirm changes"); 
@@ -37,6 +42,9 @@ public class GuessWho {
 	static JButton yes = new JButton("Yes");
 	static JButton no = new JButton("No"); 
 	static JButton restart = new JButton("Restart"); 
+	static JButton player1First = new JButton("Player 1");  
+	static JButton player2First = new JButton("Player 2"); 
+	static JLabel chooseText = new JLabel("Choose the player that goes first"); 
 	static JLabel winLose = new JLabel(); 
 	static JLabel title = new JLabel("Choose the game mode"); 
 	static JLabel selection = new JLabel("Choose your character");
@@ -45,6 +53,7 @@ public class GuessWho {
 	static JLabel compCards = new JLabel("Your opponent has flipped 0 cards...");
 	static JLabel yourCharacter = new JLabel("Your character is..."); 
 	static JLabel playerGUI = new JLabel(); 
+	static JLabel chooseChar = new JLabel("Please choose a character from your deck"); 
 	static JComboBox questions;
 	static JTextArea answer = new JTextArea("Insert your answer here"); 
 	
@@ -61,6 +70,7 @@ public class GuessWho {
 	static boolean gameStarted = false;
 	static boolean won = false; 
 	static boolean lying = false; 
+	static boolean realW = false; 
 	
 	static String[] questionList = new String[25]; 
 	static String selectedQuestion; 
@@ -69,6 +79,8 @@ public class GuessWho {
 	static int aiCards = 24; 
 	
 	static ArrayList<ImageIcon> images = new ArrayList<ImageIcon>(); 
+	
+	static Canvas background = new Canvas(); 
 	
 	//Initiate images
 	static ImageIcon Olivia = new ImageIcon("C:/Files/IMG_3789.jpg");
@@ -96,6 +108,9 @@ public class GuessWho {
 	static ImageIcon Katie = new ImageIcon("C:/Files/IMG_3775.jpg");
 	static ImageIcon Farah = new ImageIcon("C:/Files/IMG_3780.jpg");
 	
+	//Set Images
+	static Image test = Toolkit.getDefaultToolkit().getImage("C:/Files/WinScreen.png");
+	
 	//Main method
 	public static void main(String[] args) {
 		
@@ -106,14 +121,14 @@ public class GuessWho {
 		window.setLayout(null);
 		window.setResizable(false);
 		
+		window.add(background); 
+
 		/*
 		startButton.setBounds(window.getWidth()/2-50, window.getHeight()/2-10, 100, 20);
 		startButton.setText("Start Game");
 		startButton.addActionListener(new StartGame());
 		window.add(startButton); 
 		*/
-		
-
 		
 		//Set properties for the computer flipped cards
 		compCards.setBounds(500, 330, 400, 30);
@@ -147,6 +162,21 @@ public class GuessWho {
 		character.setBounds(600, 150, 300, 100);
 		character.setFont(font2);
 		
+		//Set properties for which player goes first GUI
+		//window.add(whoGoFirst); 
+		whoGoFirst.setLayout(new BoxLayout(whoGoFirst, BoxLayout.Y_AXIS)); 
+		whoGoFirst.add(chooseText);	
+		whoGoFirst.setBounds(window.getWidth()/2-250, 200, 500, 500);
+		
+		chooseText.setFont(font); 
+		chooseText.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		whoGoFirst.add(player1First);
+		player1First.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		whoGoFirst.add(player2First);
+		player2First.setAlignmentX(Component.CENTER_ALIGNMENT);
+				
 		//Set properties for game option menu
 		window.add(options);
 		options.setBounds(window.getWidth()/2-250, 200, 500, 500);
@@ -154,19 +184,16 @@ public class GuessWho {
 		options.setLayout(new BoxLayout(options, BoxLayout.Y_AXIS));
 		title.setFont(font);
 		title.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+				
 		//Set properties for player vs computer button
 		options.add(playerComp);
 		playerComp.setAlignmentX(Component.CENTER_ALIGNMENT);
 		playerComp.addActionListener(new StartPlayerComp()); 
 		
-		//Set properties for computer vs computer button
-		options.add(CompComp);
-		CompComp.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		//Set properties for player vs player button
-		options.add(playerPlayer);
-		playerPlayer.setAlignmentX(Component.CENTER_ALIGNMENT);		
+		//Set properties for player 
+		options.add(realWorld);
+		realWorld.addActionListener(new StartRealGame()); 
+		realWorld.setAlignmentX(Component.CENTER_ALIGNMENT); 
 		
 		//Set properties for confirm question button
 		confirmQuest.setBounds(500, 200, 150, 50); 
@@ -245,6 +272,9 @@ public class GuessWho {
 	    chars[2][5] = new Characters("Katie", "Blue", false, "Light Skin", "Blonde", false, false, false, true, "Tied", false); 
 	    chars[3][5] = new Characters("Farah", "Blue", false, "Dark Skin", "Black", false, false, false, false, "Tied", false); 
 		
+	    //initiate player character placeholder
+	    playerChar = chars[0][0]; 
+	    
 		//Set icon image for button
 		charButton[0][0].setIcon(Olivia);
 		charButton[1][0].setIcon(Nick);
@@ -343,6 +373,23 @@ public class GuessWho {
 			compCharacter();
 		}
 		*/
+		
+		window.repaint();
+	}
+	
+	static class Canvas extends JPanel {
+		public Canvas() {
+			
+			setFocusable(true); 
+			requestFocusInWindow(); 
+			
+		}
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			
+			g.drawImage(test, 0, 0, getWidth(), getHeight(), this);
+
+		}
 	}
 	
 	public static void getRanQuestion() {
@@ -376,6 +423,7 @@ public class GuessWho {
 			window.repaint();
 			
 			gameStarted = false; 
+			realW = false; 
 			
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 6; j++) {
@@ -444,11 +492,10 @@ public class GuessWho {
 			
 			lying = false; 
 			int ranNum = (int)(Math.random()*(10000)); 
-			try {Thread.sleep(ranNum);} catch (InterruptedException e1) {e1.printStackTrace();}
 			
 			if (aiSelectedQuestion == questions.getItemAt(0)) {
 				
-				if (playerChar.getEyeColor() != "Brown") {
+				if (playerChar.getEyeColor() != "Brown" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -471,7 +518,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(1)) {
 				
-				if (playerChar.getEyeColor() != "Green") {
+				if (playerChar.getEyeColor() != "Green" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -494,7 +541,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(2)) {
 				
-				if (playerChar.getEyeColor() != "Green") {
+				if (playerChar.getEyeColor() != "Green" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -517,7 +564,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(3)) {
 				
-				if (playerChar.getGender() != true) {
+				if (playerChar.getGender() != true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -540,7 +587,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(4)) {
 				
-				if (playerChar.getGender() != false) {
+				if (playerChar.getGender() != false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -562,8 +609,9 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(5)) {
 				
-				if (playerChar.getSkinTone() != "Light Skin") {
+				if (playerChar.getSkinTone() != "Light Skin" && realW == false) {
 					
+					 
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
@@ -583,7 +631,7 @@ public class GuessWho {
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(6)) {
-				if (playerChar.getSkinTone() != "Dark Skin") {
+				if (playerChar.getSkinTone() != "Dark Skin" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -604,7 +652,7 @@ public class GuessWho {
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(7)) {
-				if (playerChar.getHairColor() != "Black") {
+				if (playerChar.getHairColor() != "Black" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -626,7 +674,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(8)) {
 				
-				if (playerChar.getHairColor() != "Brown") {
+				if (playerChar.getHairColor() != "Brown" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -648,7 +696,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(9)) {
 				
-				if (playerChar.getHairColor() != "Ginger") {
+				if (playerChar.getHairColor() != "Ginger" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -669,7 +717,7 @@ public class GuessWho {
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(10)) {
-				if (playerChar.getHairColor() != "Blonde") {
+				if (playerChar.getHairColor() != "Blonde" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -691,7 +739,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(11)) {
 				
-				if (playerChar.getHairColor() != "White") {
+				if (playerChar.getHairColor() != "White" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -713,7 +761,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(12)) {
 				
-				if (playerChar.getFacialHair() != true) {
+				if (playerChar.getFacialHair() != true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -735,7 +783,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(13)) {
 				
-				if (playerChar.getFacialHair() != false) {
+				if (playerChar.getFacialHair() != false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -757,7 +805,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(14)) {
 				
-				if (playerChar.getGlasses() != true) {
+				if (playerChar.getGlasses() != true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -779,7 +827,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(15)) {
 				
-				if (playerChar.getGlasses() != false) {
+				if (playerChar.getGlasses() != false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -801,7 +849,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(16)) {
 			
-				if (playerChar.getVisibleTeeth() != true) {
+				if (playerChar.getVisibleTeeth() != true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -823,7 +871,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(17)) {
 				
-				if (playerChar.getVisibleTeeth() != false) {
+				if (playerChar.getVisibleTeeth() != false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -845,7 +893,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(18)) {
 				
-				if (playerChar.getWearHat() != true) {
+				if (playerChar.getWearHat() != true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -867,7 +915,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(19)) {
 				
-				if (playerChar.getWearHat() != false) {
+				if (playerChar.getWearHat() != false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -888,7 +936,7 @@ public class GuessWho {
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(20)) {
-				if (playerChar.getHairLength() != "Short") {
+				if (playerChar.getHairLength() != "Short" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -910,7 +958,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(21)) {
 				
-				if (playerChar.getHairLength() != "Tied") {
+				if (playerChar.getHairLength() != "Tied" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -932,7 +980,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(22)) {
 				
-				if (playerChar.getHairLength() != "Long") {
+				if (playerChar.getHairLength() != "Long" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -954,7 +1002,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(23)) {
 				
-				if (playerChar.getHairLength() != "Bald") {
+				if (playerChar.getHairLength() != "Bald" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -976,7 +1024,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(24)) {
 				
-				if (playerChar.getPiercings() != true) {
+				if (playerChar.getPiercings() != true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -986,7 +1034,7 @@ public class GuessWho {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
 							
-							if (playerChar.getPiercings() != true) {
+							if (chars[i][j].getPiercings() != true) {
 								
 								aiChars[i][j] = false; 
 								
@@ -1048,11 +1096,10 @@ public class GuessWho {
 			
 			lying = false; 
 			int ranNum = (int)(Math.random()*(10000)); 
-			try {Thread.sleep(ranNum);} catch (InterruptedException e1) {e1.printStackTrace();}
 			
 			if (aiSelectedQuestion == questions.getItemAt(0)) {
 				
-				if (playerChar.getEyeColor() == "Brown") {
+				if (playerChar.getEyeColor() == "Brown" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1075,7 +1122,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(1)) {
 				
-				if (playerChar.getEyeColor() == "Green") {
+				if (playerChar.getEyeColor() == "Green" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1098,7 +1145,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(2)) {
 				
-				if (playerChar.getEyeColor() == "Green") {
+				if (playerChar.getEyeColor() == "Green" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1121,7 +1168,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(3)) {
 				
-				if (playerChar.getGender() == true) {
+				if (playerChar.getGender() == true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1144,7 +1191,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(4)) {
 				
-				if (playerChar.getGender() == false) {
+				if (playerChar.getGender() == false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1166,7 +1213,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(5)) {
 				
-				if (playerChar.getSkinTone() == "Light Skin") {
+				if (playerChar.getSkinTone() == "Light Skin" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1187,7 +1234,7 @@ public class GuessWho {
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(6)) {
-				if (playerChar.getSkinTone() == "Dark Skin") {
+				if (playerChar.getSkinTone() == "Dark Skin" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1208,7 +1255,7 @@ public class GuessWho {
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(7)) {
-				if (playerChar.getHairColor() == "Black") {
+				if (playerChar.getHairColor() == "Black" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1230,7 +1277,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(8)) {
 				
-				if (playerChar.getHairColor() == "Brown") {
+				if (playerChar.getHairColor() == "Brown" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1252,7 +1299,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(9)) {
 				
-				if (playerChar.getHairColor() == "Ginger") {
+				if (playerChar.getHairColor() == "Ginger" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1273,7 +1320,7 @@ public class GuessWho {
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(10)) {
-				if (playerChar.getHairColor() == "Blonde") {
+				if (playerChar.getHairColor() == "Blonde" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1295,7 +1342,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(11)) {
 				
-				if (playerChar.getHairColor() == "White") {
+				if (playerChar.getHairColor() == "White" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1317,7 +1364,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(12)) {
 				
-				if (playerChar.getFacialHair() == true) {
+				if (playerChar.getFacialHair() == true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1339,7 +1386,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(13)) {
 				
-				if (playerChar.getFacialHair() == false) {
+				if (playerChar.getFacialHair() == false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1361,7 +1408,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(14)) {
 				
-				if (playerChar.getGlasses() == true) {
+				if (playerChar.getGlasses() == true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1383,7 +1430,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(15)) {
 				
-				if (playerChar.getGlasses() == false) {
+				if (playerChar.getGlasses() == false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1405,7 +1452,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(16)) {
 			
-				if (playerChar.getVisibleTeeth() == true) {
+				if (playerChar.getVisibleTeeth() == true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1427,7 +1474,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(17)) {
 				
-				if (playerChar.getVisibleTeeth() == false) {
+				if (playerChar.getVisibleTeeth() == false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1449,7 +1496,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(18)) {
 				
-				if (playerChar.getWearHat() == true) {
+				if (playerChar.getWearHat() == true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1471,7 +1518,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(19)) {
 				
-				if (playerChar.getWearHat() == false) {
+				if (playerChar.getWearHat() == false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1492,7 +1539,7 @@ public class GuessWho {
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(20)) {
-				if (playerChar.getHairLength() == "Short") {
+				if (playerChar.getHairLength() == "Short" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1514,7 +1561,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(21)) {
 				
-				if (playerChar.getHairLength() == "Tied") {
+				if (playerChar.getHairLength() == "Tied" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1536,7 +1583,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(22)) {
 				
-				if (playerChar.getHairLength() == "Long") {
+				if (playerChar.getHairLength() == "Long" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1558,7 +1605,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(23)) {
 				
-				if (playerChar.getHairLength() == "Bald") {
+				if (playerChar.getHairLength() == "Bald" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1580,7 +1627,7 @@ public class GuessWho {
 			}
 			if (aiSelectedQuestion == questions.getItemAt(24)) {
 				
-				if (playerChar.getPiercings() == true) {
+				if (playerChar.getPiercings() == true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1590,7 +1637,7 @@ public class GuessWho {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
 							
-							if (playerChar.getPiercings() == true) {
+							if (chars[i][j].getPiercings() == true) {
 								
 								aiChars[i][j] = false; 
 								
@@ -1639,7 +1686,13 @@ public class GuessWho {
 					}
 				}
 				
-				winLose.setText("You lost! The Ai guessed that you card was " + guessChar.getName());			}
+				if (guessChar != null) {
+					winLose.setText("You lost! The Ai guessed that you card was " + guessChar.getName());			
+				}
+				else
+					winLose.setText("None of the characters match your description");
+				
+			}
 			
 		}
 	}
@@ -1654,7 +1707,6 @@ public class GuessWho {
 			window.repaint();
 			int ranNum = (int)(Math.random()*(10000)); 
 			computerText.setText("Your opponent is coming up with a question...");
-			try {Thread.sleep(ranNum);} catch (InterruptedException e1) {e1.printStackTrace();}
 			computerText.setText(aiSelectedQuestion);
 			window.add(no);
 			window.add(yes);
@@ -1897,9 +1949,7 @@ public class GuessWho {
 			window.remove(confirmQuest);
 			window.setSize(999, 700);
 			window.setSize(1000, 700);
-			
-			try {Thread.sleep(ranNum);} catch (InterruptedException e1) {e1.printStackTrace();}
-			
+						
 			if (questions.getSelectedIndex() == 0) {
 				if (compChar.getEyeColor() == "Brown") {
 					
@@ -2135,26 +2185,35 @@ public class GuessWho {
 	static class Confirm implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
-			if (character.getText() != "N/A") {
+			if (character.getText() != "N/A" || realW == true) {
 			
 				gameStarted = true; 
-				
+								
 				window.remove(selection);
 				window.remove(confirm);
 				window.remove(character);
-				window.add(playerGUI); 
-				window.add(yourCharacter); 
+				window.remove(chooseChar);
+				//window.remove(gamePanel); 
+				
+				//window.add(whoGoFirst); 
+								
+				if (realW == false) {
+					window.add(playerGUI); 
+					window.add(yourCharacter); 
+				}
+				
 				window.add(questions);
 				window.add(confirmQuest); 
 				window.add(computerText); 
 				window.add(answer);
 				window.add(confirmAnswer); 
 				window.add(compCards);
-	
-				window.repaint();
+				window.add(gamePanel); 
 				
 				gamePanel.setBounds(20, window.getHeight()/2-300, 400, 500);
-				
+	
+				window.repaint();
+								
 				selectedQuestion = String.valueOf(questions.getSelectedItem());
 		
 			}
@@ -2175,6 +2234,29 @@ public class GuessWho {
 			window.setSize(999, 700);
 			window.setSize(1000, 700);
 			
+		}
+	}
+	
+	//Implement action for start real life plays button
+	static class StartRealGame implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+	
+			gameStarted = true; 
+			realW = true; 
+
+			compCharacter(); 
+
+			window.remove(options);
+							
+			window.add(chooseChar); 
+			chooseChar.setFont(font);
+			chooseChar.setBounds(0, 0, 500, 500);
+			
+			window.add(confirm); 
+			
+			window.repaint();
+
+			selectedQuestion = String.valueOf(questions.getSelectedItem());
 		}
 	}
 }
