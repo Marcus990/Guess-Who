@@ -15,12 +15,6 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -40,8 +34,8 @@ public class GuessWho{
 	static JPanel winLoseScreen = new JPanel(); 
 	static JPanel whoGoFirst = new JPanel(); 
 	static JButton charButton[][] = new JButton[4][6]; 
-	static JButton playerComp = new JButton("Computer vs Computer");
-	static JButton realWorld = new JButton("Player vs Computer");
+	static JButton playerComp = new JButton("Player vs Computer (Online)");
+	static JButton realWorld = new JButton("Player vs Computer (In-Person)");
 	static JButton confirm = new JButton("Confirm"); 
 	static JButton confirmQuest = new JButton("Confirm"); 
 	static JButton confirmChanges = new JButton("Confirm changes"); 
@@ -53,6 +47,7 @@ public class GuessWho{
 	static JButton player1First = new JButton("Player 1");  
 	static JButton player2First = new JButton("Player 2"); 
 	static JButton howToPlay = new JButton("How To Play"); 
+	static JButton settings = new JButton();
 	static JLabel chooseText = new JLabel("Choose the player that goes first"); 
 	static JLabel winLose = new JLabel(); 
 	static JLabel title = new JLabel("Choose the Game Mode"); 
@@ -119,27 +114,14 @@ public class GuessWho{
 	static ImageIcon Liz = new ImageIcon("IMG_3773.jpg");
 	static ImageIcon Katie = new ImageIcon("IMG_3775.jpg");
 	static ImageIcon Farah = new ImageIcon("IMG_3780.jpg");
-	static ImageIcon PlaidBackground = new ImageIcon("OfficialPlaidBackground (1).png");
+	static ImageIcon PlaidBackground = new ImageIcon("OfficialPlaidBackground.png");
 	static ImageIcon GuessWhoLogo = new ImageIcon("GuessWhoLogo.png");
 	static ImageIcon RightPersonPortrait = new ImageIcon("RightPersonPortrait.png");
 	static ImageIcon LeftPersonPortrait = new ImageIcon("LeftPersonPortrait.png");
-	
-	static File backgroundMusicPath = new File(""); 
-	
-	private static Clip backgroundMusic; 
+	static ImageIcon settingsImage = new ImageIcon("Settings.png");
 	
 	//Main method
-	public static void main(String[] args) throws IOException, FontFormatException, LineUnavailableException, UnsupportedAudioFileException{
-		
-		//Initiate background music 
-		AudioInputStream audioInput = AudioSystem.getAudioInputStream(backgroundMusicPath);
-		backgroundMusic = AudioSystem.getClip(); 
-		backgroundMusic.open(audioInput);
-		
-		FloatControl gainControl = (FloatControl) backgroundMusic.getControl(FloatControl.Type.MASTER_GAIN);
-		gainControl.setValue(-10.0f);
-		
-		playMusic(backgroundMusic);
+	public static void main(String[] args) throws IOException, FontFormatException{
 		
 		//Initiate custom font
 		Font font = Font.createFont(Font.TRUETYPE_FONT, new File("GuessWhoFont.otf")).deriveFont(20f);
@@ -175,6 +157,16 @@ public class GuessWho{
 		leftPersonPortrait.setIcon(LeftPersonPortrait);
 		leftPersonPortrait.setBounds(0, 350, 450, 327);
 		window.add(leftPersonPortrait);
+		
+		//Set properties for the Settings button
+		settings.setIcon(settingsImage);
+		settings.setBounds(850, 50, 100, 100);
+		settings.setOpaque(false);
+		settings.setContentAreaFilled(false);
+		settings.setBorderPainted(false);
+		settings.setBorder(null);
+		settings.setFocusPainted(false);
+		window.add(settings);
 		
 		//Set properties for the credits JLabel on the main menu
 		credits.setFont(font);
@@ -451,23 +443,6 @@ public class GuessWho{
 		window.setVisible(true);
 		window.repaint();
 	}
-	public static void playMusic(Clip clip) {
-		
-		clip.start(); 
-	
-	}
-	
-	public static void loopMusic(Clip clip) {
-		
-		clip.loop(clip.LOOP_CONTINUOUSLY);
-
-	}
-	
-	public static void stopMusic(Clip clip) {
-		
-		clip.stop();
-		
-	}
 	
 	public static void aiSelectsQuestion() {
 		
@@ -659,7 +634,10 @@ public class GuessWho{
 			window.add(guessWhoLogoInitial); 
 			window.add(credits);
 			window.add(leftPersonPortrait);
+			rightPersonPortrait.setBounds(650, 275, 296, 400);
 			window.add(rightPersonPortrait);
+			settings.setBounds(850, 50, 100, 100);
+			window.add(settings);
 			window.repaint();
 			
 			restart.setText("Restart");
@@ -2446,6 +2424,7 @@ public class GuessWho{
 					window.add(yourCharacter); 
 				}
 				
+				settings.setBounds(850,550, 100, 100);
 				window.add(questions);
 				window.add(confirmQuest); 
 				window.add(computerText); 
@@ -2486,6 +2465,8 @@ public class GuessWho{
 			window.add(character); 
 			character.setBounds(690, 250, 300, 100);
 			window.add(guessWhoLogo);
+			settings.setBounds(850,550, 100, 100);
+			window.add(settings);
 			window.setSize(999, 700);
 			window.setSize(1000, 700);
 			window.repaint();
@@ -2504,6 +2485,7 @@ public class GuessWho{
 			window.remove(options);
 			window.remove(credits);
 			
+			window.add(settings);
 			window.add(chooseChar); 
 			window.add(confirmWhenChosenChar);
 			window.add(confirm); 
