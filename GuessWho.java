@@ -45,8 +45,10 @@ public class GuessWho{
 	static JButton yes = new JButton("Yes");
 	static JButton no = new JButton("No"); 
 	static JButton restart = new JButton("Restart"); 
+	static JButton returnMenu = new JButton("Return to Main Menu"); 
 	static JButton player1First = new JButton("Player 1");  
 	static JButton player2First = new JButton("Player 2"); 
+	static JButton howToPlay = new JButton("Instructions"); 
 	static JLabel chooseText = new JLabel("Choose the player that goes first"); 
 	static JLabel winLose = new JLabel(); 
 	static JLabel title = new JLabel("Choose the Game Mode"); 
@@ -61,6 +63,7 @@ public class GuessWho{
 	static JLabel chooseChar = new JLabel("Please Choose a Character from your Deck of Guess Who Cards!"); 
 	static JLabel confirmWhenChosenChar = new JLabel("Press Confirm when you have Chosen a Character!"); 
 	static JLabel guessWhoLogo = new JLabel();
+	static JLabel information = new JLabel("Put your instructions here");
 	static JLabel guessWhoLogoInitial = new JLabel();
 	static JComboBox questions;
 	static JTextArea answer = new JTextArea("Insert your answer here"); 
@@ -71,6 +74,7 @@ public class GuessWho{
 	
 	//Initiate standard variables
 	static boolean[][] aiChars = new boolean[4][6]; 
+	static boolean bannedQuest[] = new boolean[25]; 
 	static boolean gameStarted = false;
 	static boolean won = false; 
 	static boolean lying = false; 
@@ -80,7 +84,7 @@ public class GuessWho{
 	static String selectedQuestion; 
 	static String aiSelectedQuestion; 
 	
-	static int aiCards = 24; 
+	static int aiCards = 0; 
 	
 	static ArrayList<ImageIcon> images = new ArrayList<ImageIcon>(); 
 	
@@ -215,10 +219,16 @@ public class GuessWho{
 		playerComp.setAlignmentX(Component.CENTER_ALIGNMENT);
 		playerComp.addActionListener(new StartPlayerComp()); 
 		
-		//Set properties for player 
+		//Set properties for computer vs real world button
 		options.add(realWorld);
 		realWorld.setFont(font);
 		realWorld.addActionListener(new StartRealGame()); 
+		realWorld.setAlignmentX(Component.CENTER_ALIGNMENT); 
+		
+		//Set properties for instructions button
+		options.add(howToPlay);
+		howToPlay.setFont(font);
+		howToPlay.addActionListener(new Instructions());
 		realWorld.setAlignmentX(Component.CENTER_ALIGNMENT); 
 		
 		//Set properties for confirm question button (the confirm button on the game panel screen for confirming your question to ask the AI)
@@ -401,12 +411,154 @@ public class GuessWho{
 		window.repaint();
 	}
 	
-	public static void getRanQuestion() {
+	public static void aiSelectsQuestion() {
 		
-		int ranNum = (int)(Math.random()*25); 
+		int propertyCount[] = new int[25];
 		
-		aiSelectedQuestion = questionList[ranNum]; 
+		for (int i = 0; i < 25; i++) {
+			propertyCount[i] = 0; 
+		}
 		
+		int index;
+		
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 6; j++) {
+				
+				if (chars[i][j].getEyeColor() == "Brown" && aiChars[i][j] == true) {
+					propertyCount[0]++; 
+				}
+				if (chars[i][j].getEyeColor() == "Green" && aiChars[i][j] == true) {
+					propertyCount[1]++; 
+				}
+				if (chars[i][j].getEyeColor() == "Blue" && aiChars[i][j] == true) {
+					propertyCount[2]++; 
+				}
+				if (chars[i][j].getGender() == true && aiChars[i][j] == true) {
+					propertyCount[3]++; 
+				}
+				if (chars[i][j].getGender() == false && aiChars[i][j] == true) {
+					propertyCount[4]++; 
+				}
+				if (chars[i][j].getSkinTone() == "Light Skin" && aiChars[i][j] == true) {
+					propertyCount[5]++; 
+				}
+				if (chars[i][j].getSkinTone() == "Dark Skin" && aiChars[i][j] == true) {
+					propertyCount[6]++; 
+				}
+				if (chars[i][j].getHairColor() == "Black" && aiChars[i][j] == true) {
+					propertyCount[7]++; 
+				}
+				if (chars[i][j].getHairColor() == "Brown" && aiChars[i][j] == true) {
+					propertyCount[8]++; 
+				}
+				if (chars[i][j].getHairColor() == "Ginger" && aiChars[i][j] == true) {
+					propertyCount[9]++; 
+				}
+				if (chars[i][j].getHairColor() == "Blonde" && aiChars[i][j] == true) {
+					propertyCount[10]++; 
+				}
+				if (chars[i][j].getHairColor() == "White" && aiChars[i][j] == true) {
+					propertyCount[11]++; 
+				}
+				if (chars[i][j].getFacialHair() == true && aiChars[i][j] == true) {
+					propertyCount[12]++; 
+				}
+				if (chars[i][j].getFacialHair() == false && aiChars[i][j] == true) {
+					propertyCount[13]++; 
+				}
+				if (chars[i][j].getGlasses() == true && aiChars[i][j] == true) {
+					propertyCount[14]++; 
+				}
+				if (chars[i][j].getGlasses() == false && aiChars[i][j] == true) {
+					propertyCount[15]++; 
+				}
+				if (chars[i][j].getVisibleTeeth() == true && aiChars[i][j] == true) {
+					propertyCount[16]++; 
+				}
+				if (chars[i][j].getVisibleTeeth() == false && aiChars[i][j] == true) {
+					propertyCount[17]++; 
+				}
+				if (chars[i][j].getWearHat() == true && aiChars[i][j] == true) {
+					propertyCount[18]++; 
+				}
+				if (chars[i][j].getWearHat() == false && aiChars[i][j] == true) {
+					propertyCount[19]++; 
+				}
+				if (chars[i][j].getHairLength() == "Short" && aiChars[i][j] == true) {
+					propertyCount[20]++; 
+				}
+				if (chars[i][j].getHairLength() == "Tied" && aiChars[i][j] == true) {
+					propertyCount[21]++; 
+				}
+				if (chars[i][j].getHairLength() == "Long" && aiChars[i][j] == true) {
+					propertyCount[22]++; 
+				}
+				if (chars[i][j].getHairLength() == "Bald" && aiChars[i][j] == true) {
+					propertyCount[23]++; 
+				}
+				if (chars[i][j].getPiercings() == true && aiChars[i][j] == true) {
+					propertyCount[24]++; 
+				}
+		
+			}
+		}
+		
+		int mostNum = 0;
+		index = 0; 
+		
+		for (int i = 0 ; i < 24; i++) {
+			
+			if (propertyCount[i] >= mostNum) {
+				
+				if (bannedQuest[i] == false && propertyCount[i] != 24-aiCards) {
+					index = i;
+					mostNum = propertyCount[i]; 
+				}
+				
+			}
+		}
+		
+		System.out.println(24-aiCards + " " + propertyCount[index]); 
+				
+		aiSelectedQuestion = questionList[index]; 
+		bannedQuest[index] = true; 
+		
+		if (index == 3) {
+			bannedQuest[4] = true;
+		}
+		else if (index == 4) {
+			bannedQuest[3] = true;
+		}
+		else if (index == 5) {
+			bannedQuest[6] = true;
+		}
+		else if (index == 6) {
+			bannedQuest[5] = true;
+		}
+		else if (index == 12) {
+			bannedQuest[13] = true;
+		}
+		else if (index == 13) {
+			bannedQuest[12] = true;
+		}
+		else if (index == 14) {
+			bannedQuest[15] = true;
+		}
+		else if (index == 15) {
+			bannedQuest[14] = true;
+		}
+		else if (index == 16) {
+			bannedQuest[17] = true; 
+		}
+		else if (index == 17) {
+			bannedQuest[16] = true;
+		}
+		else if (index == 18) {
+			bannedQuest[19] = true;
+		}
+		else if (index == 19) {
+			bannedQuest[18] = true; 
+		}
 	}
 	
 	public static void compCharacter() {
@@ -420,6 +572,21 @@ public class GuessWho{
 				
 	}
 	
+	static class Instructions implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			
+			window.remove(options);
+			window.add(information); 
+			window.add(returnMenu); 
+			returnMenu.setBounds(360, 500, 300, 60);
+			returnMenu.setText("Return to main menu");
+			returnMenu.addActionListener(new Restart());
+			information.setBounds(450, 280, 200, 100);
+			window.repaint();
+			
+		}	
+	}
+ 	
 	static class Restart implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -427,12 +594,22 @@ public class GuessWho{
 			window.remove(compCards); 
 			window.remove(playerGUI);
 			window.remove(yourCharacter);
+			window.remove(information);
+			window.remove(returnMenu);
 			compCards.setText("Your opponent has flipped 0 cards...");
 			window.add(options); 
+			window.add(guessWhoLogoInitial); 
 			window.repaint();
+			
+			restart.setText("Restart");
 			
 			gameStarted = false; 
 			realW = false; 
+			aiCards = 0; 
+			
+			for (int i = 0; i < 25; i++) {
+				bannedQuest[i] = false; 
+			}
 			
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 6; j++) {
@@ -496,11 +673,8 @@ public class GuessWho{
 	//Implement action for yes button
 	static class YesButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			
-			System.out.println(aiCards); 
-			
+						
 			lying = false; 
-			int ranNum = (int)(Math.random()*(10000)); 
 			
 			if (aiSelectedQuestion == questions.getItemAt(0)) {
 				
@@ -1063,20 +1237,20 @@ public class GuessWho{
 				computerText.setText("Your opponent is waiting for your question...");
 			}
 			
-			int num = 0; 
+			aiCards = 0; 
 			
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 6; j++) {
 					
 					if (aiChars[i][j] == false) {
-						num++; 
+						aiCards++; 
 					}
 				}
 			}
 			
-			compCards.setText("Your opponent has flipped " + num + " cards...");
+			compCards.setText("Your opponent has flipped " + aiCards + " cards...");
 			
-			if (num >= 23) {
+			if (aiCards >= 23) {
 				window.getContentPane().removeAll();
 				window.add(winLoseScreen); 
 				window.repaint();
@@ -1104,7 +1278,6 @@ public class GuessWho{
 		public void actionPerformed(ActionEvent e) {
 			
 			lying = false; 
-			int ranNum = (int)(Math.random()*(10000)); 
 			
 			if (aiSelectedQuestion == questions.getItemAt(0)) {
 				
@@ -1666,20 +1839,20 @@ public class GuessWho{
 				computerText.setText("Your opponent is waiting for your question...");
 			}
 			
-			int num = 0; 
+			aiCards = 0; 
 			
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 6; j++) {
 					
 					if (aiChars[i][j] == false) {
-						num++; 
+						aiCards++; 
 					}
 				}
 			}
 			
-			compCards.setText("Your opponent has flipped " + num + " cards...");
+			compCards.setText("Your opponent has flipped " + aiCards + " cards...");
 
-			if (num >= 23) {
+			if (aiCards >= 23) {
 				window.getContentPane().removeAll();
 				window.add(winLoseScreen); 
 				window.repaint();
@@ -1710,11 +1883,10 @@ public class GuessWho{
 	static class ConfirmChanges implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 
-			getRanQuestion(); 
+			aiSelectsQuestion(); 
 			
 			window.remove(confirmChanges);
 			window.repaint();
-			int ranNum = (int)(Math.random()*(10000)); 
 			computerText.setText("Your opponent is coming up with a question...");
 			computerText.setText(aiSelectedQuestion);
 			window.add(no);
@@ -1950,10 +2122,7 @@ public class GuessWho{
 	//Implement action for ask questions button
 	static class AskQuestion implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			
-			int ranNum = (int)(Math.random()*(10000)); 
-			String question; 
-			
+						
 			window.remove(questions);
 			window.remove(confirmQuest);
 			window.setSize(999, 700);
@@ -2244,13 +2413,14 @@ public class GuessWho{
 			window.remove(options);
 			window.remove(guessWhoLogoInitial);
 			window.remove(credits);
-			window.add(questions);
 			window.add(gamePanel); 
 			window.add(selection); 
+			selection.setBounds(600, 200, 400, 75);
 			window.add(confirm); 
+			confirm.setBounds(560, 400, 300, 100);
 			window.add(character); 
+			character.setBounds(690, 250, 300, 100);
 			window.add(guessWhoLogo);
-			window.add(guessAICharacterLabel);
 			window.setSize(999, 700);
 			window.setSize(1000, 700);
 			window.repaint();
@@ -2272,7 +2442,8 @@ public class GuessWho{
 			window.add(chooseChar); 
 			window.add(confirmWhenChosenChar);
 			window.add(confirm); 
-			
+			confirm.setBounds(355, 400, 300, 100);
+
 			window.setVisible(true);
 			window.repaint();
 
