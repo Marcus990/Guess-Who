@@ -504,7 +504,7 @@ public class GuessWho{
 		int mostNum = 0;
 		index = 0; 
 		
-		for (int i = 0 ; i < 25; i++) {
+		for (int i = 0 ; i < 24; i++) {
 			
 			if (propertyCount[i] >= mostNum) {
 				
