@@ -63,6 +63,8 @@ public class GuessWho{
 	static JLabel guessWhoLogo = new JLabel();
 	static JLabel information = new JLabel("Put your instructions here");
 	static JLabel guessWhoLogoInitial = new JLabel();
+	static JLabel rightPersonPortrait = new JLabel();
+	static JLabel leftPersonPortrait = new JLabel();
 	static JComboBox questions;
 	static JTextArea answer = new JTextArea("Insert your answer here"); 
 	
@@ -113,6 +115,8 @@ public class GuessWho{
 	static ImageIcon Farah = new ImageIcon("IMG_3780.jpg");
 	static ImageIcon PlaidBackground = new ImageIcon("OfficialPlaidBackground.png");
 	static ImageIcon GuessWhoLogo = new ImageIcon("GuessWhoLogo.png");
+	static ImageIcon RightPersonPortrait = new ImageIcon("RightPersonPortrait.png");
+	static ImageIcon LeftPersonPortrait = new ImageIcon("LeftPersonPortrait.png");
 	
 	//Main method
 	public static void main(String[] args) throws IOException, FontFormatException{
@@ -132,15 +136,25 @@ public class GuessWho{
 		contentPane.setIcon(PlaidBackground);
 		window.setContentPane(contentPane);
 		
-		//Set properties for the Guess Who Logo JPanel on the game panel
+		//Set properties for the Guess Who Logo JLabel on the game panel
 		guessWhoLogo.setIcon(GuessWhoLogo);
 		guessWhoLogo.setBounds(600, 25, 256, 118);
 		
-		//Set properties for the Guess Who Logo JPanel on the main menu
+		//Set properties for the Guess Who Logo JLabel on the main menu
 		guessWhoLogoInitial.setIcon(GuessWhoLogo);
 		guessWhoLogoInitial.setBounds(375, 80, 256, 118);
 		guessWhoLogoInitial.setAlignmentX(Component.CENTER_ALIGNMENT);
 		window.add(guessWhoLogoInitial);
+		
+		//Set properties for the Right Person Portrait JLabel on the main menu
+		rightPersonPortrait.setIcon(RightPersonPortrait);
+		rightPersonPortrait.setBounds(650, 275, 296, 400);
+		window.add(rightPersonPortrait);
+		
+		//Set properties for the Left Person Portrait JLabel on the main menu
+		leftPersonPortrait.setIcon(LeftPersonPortrait);
+		leftPersonPortrait.setBounds(0, 350, 450, 327);
+		window.add(leftPersonPortrait);
 		
 		//Set properties for the credits JLabel on the main menu
 		credits.setFont(font);
@@ -228,6 +242,15 @@ public class GuessWho{
 		howToPlay.setFont(font);
 		howToPlay.addActionListener(new Instructions());
 		howToPlay.setAlignmentX(Component.CENTER_ALIGNMENT); 
+		
+		//Set properties for Return to Menu Option on the How to Play Menu
+		returnMenu.setBounds(350, 500, 300, 60);
+		returnMenu.setFont(font);
+		returnMenu.addActionListener(new Restart());
+		
+		//Set properties for information for instructions on How to Play Menu
+		information.setBounds(350, 280, 400, 100);
+		information.setFont(font);
 		
 		//Set properties for confirm question button (the confirm button on the game panel screen for confirming your question to ask the AI)
 		confirmQuest.setBounds(650, 250, 150, 50); 
@@ -574,12 +597,12 @@ public class GuessWho{
 		public void actionPerformed(ActionEvent e) {
 			
 			window.remove(options);
+			window.remove(credits);
+			window.remove(leftPersonPortrait);
+			window.remove(rightPersonPortrait);
 			window.add(information); 
 			window.add(returnMenu); 
-			returnMenu.setBounds(360, 500, 300, 60);
-			returnMenu.setText("Return to main menu");
-			returnMenu.addActionListener(new Restart());
-			information.setBounds(450, 280, 200, 100);
+			window.setVisible(true);
 			window.repaint();
 			
 		}	
@@ -597,6 +620,9 @@ public class GuessWho{
 			compCards.setText("Your opponent has flipped 0 cards...");
 			window.add(options); 
 			window.add(guessWhoLogoInitial); 
+			window.add(credits);
+			window.add(leftPersonPortrait);
+			window.add(rightPersonPortrait);
 			window.repaint();
 			
 			restart.setText("Restart");
@@ -722,7 +748,7 @@ public class GuessWho{
 			}
 			if (aiSelectedQuestion == questions.getItemAt(2)) {
 				
-				if (playerChar.getEyeColor() != "Blue" && realW == false) {
+				if (playerChar.getEyeColor() != "Green" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1325,7 +1351,7 @@ public class GuessWho{
 			}
 			if (aiSelectedQuestion == questions.getItemAt(2)) {
 				
-				if (playerChar.getEyeColor() == "Blue" && realW == false) {
+				if (playerChar.getEyeColor() == "Green" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -2371,6 +2397,8 @@ public class GuessWho{
 				window.remove(chooseChar);
 				window.remove(confirmWhenChosenChar);
 				window.remove(guessWhoLogoInitial);
+				window.remove(rightPersonPortrait);
+				window.remove(leftPersonPortrait);
 				
 				//window.remove(gamePanel); 
 				
@@ -2411,6 +2439,8 @@ public class GuessWho{
 			window.remove(options);
 			window.remove(guessWhoLogoInitial);
 			window.remove(credits);
+			window.remove(leftPersonPortrait);
+			window.remove(rightPersonPortrait);
 			window.add(gamePanel); 
 			window.add(selection); 
 			selection.setBounds(600, 200, 400, 75);
@@ -2441,6 +2471,8 @@ public class GuessWho{
 			window.add(confirmWhenChosenChar);
 			window.add(confirm); 
 			confirm.setBounds(355, 400, 300, 100);
+			
+			rightPersonPortrait.setBounds(650, 350, 296, 400);
 
 			window.setVisible(true);
 			window.repaint();
