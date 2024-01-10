@@ -34,10 +34,8 @@ public class GuessWho{
 	static JPanel winLoseScreen = new JPanel(); 
 	static JPanel whoGoFirst = new JPanel(); 
 	static JButton charButton[][] = new JButton[4][6]; 
-	static JButton playerComp = new JButton("Player vs Computer (Non-Official)");
-	static JButton playerPlayer = new JButton("Player vs Player");
-	static JButton CompComp = new JButton("Computer vs Computer");
-	static JButton realWorld = new JButton("      Player vs Computer (Official)      ");
+	static JButton playerComp = new JButton("Computer vs Computer");
+	static JButton realWorld = new JButton("Player vs Computer");
 	static JButton confirm = new JButton("Confirm"); 
 	static JButton confirmQuest = new JButton("Confirm"); 
 	static JButton confirmChanges = new JButton("Confirm changes"); 
@@ -48,7 +46,7 @@ public class GuessWho{
 	static JButton returnMenu = new JButton("Return to Main Menu"); 
 	static JButton player1First = new JButton("Player 1");  
 	static JButton player2First = new JButton("Player 2"); 
-	static JButton howToPlay = new JButton("Instructions"); 
+	static JButton howToPlay = new JButton("How To Play"); 
 	static JLabel chooseText = new JLabel("Choose the player that goes first"); 
 	static JLabel winLose = new JLabel(); 
 	static JLabel title = new JLabel("Choose the Game Mode"); 
@@ -229,7 +227,7 @@ public class GuessWho{
 		options.add(howToPlay);
 		howToPlay.setFont(font);
 		howToPlay.addActionListener(new Instructions());
-		realWorld.setAlignmentX(Component.CENTER_ALIGNMENT); 
+		howToPlay.setAlignmentX(Component.CENTER_ALIGNMENT); 
 		
 		//Set properties for confirm question button (the confirm button on the game panel screen for confirming your question to ask the AI)
 		confirmQuest.setBounds(650, 250, 150, 50); 
