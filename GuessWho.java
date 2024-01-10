@@ -15,6 +15,12 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -113,13 +119,27 @@ public class GuessWho{
 	static ImageIcon Liz = new ImageIcon("IMG_3773.jpg");
 	static ImageIcon Katie = new ImageIcon("IMG_3775.jpg");
 	static ImageIcon Farah = new ImageIcon("IMG_3780.jpg");
-	static ImageIcon PlaidBackground = new ImageIcon("OfficialPlaidBackground.png");
+	static ImageIcon PlaidBackground = new ImageIcon("OfficialPlaidBackground (1).png");
 	static ImageIcon GuessWhoLogo = new ImageIcon("GuessWhoLogo.png");
 	static ImageIcon RightPersonPortrait = new ImageIcon("RightPersonPortrait.png");
 	static ImageIcon LeftPersonPortrait = new ImageIcon("LeftPersonPortrait.png");
 	
+	static File backgroundMusicPath = new File(""); 
+	
+	private static Clip backgroundMusic; 
+	
 	//Main method
-	public static void main(String[] args) throws IOException, FontFormatException{
+	public static void main(String[] args) throws IOException, FontFormatException, LineUnavailableException, UnsupportedAudioFileException{
+		
+		//Initiate background music 
+		AudioInputStream audioInput = AudioSystem.getAudioInputStream(backgroundMusicPath);
+		backgroundMusic = AudioSystem.getClip(); 
+		backgroundMusic.open(audioInput);
+		
+		FloatControl gainControl = (FloatControl) backgroundMusic.getControl(FloatControl.Type.MASTER_GAIN);
+		gainControl.setValue(-10.0f);
+		
+		playMusic(backgroundMusic);
 		
 		//Initiate custom font
 		Font font = Font.createFont(Font.TRUETYPE_FONT, new File("GuessWhoFont.otf")).deriveFont(20f);
@@ -430,6 +450,23 @@ public class GuessWho{
 		
 		window.setVisible(true);
 		window.repaint();
+	}
+	public static void playMusic(Clip clip) {
+		
+		clip.start(); 
+	
+	}
+	
+	public static void loopMusic(Clip clip) {
+		
+		clip.loop(clip.LOOP_CONTINUOUSLY);
+
+	}
+	
+	public static void stopMusic(Clip clip) {
+		
+		clip.stop();
+		
 	}
 	
 	public static void aiSelectsQuestion() {
