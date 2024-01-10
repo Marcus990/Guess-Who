@@ -722,7 +722,7 @@ public class GuessWho{
 			}
 			if (aiSelectedQuestion == questions.getItemAt(2)) {
 				
-				if (playerChar.getEyeColor() != "Green" && realW == false) {
+				if (playerChar.getEyeColor() != "Blue" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
@@ -1325,7 +1325,7 @@ public class GuessWho{
 			}
 			if (aiSelectedQuestion == questions.getItemAt(2)) {
 				
-				if (playerChar.getEyeColor() == "Green" && realW == false) {
+				if (playerChar.getEyeColor() == "Blue" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
