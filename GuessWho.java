@@ -21,6 +21,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -29,6 +30,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class GuessWho{
@@ -40,11 +42,11 @@ public class GuessWho{
 	static JPanel winLoseScreen = new JPanel(); 
 	static JPanel whoGoFirst = new JPanel(); 
 	static JButton charButton[][] = new JButton[4][6]; 
-	static JButton playerComp = new JButton("Player vs Computer (Online)");
-	static JButton realWorld = new JButton("Player vs Computer (In-Person)");
+	static JButton playerComp = new JButton("     Player vs Computer (Online)     ");
+	static JButton realWorld = new JButton("Player vs Computer  (In-Person)");
 	static JButton confirm = new JButton("Confirm"); 
 	static JButton confirmQuest = new JButton("Confirm"); 
-	static JButton confirmChanges = new JButton("Confirm changes"); 
+	static JButton confirmChanges = new JButton("Confirm Changes"); 
 	static JButton confirmAnswer = new JButton("Confirm"); 
 	static JButton yes = new JButton("Yes");
 	static JButton no = new JButton("No"); 
@@ -52,13 +54,12 @@ public class GuessWho{
 	static JButton returnMenu = new JButton("Return to Main Menu"); 
 	static JButton player1First = new JButton("Player 1");  
 	static JButton player2First = new JButton("Player 2"); 
-	static JButton howToPlay = new JButton("How To Play"); 
-	static JButton settings = new JButton();
+	static JButton howToPlay = new JButton("                          How To Play                          "); 
 	static JLabel chooseText = new JLabel("Choose the player that goes first"); 
 	static JLabel winLose = new JLabel(); 
 	static JLabel title = new JLabel("Choose the Game Mode"); 
 	static JLabel credits = new JLabel("By Marcus Ng and Kevin Wang");
-	static JLabel selection = new JLabel("Choose your character");
+	static JLabel selection = new JLabel("Choose your Character");
 	static JLabel character = new JLabel("N/A"); 
 	static JLabel computerText = new JLabel("Your opponent is waiting for your question...");
 	static JLabel compCards = new JLabel("Your opponent has flipped 0 cards...");
@@ -68,11 +69,21 @@ public class GuessWho{
 	static JLabel chooseChar = new JLabel("Please Choose a Character from your Deck of Guess Who Cards!"); 
 	static JLabel confirmWhenChosenChar = new JLabel("Press Confirm when you have Chosen a Character!"); 
 	static JLabel guessWhoLogo = new JLabel();
-	static JLabel information = new JLabel("Put your instructions here");
+	static JTextArea information = new JTextArea("1) Once you open up the game, take a moment to enjoy the music before \nclicking the game mode you would like to play! \n2) When you're ready, click the difficulty you would like to play against for \nthe AI! \n3) Then, if you are playing the in-person version, select a character from a \nphysical deck of cards before pressing confirm. \n4) Now, it's time to play Guess Who! Select which player you would like to go first before asking your first question. \n5) When your opponent answers, click on characters on the grid at the left\nhand side of your screen to eliminate them. \n6) Then, when your opponent asks you a question, make sure to answer\ntruthfully! \n7) Going back and forth, one player will eventually end up with one\ncharacter by process of elimination. Put your final answer in the answer box and confirm! You only have one try, if you're wrong, you lose! \n8) Hopefully you've enjoyed playing our version of Guess Who! \n9) Have fun!", 5, 100);
+	static JScrollPane informationScrollBar = new JScrollPane(information);
 	static JLabel guessWhoLogoInitial = new JLabel();
 	static JLabel rightPersonPortrait = new JLabel();
 	static JLabel leftPersonPortrait = new JLabel();
-	static JLabel enterCorrectChar = new JLabel("If the Ai guessed wrong, enter your character");
+	static JLabel enterCorrectChar = new JLabel("If the AI guessed wrong, please enter your character");
+	static JButton settings = new JButton();
+	static JPanel settingsMenu = new JPanel();
+	static JLabel settingsTitle = new JLabel("Settings");
+	static JButton exitButton = new JButton();
+	static JLabel toggleMusicPrompt = new JLabel("Toggle Music");
+	static JButton on = new JButton("ON");
+	static JButton off = new JButton("OFF");
+	static JButton returnToMainMenu = new JButton("Return to Main Menu");
+	static JButton quitTheGame = new JButton("Quit the Game");
 	static JComboBox questions;
 	static JTextArea answer = new JTextArea("Insert your answer here"); 
 	
@@ -121,11 +132,12 @@ public class GuessWho{
 	static ImageIcon Liz = new ImageIcon("IMG_3773.jpg");
 	static ImageIcon Katie = new ImageIcon("IMG_3775.jpg");
 	static ImageIcon Farah = new ImageIcon("IMG_3780.jpg");
-	static ImageIcon PlaidBackground = new ImageIcon("OfficialPlaidBackground (1).png");
+	static ImageIcon PlaidBackground = new ImageIcon("OfficialPlaidBackground.png");
 	static ImageIcon GuessWhoLogo = new ImageIcon("GuessWhoLogo.png");
 	static ImageIcon RightPersonPortrait = new ImageIcon("RightPersonPortrait.png");
 	static ImageIcon LeftPersonPortrait = new ImageIcon("LeftPersonPortrait.png");
 	static ImageIcon settingsImage = new ImageIcon("Settings.png");
+	static ImageIcon ExitButton = new ImageIcon("Exit.png");
 	
 	static File backgroundMusicPath = new File("GuessWhoMusic.wav"); 
 	private static Clip backgroundMusic; 
@@ -141,7 +153,7 @@ public class GuessWho{
 		FloatControl gainControl = (FloatControl) backgroundMusic.getControl(FloatControl.Type.MASTER_GAIN);
 		gainControl.setValue(-10.0f);
 		
-		playMusic(backgroundMusic);
+		loopMusic(backgroundMusic);
 		
 		//Initiate custom font
 		Font font = Font.createFont(Font.TRUETYPE_FONT, new File("GuessWhoFont.otf")).deriveFont(20f);
@@ -186,8 +198,61 @@ public class GuessWho{
 		settings.setBorderPainted(false);
 		settings.setBorder(null);
 		settings.setFocusPainted(false);
-		settings.addActionListener(null);
+		settings.addActionListener(new clickSettings());
 		window.add(settings);
+		
+		//Set properties for the Settings Menu when Settings button is clicked
+		settingsMenu.setBounds(100, 100, 800, 500);
+		settingsMenu.setBackground(Color.WHITE);
+		settingsMenu.setBorder(BorderFactory.createLineBorder(Color.black, 5));
+		settingsMenu.setLayout(null);
+		
+		//Set properties for the Settings Menu Title
+		settingsTitle.setFont(font);
+		settingsTitle.setBounds(350, 25, 200, 50);
+		settingsMenu.add(settingsTitle);
+		
+		//Set proprties for the Settings Menu Exit Button
+		exitButton.setIcon(ExitButton);
+		exitButton.setBounds(25, 25, 50, 50);
+		exitButton.setOpaque(false);
+		exitButton.setContentAreaFilled(false);
+		exitButton.setBorderPainted(false);
+		exitButton.setBorder(null);
+		exitButton.setFocusPainted(false);
+		exitButton.addActionListener(new clickExitButton());
+		settingsMenu.add(exitButton);
+		
+		//Set properties for the Toggle Music Prompt Label
+		toggleMusicPrompt.setFont(font);
+		toggleMusicPrompt.setBounds(215, 90, 200, 50);
+		settingsMenu.add(toggleMusicPrompt);
+		
+		//Set properties for Music ON and OFF buttons
+		on.setFont(font);
+		on.setBounds(450, 90, 100, 40);
+		on.setBorder(BorderFactory.createLineBorder(Color.black, 3));
+		on.addActionListener(new clickOn());
+		off.setFont(font);
+		off.setBounds(565, 90, 100, 40);
+		off.setBorder(BorderFactory.createLineBorder(Color.black, 3));
+		off.addActionListener(new clickOff());
+		settingsMenu.add(on);
+		settingsMenu.add(off);
+		
+		//Set properties for the Return to Main Menu JButton in Settings
+		returnToMainMenu.setFont(font);
+		returnToMainMenu.setBounds(275, 275, 250,75);
+		returnToMainMenu.setBorder(BorderFactory.createLineBorder(Color.black, 3));
+		returnToMainMenu.addActionListener(new Restart());
+		settingsMenu.add(returnToMainMenu);
+		
+		//Set properties for the Quit the Game JButton in Settings
+		quitTheGame.setFont(font);
+		quitTheGame.setBounds(275, 375, 250, 75);
+		quitTheGame.setBorder(BorderFactory.createLineBorder(Color.black, 3));
+		quitTheGame.addActionListener(new quitButtonPressed());
+		settingsMenu.add(quitTheGame);
 		
 		//Set properties for the credits JLabel on the main menu
 		credits.setFont(font);
@@ -271,10 +336,10 @@ public class GuessWho{
 		realWorld.setAlignmentX(Component.CENTER_ALIGNMENT); 
 		
 		//Set properties for instructions button
-		options.add(howToPlay);
 		howToPlay.setFont(font);
 		howToPlay.addActionListener(new Instructions());
 		howToPlay.setAlignmentX(Component.CENTER_ALIGNMENT); 
+		options.add(howToPlay);
 		
 		//Set properties for Return to Menu Option on the How to Play Menu
 		returnMenu.setBounds(350, 500, 300, 60);
@@ -282,7 +347,9 @@ public class GuessWho{
 		returnMenu.addActionListener(new Restart());
 		
 		//Set properties for information for instructions on How to Play Menu
-		information.setBounds(350, 280, 400, 100);
+		information.setLineWrap(true);
+		informationScrollBar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		informationScrollBar.setBounds(100, 225, 800, 235);
 		information.setFont(font);
 		
 		//Set properties for confirm question button (the confirm button on the game panel screen for confirming your question to ask the AI)
@@ -291,7 +358,7 @@ public class GuessWho{
 		confirmQuest.addActionListener(new AskQuestion()); 
 		
 		//Set properties for computer output text (Your opponent is waiting for your question...)
-		computerText.setBounds(500, 150, 500, 50); 
+		computerText.setBounds(525, 150, 500, 50); 
 		computerText.setFont(font); 
 		
 		//Set properties for the guessAICharacterLabel (Have an answer? Guess it here! You have one try, or you lose!)
@@ -299,17 +366,17 @@ public class GuessWho{
 		guessAICharacterLabel.setFont(font);
 		
 		//Set properties for confirm changes button
-		confirmChanges.setBounds(500, 200, 300, 50);
+		confirmChanges.setBounds(575, 200, 300, 50);
 		confirmChanges.setFont(font);
 		confirmChanges.addActionListener(new ConfirmChanges()); 
 		
 		//Set properties for yes button
-		yes.setBounds(480, 200, 100, 50); 
+		yes.setBounds(625, 200, 100, 50); 
 		yes.setFont(font);
 		yes.addActionListener(new YesButton());
 		
 		//Set properties for no button
-		no.setBounds(580, 200, 100, 50);
+		no.setBounds(725, 200, 100, 50);
 		no.setFont(font);
 		no.addActionListener(new NoButton());
 		
@@ -650,7 +717,7 @@ public class GuessWho{
 			window.remove(credits);
 			window.remove(leftPersonPortrait);
 			window.remove(rightPersonPortrait);
-			window.add(information); 
+			window.add(informationScrollBar); 
 			window.add(returnMenu); 
 			window.setVisible(true);
 			window.repaint();
@@ -667,7 +734,18 @@ public class GuessWho{
 			window.remove(yourCharacter);
 			window.remove(information);
 			window.remove(returnMenu);
+			window.remove(settingsMenu);
+			window.remove(chooseChar);
+			window.remove(confirmWhenChosenChar);
+			window.remove(confirm);
+			window.remove(gamePanel);
+			window.remove(guessWhoLogo);
+			window.remove(selection);
+			window.remove(character);
+			window.remove(informationScrollBar);
+			
 			compCards.setText("Your opponent has flipped 0 cards...");
+			computerText.setText("Your opponent is waiting for your question...");
 			window.add(options); 
 			window.add(guessWhoLogoInitial); 
 			window.add(credits);
@@ -2535,6 +2613,35 @@ public class GuessWho{
 			window.repaint();
 
 			selectedQuestion = String.valueOf(questions.getSelectedItem());
+		}
+	}
+	static class clickSettings implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			window.add(settingsMenu, 0);
+			window.setVisible(true);
+			window.repaint();
+		}
+	}
+	static class clickExitButton implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			window.remove(settingsMenu);
+			window.setVisible(true);
+			window.repaint();
+		}
+	}
+	static class clickOn implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			playMusic(backgroundMusic);
+		}
+	}
+	static class clickOff implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			stopMusic(backgroundMusic);
+		}
+	}
+	static class quitButtonPressed implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);
 		}
 	}
 }
