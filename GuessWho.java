@@ -64,6 +64,8 @@ public class GuessWho{
 	static JButton quitTheGame = new JButton("Quit the Game");
 	static JButton settings = new JButton();
 	static JButton exitButton = new JButton();
+
+	static JLabel selectDifficulty = new JLabel("Change Difficulty"); 
 	static JButton hardMode = new JButton("Hard");
 	static JButton normalMode = new JButton("Normal");
 	static JButton easyMode = new JButton("Easy"); 
@@ -84,7 +86,6 @@ public class GuessWho{
 	static JLabel confirmWhenChosenChar = new JLabel("Press Confirm when you have Chosen a Character!"); 
 	static JLabel guessWhoLogo = new JLabel();
 	static JLabel whoGoFirst = new JLabel("Who First?");
-	static JLabel selectDifficulty = new JLabel("Please select the difficulty of the Ai"); 
 	static JLabel guessWhoLogoInitial = new JLabel();
 	static JLabel rightPersonPortrait = new JLabel();
 	static JLabel leftPersonPortrait = new JLabel();
@@ -195,27 +196,6 @@ public class GuessWho{
 		contentPane.setIcon(PlaidBackground);
 		window.setContentPane(contentPane);
 		
-		//Set properties for the difficulty mode GUI; 
-		window.add(selectDifficulty);
-		selectDifficulty.setFont(font);
-		selectDifficulty.setBounds(0, 100, 500, 100);
-		
-		window.add(easyMode);
-		easyMode.setFont(font);
-		easyMode.setBackground(Color.GREEN);
-		easyMode.setBounds(0, 200, 100, 70);
-		easyMode.addActionListener(new easyButton());
-		
-		window.add(normalMode);
-		normalMode.setFont(font);
-		normalMode.setBounds(100, 200, 100, 70);
-		normalMode.addActionListener(new normalButton());
-		
-		window.add(hardMode);
-		hardMode.setFont(font);
-		hardMode.setBounds(200, 200, 100, 70);
-		hardMode.addActionListener(new hardButton());
-		
 		//Set properties for the Guess Who Logo JLabel on the game panel
 		guessWhoLogo.setIcon(GuessWhoLogo);
 		guessWhoLogo.setBounds(600, 25, 256, 118);
@@ -285,6 +265,23 @@ public class GuessWho{
 		off.addActionListener(new clickOff());
 		settingsMenu.add(on);
 		settingsMenu.add(off);
+
+		//Set properties for the Change Difficulty Option in Settings
+		window.add(easyMode);
+		easyMode.setFont(font);
+		easyMode.setBackground(Color.GREEN);
+		easyMode.setBounds(0, 200, 100, 70);
+		easyMode.addActionListener(new easyButton());
+		
+		window.add(normalMode);
+		normalMode.setFont(font);
+		normalMode.setBounds(100, 200, 100, 70);
+		normalMode.addActionListener(new normalButton());
+		
+		window.add(hardMode);
+		hardMode.setFont(font);
+		hardMode.setBounds(200, 200, 100, 70);
+		hardMode.addActionListener(new hardButton());
 		
 		//Set properties for the Return to Main Menu JButton in Settings
 		returnToMainMenu.setFont(font);
