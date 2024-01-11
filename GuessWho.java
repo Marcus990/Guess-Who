@@ -709,6 +709,26 @@ public class GuessWho{
 
 				
 	}
+
+	static class EnterCorrectAns implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			
+			String charName = corrChar.getText(); 
+			Characters plrChar; 
+			
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 6; j++) {
+					
+					if (chars[i][j].getName() == charName) {
+						
+						plrChar = chars[i][j]; 
+						
+					}
+					
+				}
+			}
+		}	
+	}
 	
 	static class Instructions implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
