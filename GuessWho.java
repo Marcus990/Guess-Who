@@ -764,6 +764,7 @@ public class GuessWho{
 			window.remove(selection);
 			window.remove(character);
 			window.remove(informationScrollBar);
+			window.remove(corrChar); 
 			
 			compCards.setText("Your opponent has flipped 0 cards...");
 			computerText.setText("Your opponent is waiting for your question...");
@@ -839,6 +840,9 @@ public class GuessWho{
 				System.out.println("You lost!"); 
 				window.getContentPane().removeAll();
 				window.add(winLoseScreen); 
+				window.add(corrChar); 
+				corrChar.setFont(font);
+				corrChar.setBounds(300, 400, 300, 50);
 				window.repaint();
 				winLose.setText("You Lost!");
 				
