@@ -142,7 +142,7 @@ public class GuessWho{
 	static ImageIcon Liz = new ImageIcon("IMG_3773.jpg");
 	static ImageIcon Katie = new ImageIcon("IMG_3775.jpg");
 	static ImageIcon Farah = new ImageIcon("IMG_3780.jpg");
-	static ImageIcon PlaidBackground = new ImageIcon("OfficialPlaidBackground.png");
+	static ImageIcon PlaidBackground = new ImageIcon("OfficialPlaidBackground (1).png");
 	static ImageIcon GuessWhoLogo = new ImageIcon("GuessWhoLogo.png");
 	static ImageIcon RightPersonPortrait = new ImageIcon("RightPersonPortrait.png");
 	static ImageIcon LeftPersonPortrait = new ImageIcon("LeftPersonPortrait.png");
@@ -849,7 +849,8 @@ public class GuessWho{
 			}
 			
 			String temp = ""; 
-				
+			savedIndex.clear();	
+			
 			for (int i = 0; i < savedQuest.size(); i++) {
 				for (int j = 0; j < 24; j++) {
 					
@@ -884,6 +885,7 @@ public class GuessWho{
 					
 				}	
 			}
+			
 			boolean charNameExists = false;
 			for(int i = 0; i < charNamesArray.length; i++) {
 				if(corrChar.getText().equals(charNamesArray[i])) {
@@ -892,10 +894,11 @@ public class GuessWho{
 					charNameExists = true;
 				}
 			}
+			
 			if(!charNameExists) {
 				window.remove(wrongQuestScrollBar);
 			}
-			charNameExists = false;
+			//charNameExists = false;
 		}	
 	}
 	
@@ -918,7 +921,9 @@ public class GuessWho{
 		public void actionPerformed(ActionEvent e) {
 			
 			savedAns.clear();
-			
+			savedQuest.clear();
+			savedIndex.clear();
+
 			window.getContentPane().removeAll();
 			
 			compCards.setText("Your opponent has flipped 0 cards...");
@@ -941,9 +946,7 @@ public class GuessWho{
 			gameStarted = false; 
 			realW = false; 
 			aiCards = 0; 
-			
-			savedIndex.clear();
-			
+						
 			for (int i = 0; i < 25; i++) {
 				bannedQuest[i] = false; 
 			}
