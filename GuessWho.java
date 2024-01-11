@@ -42,6 +42,7 @@ public class GuessWho{
 	static JPanel options = new JPanel(); 
 	static JPanel winLoseScreen = new JPanel(); 
 	static JPanel settingsMenu = new JPanel();
+	static JPanel whoGoFirst = new JPanel();
 	
 	static JButton charButton[][] = new JButton[4][6]; 
 	static JButton playerComp = new JButton("     Player vs Computer (Online)     ");
@@ -54,8 +55,8 @@ public class GuessWho{
 	static JButton no = new JButton("No"); 
 	static JButton restart = new JButton("Restart"); 
 	static JButton returnMenu = new JButton("Return to Main Menu"); 
-	static JButton player1First = new JButton("Player 1");  
-	static JButton player2First = new JButton("Player 2"); 
+	static JButton player1First = new JButton("Player (Yourself)");  
+	static JButton player2First = new JButton("Computer (AI)"); 
 	static JButton howToPlay = new JButton("                          How To Play                          "); 
 	static JButton confirmChar = new JButton("Confirm"); 
 	static JButton on = new JButton("ON");
@@ -70,7 +71,7 @@ public class GuessWho{
 	static JButton normalMode = new JButton("Normal");
 	static JButton easyMode = new JButton("Easy"); 
 	
-	static JLabel chooseText = new JLabel("Choose the player that goes first"); 
+	static JLabel chooseText = new JLabel("Choose Who You Want to Go First!"); 
 	static JLabel winLose = new JLabel(); 
 	static JLabel loseLabel = new JLabel();
 	static JLabel title = new JLabel("Choose the Game Mode"); 
@@ -85,7 +86,6 @@ public class GuessWho{
 	static JLabel chooseChar = new JLabel("Please Choose a Character from your Deck of Guess Who Cards!"); 
 	static JLabel confirmWhenChosenChar = new JLabel("Press Confirm when you have Chosen a Character!"); 
 	static JLabel guessWhoLogo = new JLabel();
-	static JLabel whoGoFirst = new JLabel("Who First?");
 	static JLabel guessWhoLogoInitial = new JLabel();
 	static JLabel rightPersonPortrait = new JLabel();
 	static JLabel leftPersonPortrait = new JLabel();
@@ -156,7 +156,7 @@ public class GuessWho{
 	static ImageIcon Liz = new ImageIcon("IMG_3773.jpg");
 	static ImageIcon Katie = new ImageIcon("IMG_3775.jpg");
 	static ImageIcon Farah = new ImageIcon("IMG_3780.jpg");
-	static ImageIcon PlaidBackground = new ImageIcon("OfficialPlaidBackground (1).png");
+	static ImageIcon PlaidBackground = new ImageIcon("OfficialPlaidBackground.png");
 	static ImageIcon GuessWhoLogo = new ImageIcon("GuessWhoLogo.png");
 	static ImageIcon RightPersonPortrait = new ImageIcon("RightPersonPortrait.png");
 	static ImageIcon LeftPersonPortrait = new ImageIcon("LeftPersonPortrait.png");
@@ -267,21 +267,28 @@ public class GuessWho{
 		settingsMenu.add(off);
 
 		//Set properties for the Change Difficulty Option in Settings
-		window.add(easyMode);
+		selectDifficulty.setFont(font);
+		selectDifficulty.setBounds(190, 180, 200, 50);
+		settingsMenu.add(selectDifficulty);
+		
 		easyMode.setFont(font);
-		easyMode.setBackground(Color.GREEN);
-		easyMode.setBounds(0, 200, 100, 70);
+		easyMode.setBounds(400, 180, 100, 50);
+		easyMode.setBorder(BorderFactory.createLineBorder(Color.black, 3));
+		easyMode.setOpaque(false);
 		easyMode.addActionListener(new easyButton());
+		settingsMenu.add(easyMode);
 		
-		window.add(normalMode);
 		normalMode.setFont(font);
-		normalMode.setBounds(100, 200, 100, 70);
+		normalMode.setBounds(515, 180, 100, 50);
+		normalMode.setBorder(BorderFactory.createLineBorder(Color.black, 3));
 		normalMode.addActionListener(new normalButton());
+		settingsMenu.add(normalMode);
 		
-		window.add(hardMode);
 		hardMode.setFont(font);
-		hardMode.setBounds(200, 200, 100, 70);
+		hardMode.setBounds(630, 180, 100, 50);
+		hardMode.setBorder(BorderFactory.createLineBorder(Color.black, 3));
 		hardMode.addActionListener(new hardButton());
+		settingsMenu.add(hardMode);
 		
 		//Set properties for the Return to Main Menu JButton in Settings
 		returnToMainMenu.setFont(font);
@@ -325,7 +332,7 @@ public class GuessWho{
 		confirmChar.setBounds(600, 400, 150, 50);
 		confirmChar.addActionListener(new EnterCorrectAns()); 
 		winLose.setFont(font);
-		winLose.setBounds(450, 200, 200, 50);
+		winLose.setBounds(450, 200, 400, 50);
 		loseLabel.setFont(font);
 		loseLabel.setBounds(275, 267, 700, 50);
 		restart.setFont(font); 
@@ -359,23 +366,27 @@ public class GuessWho{
 		character.setFont(font);
 		
 		//Set properties for which player goes first GUI
-		//window.add(whoGoFirst); 
-		whoGoFirst.add(chooseText);	
-		whoGoFirst.setBounds(window.getWidth()/2-250, 100, 500, 500);
+		whoGoFirst.setOpaque(false);
+		whoGoFirst.setBounds(0, 0, 1000, 700);
+		whoGoFirst.setLayout(null);
 		
-		chooseText.setBounds(0, 100, 500, 100);
+		chooseText.setBounds(320, 200, 500, 100);
 		chooseText.setFont(font); 
-		chooseText.setAlignmentX(Component.CENTER_ALIGNMENT);
+		whoGoFirst.add(chooseText);	
 
-		whoGoFirst.add(player1First);
-		player1First.setBounds(0, 200, 100, 80);
-		player1First.setAlignmentX(Component.CENTER_ALIGNMENT);
+		player1First.setBounds(275, 300, 200, 70);
+		player1First.setFont(font);
+		player1First.setBorder(BorderFactory.createLineBorder(Color.black, 3));
 		player1First.addActionListener(new Player1First());
+		player1First.setOpaque(true);	
+		whoGoFirst.add(player1First);
 		
-		whoGoFirst.add(player2First);
-		player2First.setBounds(100, 200, 100, 80);
-		player2First.setAlignmentX(Component.CENTER_ALIGNMENT);
+		player2First.setBounds(515, 300, 200, 70);
+		player2First.setFont(font);
+		player2First.setBorder(BorderFactory.createLineBorder(Color.black, 3));
 		player2First.addActionListener(new Player2First()); 
+		player2First.setOpaque(true);
+		whoGoFirst.add(player2First);
 				
 		//Set properties for game option menu
 		window.add(options);
@@ -994,7 +1005,10 @@ public class GuessWho{
 			window.add(confirmAnswer); 
 			window.add(compCards);
 			window.add(gamePanel); 
+			window.remove(guessWhoLogoInitial);
 			window.add(guessWhoLogo);
+			settings.setBounds(850,550, 100, 100);
+			window.add(settings);
 			window.add(guessAICharacterLabel);
 			window.remove(whoGoFirst);
 			
@@ -1019,8 +1033,6 @@ public class GuessWho{
 							
 			gameStarted = true; 
 			
-			settings.setBounds(850,550, 100, 100);
-			
 			if (easyS == true) {
 				aiSelectsEasyQuestion();
 			}
@@ -1042,7 +1054,10 @@ public class GuessWho{
 			window.add(confirmAnswer); 
 			window.add(compCards);
 			window.add(gamePanel); 
+			window.remove(guessWhoLogoInitial);
 			window.add(guessWhoLogo);
+			settings.setBounds(850,550, 100, 100);
+			window.add(settings);
 			window.add(guessAICharacterLabel);
 			window.remove(whoGoFirst);
 			
@@ -1131,6 +1146,11 @@ public class GuessWho{
 			compCards.setText("Your opponent has flipped 0 cards...");
 			computerText.setText("Your opponent is waiting for your question...");
 			enterCorrectChar.setText("Was the AI wrong? Enter your correct character below!");
+			
+			winLoseScreen.add(corrChar);
+			winLoseScreen.add(confirmChar);
+			winLoseScreen.add(enterCorrectChar);
+			
 			winLose.setText("");
 			loseLabel.setText("");
 			window.add(options); 
@@ -1141,10 +1161,6 @@ public class GuessWho{
 			window.add(rightPersonPortrait);
 			settings.setBounds(850, 50, 100, 100);
 			window.add(settings);
-			window.add(easyMode);
-			window.add(normalMode);
-			window.add(hardMode);
-			window.add(selectDifficulty); 
 			
 			window.repaint();
 			
@@ -1202,17 +1218,28 @@ public class GuessWho{
 				System.out.println("You won!"); 
 				window.getContentPane().removeAll();
 				window.add(winLoseScreen); 
+				window.add(guessWhoLogoInitial);
 				window.repaint();
 				winLose.setText("You won!");
-				
+				loseLabel.setText("You correctly guessed the AI's character as: "+compChar.getName());				winLose.remove(corrChar);
+				winLoseScreen.remove(corrChar);
+				winLoseScreen.remove(confirmChar);
+				winLoseScreen.remove(enterCorrectChar);
+				window.setVisible(true);
+				window.repaint();
 			}
 			else {
 				System.out.println("You lost!"); 
 				window.getContentPane().removeAll();
 				window.add(winLoseScreen); 
+				window.add(guessWhoLogoInitial);
+				winLose.setText("You lost!");
+				loseLabel.setText("The AI's character was: " + compChar.getName());
+				winLoseScreen.remove(corrChar);
+				winLoseScreen.remove(confirmChar);
+				winLoseScreen.remove(enterCorrectChar);
 				window.repaint();
-				winLose.setText("You lost! The Ai's character was " + compChar.getName());
-				
+				window.setVisible(true);
 			}
 		}
 	}
@@ -1801,11 +1828,6 @@ public class GuessWho{
 			if (aiCards >= 23) {
 				window.getContentPane().removeAll();
 				
-				window.add(guessWhoLogoInitial);
-				window.add(winLoseScreen); 
-
-				window.repaint();
-				
 				Characters guessChar = null; 
 				
 				for (int i = 0; i < 4; i++) {
@@ -1820,6 +1842,10 @@ public class GuessWho{
 				
 				winLose.setText("You lost!");
 				loseLabel.setText("The AI guessed your card was: " + guessChar.getName());
+				window.add(guessWhoLogoInitial);
+				window.add(winLoseScreen); 
+				window.repaint();
+				window.setVisible(true);
 			}
 
 		}
@@ -2410,7 +2436,8 @@ public class GuessWho{
 				window.add(winLoseScreen); 
 				window.add(guessWhoLogoInitial);
 				window.repaint();
-				Characters guessChar = null; 
+				Characters Placeholder = new Characters("Placeholder", "Blank", false, "Blank", "Blank", false, false, false, false, "Blank", false); 
+				Characters guessChar = Placeholder; 
 				
 				for (int i = 0; i < 4; i++) {
 					for (int j = 0; j < 6; j++) {
@@ -2422,12 +2449,12 @@ public class GuessWho{
 					}
 				}
 				
-				if (guessChar != null) {
+				if (guessChar != Placeholder) {
 					winLose.setText("You lost!");		
 					loseLabel.setText("The AI guessed your character was: " + guessChar.getName());
 				}
 				else
-					winLose.setText("None of the characters matched your description!");
+					loseLabel.setText("None of the characters matched your description!");
 				
 			}
 			
@@ -2585,11 +2612,11 @@ public class GuessWho{
 
 				}
 			}
-			else if (button.getBackground() != Color.black){
+			else if (button.getBackground() != Color.BLACK){
 				button.setIcon(null);
-				button.setBackground(Color.black);
+				button.setBackground(Color.BLACK);
 			}
-			else if (button.getBackground() == Color.black) {
+			else if (button.getBackground() == Color.BLACK) {
 				button.setBackground(null);
 				if (button.getText() == "Olivia") {
 					button.setIcon(Olivia);
@@ -2932,14 +2959,13 @@ public class GuessWho{
 				window.remove(character);
 				window.remove(chooseChar);
 				window.remove(confirmWhenChosenChar);
-				window.remove(guessWhoLogoInitial);
+				window.remove(guessWhoLogo);
+				window.add(guessWhoLogoInitial);
 				window.remove(rightPersonPortrait);
 				window.remove(leftPersonPortrait);
 				window.remove(gamePanel); 
 				window.add(whoGoFirst); 
-
-				//window.remove(gamePanel); 
-												
+				window.setVisible(true);						
 				window.repaint(); 
 			}			
 		}
@@ -2956,6 +2982,7 @@ public class GuessWho{
 			window.remove(credits);
 			window.remove(leftPersonPortrait);
 			window.remove(rightPersonPortrait);
+			window.add(guessWhoLogo);
 			window.add(gamePanel); 
 			window.add(selection); 
 			selection.setBounds(600, 200, 400, 75);
@@ -2963,9 +2990,7 @@ public class GuessWho{
 			confirm.setBounds(560, 400, 300, 100);
 			window.add(character); 
 			character.setBounds(690, 250, 300, 100);
-			window.add(guessWhoLogo);
 			settings.setBounds(850,550, 100, 100);
-			window.add(settings);
 			window.setSize(999, 700);
 			window.setSize(1000, 700);
 			window.repaint();
@@ -3012,10 +3037,6 @@ public class GuessWho{
 			no.setVisible(false);
 			confirmAnswer.setVisible(false);
 			questions.setVisible(false);
-			selectDifficulty.setVisible(false);
-			easyMode.setVisible(false);
-			normalMode.setVisible(false);
-			hardMode.setVisible(false);
 			
 			window.repaint();
 		}
@@ -3032,10 +3053,6 @@ public class GuessWho{
 			confirmAnswer.setVisible(true);
 			questions.setVisible(true);
 			confirmChanges.setVisible(true);
-			selectDifficulty.setVisible(true);
-			easyMode.setVisible(true);
-			normalMode.setVisible(true);
-			hardMode.setVisible(true);
 			no.setVisible(true);
 			yes.setVisible(true);
 			window.repaint();
