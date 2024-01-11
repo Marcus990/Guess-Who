@@ -37,9 +37,12 @@ public class GuessWho{
 	
 	//Initiate GUI variables
 	static JFrame window = new JFrame("Window");
+	
 	static JPanel gamePanel = new JPanel(); 
 	static JPanel options = new JPanel(); 
 	static JPanel winLoseScreen = new JPanel(); 
+	static JPanel settingsMenu = new JPanel();
+	
 	static JButton charButton[][] = new JButton[4][6]; 
 	static JButton playerComp = new JButton("     Player vs Computer (Online)     ");
 	static JButton realWorld = new JButton("Player vs Computer  (In-Person)");
@@ -55,6 +58,16 @@ public class GuessWho{
 	static JButton player2First = new JButton("Player 2"); 
 	static JButton howToPlay = new JButton("                          How To Play                          "); 
 	static JButton confirmChar = new JButton("Confirm"); 
+	static JButton on = new JButton("ON");
+	static JButton off = new JButton("OFF");
+	static JButton returnToMainMenu = new JButton("Return to Main Menu");
+	static JButton quitTheGame = new JButton("Quit the Game");
+	static JButton settings = new JButton();
+	static JButton exitButton = new JButton();
+	static JButton hardMode = new JButton("Hard");
+	static JButton normalMode = new JButton("Normal");
+	static JButton easyMode = new JButton("Easy"); 
+	
 	static JLabel chooseText = new JLabel("Choose the player that goes first"); 
 	static JLabel winLose = new JLabel(); 
 	static JLabel loseLabel = new JLabel();
@@ -71,31 +84,27 @@ public class GuessWho{
 	static JLabel confirmWhenChosenChar = new JLabel("Press Confirm when you have Chosen a Character!"); 
 	static JLabel guessWhoLogo = new JLabel();
 	static JLabel whoGoFirst = new JLabel("Who First?");
-	static JTextArea information = new JTextArea("1) Once you open up the game, take a moment to enjoy the music before \nclicking the game mode you would like to play! \n2) When you're ready, click the difficulty you would like to play against for \nthe AI! \n3) Then, if you are playing the in-person version, select a character from a \nphysical deck of cards before pressing confirm. \n4) Now, it's time to play Guess Who! Select which player you would like to go first before asking your first question. \n5) When your opponent answers, click on characters on the grid at the left\nhand side of your screen to eliminate them. \n6) Then, when your opponent asks you a question, make sure to answer\ntruthfully! \n7) Going back and forth, one player will eventually end up with one\ncharacter by process of elimination. Put your final answer in the answer box and confirm! You only have one try, if you're wrong, you lose! \n8) Hopefully you've enjoyed playing our version of Guess Who! \n9) Have fun!", 5, 100);
-	static JTextArea displayWrongQuest = new JTextArea("N/A");
-	static JScrollPane informationScrollBar = new JScrollPane(information);
-	static JScrollPane wrongQuestScrollBar = new JScrollPane(displayWrongQuest);
+	static JLabel selectDifficulty = new JLabel("Please select the difficulty of the Ai"); 
 	static JLabel guessWhoLogoInitial = new JLabel();
 	static JLabel rightPersonPortrait = new JLabel();
 	static JLabel leftPersonPortrait = new JLabel();
 	static JLabel enterCorrectChar = new JLabel("Was the AI wrong? Enter your correct character below!");
-	static JButton settings = new JButton();
-	static JPanel settingsMenu = new JPanel();
 	static JLabel settingsTitle = new JLabel("Settings");
-	static JButton exitButton = new JButton();
 	static JLabel toggleMusicPrompt = new JLabel("Toggle Music");
-	static JButton on = new JButton("ON");
-	static JButton off = new JButton("OFF");
-	static JButton returnToMainMenu = new JButton("Return to Main Menu");
-	static JButton quitTheGame = new JButton("Quit the Game");
+
 	static JComboBox questions;
+	
+	static JTextArea information = new JTextArea("1) Once you open up the game, take a moment to enjoy the music before \nclicking the game mode you would like to play! \n2) When you're ready, click the difficulty you would like to play against for \nthe AI! \n3) Then, if you are playing the in-person version, select a character from a \nphysical deck of cards before pressing confirm. \n4) Now, it's time to play Guess Who! Select which player you would like to go first before asking your first question. \n5) When your opponent answers, click on characters on the grid at the left\nhand side of your screen to eliminate them. \n6) Then, when your opponent asks you a question, make sure to answer\ntruthfully! \n7) Going back and forth, one player will eventually end up with one\ncharacter by process of elimination. Put your final answer in the answer box and confirm! You only have one try, if you're wrong, you lose! \n8) Hopefully you've enjoyed playing our version of Guess Who! \n9) Have fun!", 5, 100);
+	static JTextArea displayWrongQuest = new JTextArea("N/A");
 	static JTextArea answer = new JTextArea("Insert your answer here"); 
 	static JTextArea corrChar = new JTextArea("Enter your character here"); 
 
+	static JScrollPane informationScrollBar = new JScrollPane(information);
+	static JScrollPane wrongQuestScrollBar = new JScrollPane(displayWrongQuest);
+	
 	static Characters[][] chars = new Characters[4][6];
 	static Characters compChar; 
 	static Characters playerChar; 
-	static String charNamesArray[] = {"Olivia","Nick","David","Leo","Emma","Ben","Eric","Rachel","Amy","Mike","Gabe","Jordan","Carmen", "Joe","Mia","Sam","Sofia","Lily","Daniel","Al","Laura","Liz","Katie","Farah"};
 	
 	//Initiate standard variables
 	static boolean[][] aiChars = new boolean[4][6]; 
@@ -105,8 +114,12 @@ public class GuessWho{
 	static boolean won = false; 
 	static boolean lying = false; 
 	static boolean realW = false; 
+	static boolean easyS = true;
+	static boolean normalS = false;
+	static boolean hardS = false;
 	
 	static String[] questionList = new String[25]; 
+	static String charNamesArray[] = {"Olivia","Nick","David","Leo","Emma","Ben","Eric","Rachel","Amy","Mike","Gabe","Jordan","Carmen", "Joe","Mia","Sam","Sofia","Lily","Daniel","Al","Laura","Liz","Katie","Farah"};
 	static String selectedQuestion; 
 	static String aiSelectedQuestion; 
 	
@@ -181,6 +194,27 @@ public class GuessWho{
 		JLabel contentPane = new JLabel();
 		contentPane.setIcon(PlaidBackground);
 		window.setContentPane(contentPane);
+		
+		//Set properties for the difficulty mode GUI; 
+		window.add(selectDifficulty);
+		selectDifficulty.setFont(font);
+		selectDifficulty.setBounds(0, 100, 500, 100);
+		
+		window.add(easyMode);
+		easyMode.setFont(font);
+		easyMode.setBackground(Color.GREEN);
+		easyMode.setBounds(0, 200, 100, 70);
+		easyMode.addActionListener(new easyButton());
+		
+		window.add(normalMode);
+		normalMode.setFont(font);
+		normalMode.setBounds(100, 200, 100, 70);
+		normalMode.addActionListener(new normalButton());
+		
+		window.add(hardMode);
+		hardMode.setFont(font);
+		hardMode.setBounds(200, 200, 100, 70);
+		hardMode.addActionListener(new hardButton());
 		
 		//Set properties for the Guess Who Logo JLabel on the game panel
 		guessWhoLogo.setIcon(GuessWhoLogo);
@@ -587,7 +621,31 @@ public class GuessWho{
 		clip.stop();
 		
 	}
-	public static void aiSelectsQuestion() {
+	
+	public static void aiSelectsEasyQuestion() {
+		
+		int ranNum = (int)(Math.random()*(25));
+		aiSelectedQuestion = questionList[ranNum]; 
+		savedQuest.add(aiSelectedQuestion);
+		
+	}
+	
+	public static void aiSelectsNormalQuestion() {
+		
+		for (int i = 0; i < bannedQuest.length; i++) {
+			int ranNum = (int)(Math.random()*(25));
+			if (bannedQuest[ranNum] == false) {
+				
+				aiSelectedQuestion = questionList[ranNum]; 
+				savedQuest.add(aiSelectedQuestion);
+				bannedQuest[ranNum] = true;
+				break;
+
+			}
+		}
+	}
+	
+	public static void aiSelectsHardQuestion() {
 		
 		int propertyCount[] = new int[25];
 		
@@ -966,7 +1024,15 @@ public class GuessWho{
 			
 			settings.setBounds(850,550, 100, 100);
 			
-			aiSelectsQuestion(); 
+			if (easyS == true) {
+				aiSelectsEasyQuestion();
+			}
+			if (normalS == true) {
+				aiSelectsNormalQuestion();
+			}
+			if (hardS == true) {
+				aiSelectsHardQuestion(); 
+			}
 			
 			window.remove(confirmChanges);
 			computerText.setText("Your opponent is coming up with a question...");
@@ -995,6 +1061,48 @@ public class GuessWho{
 							
 			selectedQuestion = String.valueOf(questions.getSelectedItem());
 	
+			
+		}
+	}
+	
+	static class easyButton implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			
+			easyMode.setBackground(Color.green);
+			normalMode.setBackground(null);
+			hardMode.setBackground(null);
+			
+			easyS = true;
+			normalS = false;
+			hardS = false;
+			
+		}
+	}
+	
+	static class normalButton implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			
+			normalMode.setBackground(Color.green);
+			easyMode.setBackground(null);
+			hardMode.setBackground(null);
+			
+			normalS = true;
+			easyS = false;
+			hardS = false;
+			
+		}
+	}
+	
+	static class hardButton implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			
+			hardMode.setBackground(Color.green);
+			normalMode.setBackground(null);
+			easyMode.setBackground(null);
+			
+			hardS = true;
+			normalS = false;
+			easyS = false; 
 			
 		}
 	}
@@ -1032,6 +1140,11 @@ public class GuessWho{
 			window.add(rightPersonPortrait);
 			settings.setBounds(850, 50, 100, 100);
 			window.add(settings);
+			window.add(easyMode);
+			window.add(normalMode);
+			window.add(hardMode);
+			window.add(selectDifficulty); 
+			
 			window.repaint();
 			
 			restart.setText("Restart");
@@ -2324,7 +2437,15 @@ public class GuessWho{
 	static class ConfirmChanges implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 
-			aiSelectsQuestion(); 
+			if (easyS == true) {
+				aiSelectsEasyQuestion();
+			}
+			if (normalS == true) {
+				aiSelectsNormalQuestion();
+			}
+			if (hardS == true) {
+				aiSelectsHardQuestion(); 
+			}
 			
 			window.remove(confirmChanges);
 			window.repaint();
