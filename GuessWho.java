@@ -3040,6 +3040,7 @@ public class GuessWho{
 			normalMode.setVisible(true);
 			hardMode.setVisible(true);
 			no.setVisible(true);
+			yes.setVisible(true);
 			window.repaint();
 		}
 	}
