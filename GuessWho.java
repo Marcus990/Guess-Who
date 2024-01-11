@@ -1124,6 +1124,10 @@ public class GuessWho{
 			confirmChanges.setVisible(true);
 			yes.setVisible(true); 
 			no.setVisible(true);
+			selectDifficulty.setVisible(true);
+			easyMode.setVisible(true);
+			normalMode.setVisible(true);
+			hardMode.setVisible(true);
 			
 			window.getContentPane().removeAll();
 			
@@ -3011,6 +3015,11 @@ public class GuessWho{
 			no.setVisible(false);
 			confirmAnswer.setVisible(false);
 			questions.setVisible(false);
+			selectDifficulty.setVisible(false);
+			easyMode.setVisible(false);
+			normalMode.setVisible(false);
+			hardMode.setVisible(false);
+			
 			window.repaint();
 		}
 	}
@@ -3026,7 +3035,10 @@ public class GuessWho{
 			confirmAnswer.setVisible(true);
 			questions.setVisible(true);
 			confirmChanges.setVisible(true);
-			yes.setVisible(true); 
+			selectDifficulty.setVisible(true);
+			easyMode.setVisible(true);
+			normalMode.setVisible(true);
+			hardMode.setVisible(true);
 			no.setVisible(true);
 			window.repaint();
 		}
