@@ -40,7 +40,6 @@ public class GuessWho{
 	static JPanel gamePanel = new JPanel(); 
 	static JPanel options = new JPanel(); 
 	static JPanel winLoseScreen = new JPanel(); 
-	static JPanel whoGoFirst = new JPanel(); 
 	static JButton charButton[][] = new JButton[4][6]; 
 	static JButton playerComp = new JButton("     Player vs Computer (Online)     ");
 	static JButton realWorld = new JButton("Player vs Computer  (In-Person)");
@@ -71,6 +70,7 @@ public class GuessWho{
 	static JLabel chooseChar = new JLabel("Please Choose a Character from your Deck of Guess Who Cards!"); 
 	static JLabel confirmWhenChosenChar = new JLabel("Press Confirm when you have Chosen a Character!"); 
 	static JLabel guessWhoLogo = new JLabel();
+	static JLabel whoGoFirst = new JLabel("Who First?");
 	static JTextArea information = new JTextArea("1) Once you open up the game, take a moment to enjoy the music before \nclicking the game mode you would like to play! \n2) When you're ready, click the difficulty you would like to play against for \nthe AI! \n3) Then, if you are playing the in-person version, select a character from a \nphysical deck of cards before pressing confirm. \n4) Now, it's time to play Guess Who! Select which player you would like to go first before asking your first question. \n5) When your opponent answers, click on characters on the grid at the left\nhand side of your screen to eliminate them. \n6) Then, when your opponent asks you a question, make sure to answer\ntruthfully! \n7) Going back and forth, one player will eventually end up with one\ncharacter by process of elimination. Put your final answer in the answer box and confirm! You only have one try, if you're wrong, you lose! \n8) Hopefully you've enjoyed playing our version of Guess Who! \n9) Have fun!", 5, 100);
 	static JTextArea displayWrongQuest = new JTextArea("N/A");
 	static JScrollPane informationScrollBar = new JScrollPane(information);
@@ -329,18 +329,22 @@ public class GuessWho{
 		
 		//Set properties for which player goes first GUI
 		//window.add(whoGoFirst); 
-		whoGoFirst.setLayout(new BoxLayout(whoGoFirst, BoxLayout.Y_AXIS)); 
 		whoGoFirst.add(chooseText);	
-		whoGoFirst.setBounds(window.getWidth()/2-250, 200, 500, 500);
+		whoGoFirst.setBounds(window.getWidth()/2-250, 100, 500, 500);
 		
+		chooseText.setBounds(0, 100, 500, 100);
 		chooseText.setFont(font); 
 		chooseText.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		whoGoFirst.add(player1First);
+		player1First.setBounds(0, 200, 100, 80);
 		player1First.setAlignmentX(Component.CENTER_ALIGNMENT);
+		player1First.addActionListener(new Player1First());
 		
 		whoGoFirst.add(player2First);
+		player2First.setBounds(100, 200, 100, 80);
 		player2First.setAlignmentX(Component.CENTER_ALIGNMENT);
+		player2First.addActionListener(new Player2First()); 
 				
 		//Set properties for game option menu
 		window.add(options);
@@ -874,15 +878,20 @@ public class GuessWho{
 						
 						temp += questionList[j];
 						temp += " \n ";
+						temp += "You entered (false), the actual answer (true)"; 
+						temp += " \n ";
+						temp += " \n ";
 						
 					}
 					else if (savedIndex.get(i) == j && plrProperty[j] == false && savedAns.get(i) == true) {
 						
 						temp += questionList[j];
 						temp += " \n ";
+						temp += "You entered (true), the actual answer (false)";
+						temp += " \n ";
+						temp += " \n ";
 						
 					}
-					
 				}	
 			}
 			
@@ -917,6 +926,79 @@ public class GuessWho{
 		}	
 	}
  	
+	static class Player1First implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+							
+			gameStarted = true; 
+			
+			settings.setBounds(850,550, 100, 100);
+			window.add(questions);
+			window.add(confirmQuest); 
+			window.add(computerText); 
+			window.add(answer);
+			window.add(confirmAnswer); 
+			window.add(compCards);
+			window.add(gamePanel); 
+			window.add(guessWhoLogo);
+			window.add(guessAICharacterLabel);
+			window.remove(whoGoFirst);
+			
+			if (realW == false) {
+				window.add(playerGUI); 
+				window.add(yourCharacter); 
+			}
+			
+			gamePanel.setBounds(20, window.getHeight()/2-300, 400, 500);
+
+			window.repaint();
+			window.setVisible(true);
+							
+			selectedQuestion = String.valueOf(questions.getSelectedItem());
+	
+		
+		}
+	}
+	
+	static class Player2First implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+							
+			gameStarted = true; 
+			
+			settings.setBounds(850,550, 100, 100);
+			
+			aiSelectsQuestion(); 
+			
+			window.remove(confirmChanges);
+			computerText.setText("Your opponent is coming up with a question...");
+			computerText.setText(aiSelectedQuestion);
+			window.add(no);
+			window.add(yes);
+			
+			window.add(computerText); 
+			window.add(answer);
+			window.add(confirmAnswer); 
+			window.add(compCards);
+			window.add(gamePanel); 
+			window.add(guessWhoLogo);
+			window.add(guessAICharacterLabel);
+			window.remove(whoGoFirst);
+			
+			gamePanel.setBounds(20, window.getHeight()/2-300, 400, 500);
+			
+			if (realW == false) {
+				window.add(playerGUI); 
+				window.add(yourCharacter); 
+			}
+			
+			window.repaint();
+			window.setVisible(true);
+							
+			selectedQuestion = String.valueOf(questions.getSelectedItem());
+	
+			
+		}
+	}
+	
 	static class Restart implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -924,6 +1006,17 @@ public class GuessWho{
 			savedQuest.clear();
 			savedIndex.clear();
 
+			options.setVisible(true);
+			gamePanel.setVisible(true);
+			confirmChar.setVisible(true);
+			confirm.setVisible(true);
+			confirmQuest.setVisible(true);
+			confirmAnswer.setVisible(true);
+			questions.setVisible(true);
+			confirmChanges.setVisible(true);
+			yes.setVisible(true); 
+			no.setVisible(true);
+			
 			window.getContentPane().removeAll();
 			
 			compCards.setText("Your opponent has flipped 0 cards...");
@@ -2712,9 +2805,6 @@ public class GuessWho{
 		public void actionPerformed(ActionEvent e) {
 			
 			if (character.getText() != "N/A" || realW == true) {
-			
-				gameStarted = true; 
-								
 				window.remove(selection);
 				window.remove(confirm);
 				window.remove(character);
@@ -2723,35 +2813,13 @@ public class GuessWho{
 				window.remove(guessWhoLogoInitial);
 				window.remove(rightPersonPortrait);
 				window.remove(leftPersonPortrait);
-				
+				window.remove(gamePanel); 
+				window.add(whoGoFirst); 
+
 				//window.remove(gamePanel); 
-				
-				//window.add(whoGoFirst); 
-								
-				if (realW == false) {
-					window.add(playerGUI); 
-					window.add(yourCharacter); 
-				}
-				
-				settings.setBounds(850,550, 100, 100);
-				window.add(questions);
-				window.add(confirmQuest); 
-				window.add(computerText); 
-				window.add(answer);
-				window.add(confirmAnswer); 
-				window.add(compCards);
-				window.add(gamePanel); 
-				window.add(guessWhoLogo);
-				window.add(guessAICharacterLabel);
-				
-				gamePanel.setBounds(20, window.getHeight()/2-300, 400, 500);
-	
-				window.repaint();
-				window.setVisible(true);
-								
-				selectedQuestion = String.valueOf(questions.getSelectedItem());
-		
-			}
+												
+				window.repaint(); 
+			}			
 		}
 	}
 	
@@ -2812,6 +2880,16 @@ public class GuessWho{
 		public void actionPerformed(ActionEvent e) {
 			window.add(settingsMenu, 0);
 			window.setVisible(true);
+			options.setVisible(false);
+			gamePanel.setVisible(false);
+			confirmChar.setVisible(false);
+			confirm.setVisible(false);
+			confirmQuest.setVisible(false);
+			confirmChanges.setVisible(false);
+			yes.setVisible(false); 
+			no.setVisible(false);
+			confirmAnswer.setVisible(false);
+			questions.setVisible(false);
 			window.repaint();
 		}
 	}
@@ -2819,12 +2897,22 @@ public class GuessWho{
 		public void actionPerformed(ActionEvent e) {
 			window.remove(settingsMenu);
 			window.setVisible(true);
+			options.setVisible(true);
+			gamePanel.setVisible(true);
+			confirmChar.setVisible(true);
+			confirm.setVisible(true);
+			confirmQuest.setVisible(true);
+			confirmAnswer.setVisible(true);
+			questions.setVisible(true);
+			confirmChanges.setVisible(true);
+			yes.setVisible(true); 
+			no.setVisible(true);
 			window.repaint();
 		}
 	}
 	static class clickOn implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			playMusic(backgroundMusic);
+			loopMusic(backgroundMusic);
 		}
 	}
 	static class clickOff implements ActionListener{
