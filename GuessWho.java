@@ -1214,7 +1214,7 @@ public class GuessWho{
 				window.getContentPane().removeAll();
 				window.add(winLoseScreen); 
 				window.repaint();
-				winLose.setText("You lost!");
+				winLose.setText("You lost! The Ai's character was " + compChar.getName());
 				
 			}
 		}
