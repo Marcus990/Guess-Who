@@ -58,6 +58,7 @@ public class GuessWho{
 	static JButton confirmChar = new JButton("Confirm"); 
 	static JLabel chooseText = new JLabel("Choose the player that goes first"); 
 	static JLabel winLose = new JLabel(); 
+	static JLabel loseLabel = new JLabel();
 	static JLabel title = new JLabel("Choose the Game Mode"); 
 	static JLabel credits = new JLabel("By Marcus Ng and Kevin Wang");
 	static JLabel selection = new JLabel("Choose your Character");
@@ -77,7 +78,7 @@ public class GuessWho{
 	static JLabel guessWhoLogoInitial = new JLabel();
 	static JLabel rightPersonPortrait = new JLabel();
 	static JLabel leftPersonPortrait = new JLabel();
-	static JLabel enterCorrectChar = new JLabel("If the AI guessed wrong, please enter your character");
+	static JLabel enterCorrectChar = new JLabel("Was the AI wrong? Enter your correct character below!");
 	static JButton settings = new JButton();
 	static JPanel settingsMenu = new JPanel();
 	static JLabel settingsTitle = new JLabel("Settings");
@@ -94,6 +95,7 @@ public class GuessWho{
 	static Characters[][] chars = new Characters[4][6];
 	static Characters compChar; 
 	static Characters playerChar; 
+	static String charNamesArray[] = {"Olivia","Nick","David","Leo","Emma","Ben","Eric","Rachel","Amy","Mike","Gabe","Jordan","Carmen", "Joe","Mia","Sam","Sofia","Lily","Daniel","Al","Laura","Liz","Katie","Farah"};
 	
 	//Initiate standard variables
 	static boolean[][] aiChars = new boolean[4][6]; 
@@ -140,7 +142,7 @@ public class GuessWho{
 	static ImageIcon Liz = new ImageIcon("IMG_3773.jpg");
 	static ImageIcon Katie = new ImageIcon("IMG_3775.jpg");
 	static ImageIcon Farah = new ImageIcon("IMG_3780.jpg");
-	static ImageIcon PlaidBackground = new ImageIcon("OfficialPlaidBackground (1).png");
+	static ImageIcon PlaidBackground = new ImageIcon("OfficialPlaidBackground.png");
 	static ImageIcon GuessWhoLogo = new ImageIcon("GuessWhoLogo.png");
 	static ImageIcon RightPersonPortrait = new ImageIcon("RightPersonPortrait.png");
 	static ImageIcon LeftPersonPortrait = new ImageIcon("LeftPersonPortrait.png");
@@ -274,21 +276,29 @@ public class GuessWho{
 		compCards.setFont(font);
 		
 		//Set properties for the win/lose screen
-		winLoseScreen.setLayout(new BoxLayout(winLoseScreen, BoxLayout.Y_AXIS));
-		winLoseScreen.setBounds(window.getWidth()/2-250, 200, 500, 180);
+		winLoseScreen.setLayout(null);
+		winLoseScreen.setOpaque(false);
+		winLoseScreen.setBounds(0, 0, 1000, 700);
 		winLoseScreen.add(winLose);
 		winLoseScreen.add(restart); 
 		winLoseScreen.add(enterCorrectChar); 
 		winLoseScreen.add(corrChar);
-		corrChar.setBounds(300, 400, 300, 80);
+		winLoseScreen.add(loseLabel);
+		winLoseScreen.add(confirmChar);
+		corrChar.setBounds(200, 400, 400, 50);
 		corrChar.setFont(font); 
+		enterCorrectChar.setBounds(200, 300, 900, 100);
 		enterCorrectChar.setFont(font);
 		winLoseScreen.add(confirmChar);
 		confirmChar.setFont(font);
+		confirmChar.setBounds(600, 400, 150, 50);
 		confirmChar.addActionListener(new EnterCorrectAns()); 
 		winLose.setFont(font);
-		winLose.setSize(500, 50);
+		winLose.setBounds(450, 200, 200, 50);
+		loseLabel.setFont(font);
+		loseLabel.setBounds(275, 267, 700, 50);
 		restart.setFont(font); 
+		restart.setBounds(400, 500, 200, 50);
 		restart.addActionListener(new Restart());
 		
 		//Set properties for the game panel
@@ -738,8 +748,6 @@ public class GuessWho{
 	static class EnterCorrectAns implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
-			window.add(wrongQuestScrollBar); 
-			
 			Characters plrChar = null; 
 
 			for (int i = 0; i < 4; i++) {
@@ -747,8 +755,6 @@ public class GuessWho{
 					
 					System.out.println(chars[i][j].getName() + " " + corrChar.getText());
 					if (chars[i][j].getName().equals(corrChar.getText())) {
-						
-						System.out.println("Bruh"); 
 						plrChar = chars[i][j]; 
 						
 					}
@@ -878,9 +884,18 @@ public class GuessWho{
 					
 				}	
 			}
-			
-			displayWrongQuest.setText(temp);
-			
+			boolean charNameExists = false;
+			for(int i = 0; i < charNamesArray.length; i++) {
+				if(corrChar.getText().equals(charNamesArray[i])) {
+					window.add(wrongQuestScrollBar, 0); 
+					displayWrongQuest.setText(temp);
+					charNameExists = true;
+				}
+			}
+			if(!charNameExists) {
+				window.remove(wrongQuestScrollBar);
+			}
+			charNameExists = false;
 		}	
 	}
 	
@@ -904,26 +919,13 @@ public class GuessWho{
 			
 			savedAns.clear();
 			
-			window.remove(winLoseScreen);
-			window.remove(compCards); 
-			window.remove(playerGUI);
-			window.remove(yourCharacter);
-			window.remove(information);
-			window.remove(returnMenu);
-			window.remove(settingsMenu);
-			window.remove(chooseChar);
-			window.remove(confirmWhenChosenChar);
-			window.remove(confirm);
-			window.remove(gamePanel);
-			window.remove(guessWhoLogo);
-			window.remove(selection);
-			window.remove(character);
-			window.remove(informationScrollBar);
-			window.remove(corrChar); 
-			window.remove(displayWrongQuest); 
+			window.getContentPane().removeAll();
 			
 			compCards.setText("Your opponent has flipped 0 cards...");
 			computerText.setText("Your opponent is waiting for your question...");
+			enterCorrectChar.setText("Was the AI wrong? Enter your correct character below!");
+			winLose.setText("");
+			loseLabel.setText("");
 			window.add(options); 
 			window.add(guessWhoLogoInitial); 
 			window.add(credits);
@@ -999,7 +1001,7 @@ public class GuessWho{
 				window.getContentPane().removeAll();
 				window.add(winLoseScreen); 
 				window.repaint();
-				winLose.setText("You Lost!");
+				winLose.setText("You lost!");
 				
 			}
 		}
@@ -1589,6 +1591,7 @@ public class GuessWho{
 			if (aiCards >= 23) {
 				window.getContentPane().removeAll();
 				
+				window.add(guessWhoLogoInitial);
 				window.add(winLoseScreen); 
 
 				window.repaint();
@@ -1605,7 +1608,8 @@ public class GuessWho{
 					}
 				}
 				
-				winLose.setText("You lost! The Ai guessed that your card was " + guessChar.getName());
+				winLose.setText("You lost!");
+				loseLabel.setText("The AI guessed your card was: " + guessChar.getName());
 			}
 
 		}
@@ -2194,6 +2198,7 @@ public class GuessWho{
 			if (aiCards >= 23) {
 				window.getContentPane().removeAll();
 				window.add(winLoseScreen); 
+				window.add(guessWhoLogoInitial);
 				window.repaint();
 				Characters guessChar = null; 
 				
@@ -2208,10 +2213,11 @@ public class GuessWho{
 				}
 				
 				if (guessChar != null) {
-					winLose.setText("You lost! The Ai guessed that you card was " + guessChar.getName());			
+					winLose.setText("You lost!");		
+					loseLabel.setText("The AI guessed your character was: " + guessChar.getName());
 				}
 				else
-					winLose.setText("None of the characters match your description");
+					winLose.setText("None of the characters matched your description!");
 				
 			}
 			
