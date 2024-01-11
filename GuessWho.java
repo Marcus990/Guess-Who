@@ -55,6 +55,7 @@ public class GuessWho{
 	static JButton player1First = new JButton("Player 1");  
 	static JButton player2First = new JButton("Player 2"); 
 	static JButton howToPlay = new JButton("                          How To Play                          "); 
+	static JButton confirmChar = new JButton("Confirm"); 
 	static JLabel chooseText = new JLabel("Choose the player that goes first"); 
 	static JLabel winLose = new JLabel(); 
 	static JLabel title = new JLabel("Choose the Game Mode"); 
@@ -70,7 +71,9 @@ public class GuessWho{
 	static JLabel confirmWhenChosenChar = new JLabel("Press Confirm when you have Chosen a Character!"); 
 	static JLabel guessWhoLogo = new JLabel();
 	static JTextArea information = new JTextArea("1) Once you open up the game, take a moment to enjoy the music before \nclicking the game mode you would like to play! \n2) When you're ready, click the difficulty you would like to play against for \nthe AI! \n3) Then, if you are playing the in-person version, select a character from a \nphysical deck of cards before pressing confirm. \n4) Now, it's time to play Guess Who! Select which player you would like to go first before asking your first question. \n5) When your opponent answers, click on characters on the grid at the left\nhand side of your screen to eliminate them. \n6) Then, when your opponent asks you a question, make sure to answer\ntruthfully! \n7) Going back and forth, one player will eventually end up with one\ncharacter by process of elimination. Put your final answer in the answer box and confirm! You only have one try, if you're wrong, you lose! \n8) Hopefully you've enjoyed playing our version of Guess Who! \n9) Have fun!", 5, 100);
+	static JTextArea displayWrongQuest = new JTextArea("N/A");
 	static JScrollPane informationScrollBar = new JScrollPane(information);
+	static JScrollPane wrongQuestScrollBar = new JScrollPane(displayWrongQuest);
 	static JLabel guessWhoLogoInitial = new JLabel();
 	static JLabel rightPersonPortrait = new JLabel();
 	static JLabel leftPersonPortrait = new JLabel();
@@ -86,7 +89,7 @@ public class GuessWho{
 	static JButton quitTheGame = new JButton("Quit the Game");
 	static JComboBox questions;
 	static JTextArea answer = new JTextArea("Insert your answer here"); 
-	static JTextArea corrChar = new JTextArea("Enter your character"); 
+	static JTextArea corrChar = new JTextArea("Enter your character here"); 
 
 	static Characters[][] chars = new Characters[4][6];
 	static Characters compChar; 
@@ -94,6 +97,7 @@ public class GuessWho{
 	
 	//Initiate standard variables
 	static boolean[][] aiChars = new boolean[4][6]; 
+	static boolean[] plrProperty = new boolean[25]; 
 	static boolean bannedQuest[] = new boolean[25]; 
 	static boolean gameStarted = false;
 	static boolean won = false; 
@@ -107,7 +111,10 @@ public class GuessWho{
 	static int aiCards = 0; 
 	
 	static ArrayList<ImageIcon> images = new ArrayList<ImageIcon>(); 
-	
+	static ArrayList<Integer> savedIndex = new ArrayList<Integer>(); 
+	static ArrayList<Boolean> savedAns = new ArrayList<Boolean>(); 
+	static ArrayList<String> savedQuest = new ArrayList<String>(); 
+
 	//Initiate images
 	static ImageIcon Olivia = new ImageIcon("IMG_3789.jpg");
 	static ImageIcon Nick = new ImageIcon("IMG_3792.jpg");
@@ -133,12 +140,14 @@ public class GuessWho{
 	static ImageIcon Liz = new ImageIcon("IMG_3773.jpg");
 	static ImageIcon Katie = new ImageIcon("IMG_3775.jpg");
 	static ImageIcon Farah = new ImageIcon("IMG_3780.jpg");
-	static ImageIcon PlaidBackground = new ImageIcon("OfficialPlaidBackground.png");
+	static ImageIcon PlaidBackground = new ImageIcon("OfficialPlaidBackground (1).png");
 	static ImageIcon GuessWhoLogo = new ImageIcon("GuessWhoLogo.png");
 	static ImageIcon RightPersonPortrait = new ImageIcon("RightPersonPortrait.png");
 	static ImageIcon LeftPersonPortrait = new ImageIcon("LeftPersonPortrait.png");
 	static ImageIcon settingsImage = new ImageIcon("Settings.png");
 	static ImageIcon ExitButton = new ImageIcon("Exit.png");
+	
+	static Font font; 
 	
 	static File backgroundMusicPath = new File("GuessWhoMusic.wav"); 
 	private static Clip backgroundMusic; 
@@ -157,7 +166,7 @@ public class GuessWho{
 		loopMusic(backgroundMusic);
 		
 		//Initiate custom font
-		Font font = Font.createFont(Font.TRUETYPE_FONT, new File("GuessWhoFont.otf")).deriveFont(20f);
+		font = Font.createFont(Font.TRUETYPE_FONT, new File("GuessWhoFont.otf")).deriveFont(20f);
 		
 		//Set properties for the game window
 		window.setSize(1000, 700);
@@ -266,9 +275,17 @@ public class GuessWho{
 		
 		//Set properties for the win/lose screen
 		winLoseScreen.setLayout(new BoxLayout(winLoseScreen, BoxLayout.Y_AXIS));
-		winLoseScreen.setBounds(window.getWidth()/2-250, 200, 500, 500);
+		winLoseScreen.setBounds(window.getWidth()/2-250, 200, 500, 180);
 		winLoseScreen.add(winLose);
 		winLoseScreen.add(restart); 
+		winLoseScreen.add(enterCorrectChar); 
+		winLoseScreen.add(corrChar);
+		corrChar.setBounds(300, 400, 300, 80);
+		corrChar.setFont(font); 
+		enterCorrectChar.setFont(font);
+		winLoseScreen.add(confirmChar);
+		confirmChar.setFont(font);
+		confirmChar.addActionListener(new EnterCorrectAns()); 
 		winLose.setFont(font);
 		winLose.setSize(500, 50);
 		restart.setFont(font); 
@@ -352,6 +369,12 @@ public class GuessWho{
 		informationScrollBar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		informationScrollBar.setBounds(100, 225, 800, 235);
 		information.setFont(font);
+		
+		//Set properties for display of wrong questions
+		displayWrongQuest.setLineWrap(true);
+		wrongQuestScrollBar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		wrongQuestScrollBar.setBounds(100, 225, 800, 235);
+		displayWrongQuest.setFont(font);
 		
 		//Set properties for confirm question button (the confirm button on the game panel screen for confirming your question to ask the AI)
 		confirmQuest.setBounds(650, 250, 150, 50); 
@@ -660,6 +683,7 @@ public class GuessWho{
 		System.out.println(24-aiCards + " " + propertyCount[index]); 
 				
 		aiSelectedQuestion = questionList[index]; 
+		savedQuest.add(aiSelectedQuestion); 
 		bannedQuest[index] = true; 
 		
 		if (index == 3) {
@@ -714,20 +738,149 @@ public class GuessWho{
 	static class EnterCorrectAns implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
-			String charName = corrChar.getText(); 
-			Characters plrChar; 
+			window.add(wrongQuestScrollBar); 
 			
+			Characters plrChar = null; 
+
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 6; j++) {
 					
-					if (chars[i][j].getName() == charName) {
+					System.out.println(chars[i][j].getName() + " " + corrChar.getText());
+					if (chars[i][j].getName().equals(corrChar.getText())) {
 						
+						System.out.println("Bruh"); 
 						plrChar = chars[i][j]; 
 						
 					}
 					
 				}
 			}
+			
+			for (int i = 0; i < 24; i++) {
+				plrProperty[i] = false; 
+			}
+			
+			if (plrChar != null) {
+				
+				if (plrChar.getEyeColor() == "Brown") {
+					plrProperty[0] = true; 
+				}
+				if (plrChar.getEyeColor() == "Green") {
+					plrProperty[1] = true; 
+				}
+				if (plrChar.getEyeColor() == "Blue") {
+					plrProperty[2] = true; 
+				}
+				if (plrChar.getGender() == true) {
+					plrProperty[3] = true; 
+				}
+				if (plrChar.getGender() == false) {
+					plrProperty[4] = true; 
+				}
+				if (plrChar.getSkinTone() == "Light Skin") {
+					plrProperty[5] = true; 
+				}
+				if (plrChar.getSkinTone() == "Dark Skin") {
+					plrProperty[6] = true; 
+				}
+				if (plrChar.getHairColor() == "Black") {
+					plrProperty[7] = true; 
+				}
+				if (plrChar.getHairColor() == "Brown") {
+					plrProperty[8] = true; 
+				}
+				if (plrChar.getHairColor() == "Ginger") {
+					plrProperty[9] = true; 
+				}
+				if (plrChar.getHairColor() == "Blonde") {
+					plrProperty[10] = true; 
+				}
+				if (plrChar.getHairColor() == "White") {
+					plrProperty[11] = true; 
+				}
+				if (plrChar.getFacialHair() == true) {
+					plrProperty[12] = true; 
+				}
+				if (plrChar.getFacialHair() == false) {
+					plrProperty[13] = true; 
+				}
+				if (plrChar.getGlasses() == true) {
+					plrProperty[14] = true; 
+				}
+				if (plrChar.getGlasses() == false) {
+					plrProperty[15] = true; 
+				}
+				if (plrChar.getVisibleTeeth() == true) {
+					plrProperty[16] = true; 
+				}
+				if (plrChar.getVisibleTeeth() == false) {
+					plrProperty[17] = true; 
+				}
+				if (plrChar.getWearHat() == true) {
+					plrProperty[18] = true; 
+				}
+				if (plrChar.getWearHat() == false) {
+					plrProperty[19] = true; 
+				}
+				if (plrChar.getHairLength() == "Short") {
+					plrProperty[20] = true; 
+				}
+				if (plrChar.getHairLength() == "Tied") {
+					plrProperty[21] = true; 
+				}
+				if (plrChar.getHairLength() == "Long") {
+					plrProperty[22] = true; 
+				}
+				if (plrChar.getHairLength() == "Bald") {
+					plrProperty[23] = true; 
+				}
+				if (plrChar.getPiercings() == true) {
+					plrProperty[24] = true; 
+				}
+			}
+			else {
+				enterCorrectChar.setText("The character you entered does not exist!");
+			}
+			
+			String temp = ""; 
+				
+			for (int i = 0; i < savedQuest.size(); i++) {
+				for (int j = 0; j < 24; j++) {
+					
+					if (savedQuest.get(i) == questionList[j]) {
+						
+						savedIndex.add(j); 
+						System.out.println(questionList[j]); 
+						
+					}
+					
+				}
+			}
+			
+			for (int i = 0; i < savedIndex.size(); i++) {
+				
+				System.out.println(savedIndex.get(i)); 
+				
+				for (int j = 0; j < 24; j++) {
+					
+					if (savedIndex.get(i) == j && plrProperty[j] == true && savedAns.get(i) == false) {
+						
+						temp += questionList[j];
+						temp += " \n ";
+						
+					}
+					else if (savedIndex.get(i) == j && plrProperty[j] == false && savedAns.get(i) == true) {
+						
+						temp += questionList[j];
+						temp += " \n ";
+						
+					}
+					
+				}	
+			}
+			
+			displayWrongQuest.setText(temp);
+			
 		}	
 	}
 	
@@ -749,6 +902,8 @@ public class GuessWho{
 	static class Restart implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
+			savedAns.clear();
+			
 			window.remove(winLoseScreen);
 			window.remove(compCards); 
 			window.remove(playerGUI);
@@ -765,6 +920,7 @@ public class GuessWho{
 			window.remove(character);
 			window.remove(informationScrollBar);
 			window.remove(corrChar); 
+			window.remove(displayWrongQuest); 
 			
 			compCards.setText("Your opponent has flipped 0 cards...");
 			computerText.setText("Your opponent is waiting for your question...");
@@ -783,6 +939,8 @@ public class GuessWho{
 			gameStarted = false; 
 			realW = false; 
 			aiCards = 0; 
+			
+			savedIndex.clear();
 			
 			for (int i = 0; i < 25; i++) {
 				bannedQuest[i] = false; 
@@ -840,9 +998,6 @@ public class GuessWho{
 				System.out.println("You lost!"); 
 				window.getContentPane().removeAll();
 				window.add(winLoseScreen); 
-				window.add(corrChar); 
-				corrChar.setFont(font);
-				corrChar.setBounds(300, 400, 300, 50);
 				window.repaint();
 				winLose.setText("You Lost!");
 				
@@ -855,6 +1010,7 @@ public class GuessWho{
 		public void actionPerformed(ActionEvent e) {
 						
 			lying = false; 
+			savedAns.add(true);
 			
 			if (aiSelectedQuestion == questions.getItemAt(0)) {
 				
@@ -1432,7 +1588,9 @@ public class GuessWho{
 			
 			if (aiCards >= 23) {
 				window.getContentPane().removeAll();
+				
 				window.add(winLoseScreen); 
+
 				window.repaint();
 				
 				Characters guessChar = null; 
@@ -1458,6 +1616,7 @@ public class GuessWho{
 		public void actionPerformed(ActionEvent e) {
 			
 			lying = false; 
+			savedAns.add(false); 
 			
 			if (aiSelectedQuestion == questions.getItemAt(0)) {
 				
