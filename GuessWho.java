@@ -86,7 +86,8 @@ public class GuessWho{
 	static JButton quitTheGame = new JButton("Quit the Game");
 	static JComboBox questions;
 	static JTextArea answer = new JTextArea("Insert your answer here"); 
-	
+	static JTextArea corrChar = new JTextArea("Enter your character"); 
+
 	static Characters[][] chars = new Characters[4][6];
 	static Characters compChar; 
 	static Characters playerChar; 
