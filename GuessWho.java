@@ -612,34 +612,45 @@ public class GuessWho{
 		window.repaint();
 	}
 	
+	//Method for playing music
 	public static void playMusic(Clip clip) {
 		
 		clip.start(); 
 	
 	}
 	
+	//Method for looping music
 	public static void loopMusic(Clip clip) {
 		
 		clip.loop(clip.LOOP_CONTINUOUSLY);
 
 	}
 	
+	//Method for stopping music
 	public static void stopMusic(Clip clip) {
 		
 		clip.stop();
 		
 	}
 	
+	//Method for Ai easy mode selects question
 	public static void aiSelectsEasyQuestion() {
 		
+		//Gets random index
 		int ranNum = (int)(Math.random()*(25));
+		
+		//Ai selects question based on index
 		aiSelectedQuestion = questionList[ranNum]; 
+		
+		//Saves the question from ai
 		savedQuest.add(aiSelectedQuestion);
 		
 	}
 	
+	//Method for Ai normal mode selects question
 	public static void aiSelectsNormalQuestion() {
 		
+		//Selects question based on a random index and bans the question from appearing again
 		for (int i = 0; i < bannedQuest.length; i++) {
 			int ranNum = (int)(Math.random()*(25));
 			if (bannedQuest[ranNum] == false) {
@@ -653,16 +664,22 @@ public class GuessWho{
 		}
 	}
 	
+	//Method for ai selecting a hard question
 	public static void aiSelectsHardQuestion() {
 		
+		//Initiate property variable for characters
 		int propertyCount[] = new int[25];
 		
+		//Sets the property variables to 0
 		for (int i = 0; i < 25; i++) {
 			propertyCount[i] = 0; 
 		}
 		
+		//Initiate index variable
 		int index;
 		
+		
+		//Adds to the propertyCount based on the # of characters with the same property
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 6; j++) {
 				
@@ -745,9 +762,11 @@ public class GuessWho{
 			}
 		}
 		
+		//Initiate the variable that sets most number
 		int mostNum = 0;
 		index = 0; 
 		
+		//Gets the property that appeared most from the remainder characters
 		for (int i = 0 ; i < 24; i++) {
 			
 			if (propertyCount[i] >= mostNum) {
@@ -762,8 +781,13 @@ public class GuessWho{
 		
 		System.out.println(24-aiCards + " " + propertyCount[index]); 
 				
+		//Sets the ai selected question from the index of the property that appeared the most
 		aiSelectedQuestion = questionList[index]; 
+		
+		//Saves the ai questions
 		savedQuest.add(aiSelectedQuestion); 
+		
+		//Bans the question that have already appeared
 		bannedQuest[index] = true; 
 		
 		if (index == 3) {
@@ -804,6 +828,7 @@ public class GuessWho{
 		}
 	}
 	
+	//Gets a random question for the Ai
 	public static void compCharacter() {
 				
 		int iValue = (int)(Math.random()*4); 
