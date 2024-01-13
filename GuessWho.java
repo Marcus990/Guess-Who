@@ -191,7 +191,7 @@ public class GuessWho{
 		
 		//Initiate custom fonts
 		font = Font.createFont(Font.TRUETYPE_FONT, new File("GuessWhoFont.otf")).deriveFont(20f);
-		timerFont = Font.createFont(Font.TRUETYPE_FONT, new File("GuessWhoFont.otf")).deriveFont(40f)
+		timerFont = Font.createFont(Font.TRUETYPE_FONT, new File("GuessWhoFont.otf")).deriveFont(40f);
 		
 		//Set properties for the game window
 		window.setSize(1000, 700);
