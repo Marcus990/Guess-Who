@@ -71,7 +71,9 @@ public class GuessWho{
 	static JButton normalMode = new JButton("Normal");
 	static JButton easyMode = new JButton("Easy"); 
 	
-	static JLabel timer = new JLabel("0:00"); 
+	static JLabel timer = new JLabel("Time: 00:00"); 
+	static JLabel timerBackground = new JLabel();
+	static JLabel endScreenTime = new JLabel();
 	static JLabel chooseText = new JLabel("Choose Who You Want to Go First!"); 
 	static JLabel winLose = new JLabel(); 
 	static JLabel loseLabel = new JLabel();
@@ -164,8 +166,10 @@ public class GuessWho{
 	static ImageIcon LeftPersonPortrait = new ImageIcon("LeftPersonPortrait.png");
 	static ImageIcon settingsImage = new ImageIcon("Settings.png");
 	static ImageIcon ExitButton = new ImageIcon("Exit.png");
+	static ImageIcon TimerBackground = new ImageIcon("TimerBackground.png");
 	
 	static Font font; 
+	static Font timerFont;
 	
 	static File backgroundMusicPath = new File("GuessWhoMusic.wav"); 
 	private static Clip backgroundMusic; 
@@ -185,8 +189,9 @@ public class GuessWho{
 		
 		loopMusic(backgroundMusic);
 		
-		//Initiate custom font
+		//Initiate custom fonts
 		font = Font.createFont(Font.TRUETYPE_FONT, new File("GuessWhoFont.otf")).deriveFont(20f);
+		timerFont = Font.createFont(Font.TRUETYPE_FONT, new File("GuessWhoFont.otf")).deriveFont(40f)
 		
 		//Set properties for the game window
 		window.setSize(1000, 700);
@@ -301,9 +306,11 @@ public class GuessWho{
 		returnToMainMenu.addActionListener(new Restart());
 		settingsMenu.add(returnToMainMenu);
 		
-		//Sets properties for the timer label
-		timer.setFont(font);
-		timer.setBounds(0, 0, 100, 100);
+		//Sets properties for the timer label and background
+		timer.setFont(timerFont); //add
+		timer.setBounds(25, 580, 400, 100); //add
+		timerBackground.setIcon(TimerBackground); //add
+		timerBackground.setBounds(0, 550, 400, 170); //add
 		
 		//Set properties for the Quit the Game JButton in Settings
 		quitTheGame.setFont(font);
@@ -331,6 +338,11 @@ public class GuessWho{
 		winLoseScreen.add(corrChar);
 		winLoseScreen.add(loseLabel);
 		winLoseScreen.add(confirmChar);
+		winLoseScreen.add(endScreenTime);
+		winLose.setFont(font);
+		winLose.setBounds(450, 200, 400, 50);
+		loseLabel.setFont(font);
+		loseLabel.setBounds(275, 267, 700, 50);
 		corrChar.setBounds(200, 400, 400, 50);
 		corrChar.setFont(font); 
 		enterCorrectChar.setBounds(200, 300, 900, 100);
@@ -339,12 +351,10 @@ public class GuessWho{
 		confirmChar.setFont(font);
 		confirmChar.setBounds(600, 400, 150, 50);
 		confirmChar.addActionListener(new EnterCorrectAns()); 
-		winLose.setFont(font);
-		winLose.setBounds(450, 200, 400, 50);
-		loseLabel.setFont(font);
-		loseLabel.setBounds(275, 267, 700, 50);
+		endScreenTime.setFont(font);
+		endScreenTime.setBounds(390, 500, 400, 50);
 		restart.setFont(font); 
-		restart.setBounds(400, 500, 200, 50);
+		restart.setBounds(400, 550, 200, 50);
 		restart.addActionListener(new Restart());
 		
 		//Set properties for the game panel
@@ -1080,6 +1090,7 @@ public class GuessWho{
 			
 			settings.setBounds(850,550, 100, 100);
 			window.add(timer); 
+			window.add(timerBackground);
 			window.add(questions);
 			window.add(confirmQuest); 
 			window.add(computerText); 
@@ -1132,6 +1143,7 @@ public class GuessWho{
 			window.add(no);
 			window.add(yes);
 			window.add(timer); 
+			window.add(timerBackground);
 			window.add(computerText); 
 			window.add(answer);
 			window.add(confirmAnswer); 
@@ -1293,38 +1305,28 @@ public class GuessWho{
 		}
 	}
 	
-	static class ConfirmAnswer implements ActionListener {
+	static class ConfirmAnswer implements ActionListener { //add
 		public void actionPerformed(ActionEvent e) {
 			
 			if (answer.getText().equals(compChar.getName())) {
-				
-				System.out.println("You won!"); 
-				window.getContentPane().removeAll();
-				window.add(winLoseScreen); 
-				window.add(guessWhoLogoInitial);
 				window.repaint();
 				winLose.setText("You won!");
 				loseLabel.setText("You correctly guessed the AI's character as: "+compChar.getName());				
 				winLose.remove(corrChar);
-				winLoseScreen.remove(corrChar);
-				winLoseScreen.remove(confirmChar);
-				winLoseScreen.remove(enterCorrectChar);
-				window.setVisible(true);
-				window.repaint();
 			}
 			else {
-				System.out.println("You lost!"); 
-				window.getContentPane().removeAll();
-				window.add(winLoseScreen); 
-				window.add(guessWhoLogoInitial);
 				winLose.setText("You lost!");
 				loseLabel.setText("The AI's character was: " + compChar.getName());
-				winLoseScreen.remove(corrChar);
-				winLoseScreen.remove(confirmChar);
-				winLoseScreen.remove(enterCorrectChar);
-				window.repaint();
-				window.setVisible(true);
 			}
+			window.getContentPane().removeAll();
+			window.add(winLoseScreen); 
+			window.add(guessWhoLogoInitial);
+			winLoseScreen.remove(corrChar);
+			winLoseScreen.remove(confirmChar);
+			winLoseScreen.remove(enterCorrectChar);
+			endScreenTime.setText("Your Final "+timer.getText());
+			window.setVisible(true);
+			window.repaint();
 		}
 	}
 	
@@ -1912,7 +1914,8 @@ public class GuessWho{
 			if (aiCards >= 23) {
 				window.getContentPane().removeAll();
 				
-				Characters guessChar = null; 
+				Characters Placeholder = new Characters("Placeholder", "Blank", false, "Blank", "Blank", false, false, false, false, "Blank", false); 
+				Characters guessChar = Placeholder; 
 				
 				for (int i = 0; i < 4; i++) {
 					for (int j = 0; j < 6; j++) {
@@ -1924,14 +1927,18 @@ public class GuessWho{
 					}
 				}
 				
-				winLose.setText("You lost!");
-				loseLabel.setText("The AI guessed your card was: " + guessChar.getName());
-				window.add(guessWhoLogoInitial);
-				window.add(winLoseScreen); 
-				window.repaint();
-				window.setVisible(true);
+				if(guessChar!=Placeholder) {
+					winLose.setText("You lost!");
+					loseLabel.setText("The AI guessed your card was: " + guessChar.getName());
+					window.add(guessWhoLogoInitial);
+					window.add(winLoseScreen); 
+					window.repaint();
+					window.setVisible(true);
+				}
+				else 
+					loseLabel.setText("None of the characters matched your description!");
+				endScreenTime.setText("Your Final "+timer.getText());
 			}
-
 		}
 	}
 	
@@ -2539,7 +2546,7 @@ public class GuessWho{
 				}
 				else
 					loseLabel.setText("None of the characters matched your description!");
-				
+				endScreenTime.setText("Your Final "+timer.getText());
 			}
 			
 		}
