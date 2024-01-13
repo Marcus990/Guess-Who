@@ -1,8 +1,3 @@
-//Programmers: Kevin and Marcus
-//Date: January 12, 2023
-//Programming Language: Java
-//Purpose: The purpose of this program
-
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -49,7 +44,7 @@ public class GuessWho{
 	static JPanel settingsMenu = new JPanel();
 	static JPanel whoGoFirst = new JPanel();
 	
-	static JButton charButton[][] = new JButton[4][6]; //2D array of JButtons used to store the buttons the player will click to select a character
+	static JButton charButton[][] = new JButton[4][6]; 
 	static JButton playerComp = new JButton("     Player vs Computer (Online)     ");
 	static JButton realWorld = new JButton("Player vs Computer  (In-Person)");
 	static JButton confirm = new JButton("Confirm"); 
@@ -76,6 +71,7 @@ public class GuessWho{
 	static JButton normalMode = new JButton("Normal");
 	static JButton easyMode = new JButton("Easy"); 
 	
+	static JLabel timer = new JLabel("0:00"); 
 	static JLabel chooseText = new JLabel("Choose Who You Want to Go First!"); 
 	static JLabel winLose = new JLabel(); 
 	static JLabel loseLabel = new JLabel();
@@ -130,6 +126,7 @@ public class GuessWho{
 	static String aiSelectedQuestion; 
 	
 	static int aiCards = 0; 
+	static int min = 0; 
 	
 	static ArrayList<ImageIcon> images = new ArrayList<ImageIcon>(); 
 	static ArrayList<Integer> savedIndex = new ArrayList<Integer>(); 
@@ -172,6 +169,8 @@ public class GuessWho{
 	
 	static File backgroundMusicPath = new File("GuessWhoMusic.wav"); 
 	private static Clip backgroundMusic; 
+	
+	static long getStartTime = System.currentTimeMillis(); 
 	
 	//Main method
 	public static void main(String[] args) throws IOException, FontFormatException, UnsupportedAudioFileException, LineUnavailableException{
@@ -301,6 +300,10 @@ public class GuessWho{
 		returnToMainMenu.setBorder(BorderFactory.createLineBorder(Color.black, 3));
 		returnToMainMenu.addActionListener(new Restart());
 		settingsMenu.add(returnToMainMenu);
+		
+		//Sets properties for the timer label
+		timer.setFont(font);
+		timer.setBounds(0, 0, 100, 100);
 		
 		//Set properties for the Quit the Game JButton in Settings
 		quitTheGame.setFont(font);
@@ -494,32 +497,32 @@ public class GuessWho{
 		
 		//Initialize all characters and attributes; 
 		chars[0][0] = new Characters("Olivia", "Brown", false, "Dark Skin", "Black", false, false, false, false, "Tied", false); 
-	        chars[1][0] = new Characters("Nick", "Brown", true, "Light Skin", "Blonde", false, false, false, false, "Short", true); 
-	        chars[2][0] = new Characters("David", "Brown", true, "Light Skin", "Blonde", true, false, true, true, "Short", false); 
-	        chars[3][0] = new Characters("Leo", "Brown", true, "Dark Skin", "White", true, false, true, false, "Short", false); 
-	        chars[0][1] = new Characters("Emma", "Brown", false, "Light Skin", "Ginger", false, false, false, false, "Tied", false); 
-		chars[1][1] = new Characters("Ben", "Brown", true, "Light Skin", "Brown", false, true, false, false, "Short", true); 
-		chars[2][1] = new Characters("Eric", "Blue", true, "Light Skin", "Black", false, false, false, false, "Short", false); 
-		chars[3][1] = new Characters("Rachel", "Blue", false, "Light Skin", "Brown", false, true, false, false, "Long", true); 
-		chars[0][2] = new Characters("Amy", "Brown", false, "Light Skin", "Black", false, true, false, false, "Short", false); 
-		chars[1][2] = new Characters("Mike", "Brown", true, "Light Skin", "Black", false, false, true, true, "Short", false); 
-	    	chars[2][2] = new Characters("Gabe", "Brown", true, "Dark Skin", "Black", false, false, false, false, "Short", false); 
-	    	chars[3][2] = new Characters("Jordan", "Brown", true, "Dark Skin", "Black", true, false, false, false, "Short", true); 
-	    	chars[0][3] = new Characters("Carmen", "Brown", false, "Dark Skin", "White", false, false, true, false, "Short", true); 
-	    	chars[1][3] = new Characters("Joe", "Brown", true, "Dark Skin", "White", true, true, true, false, "Bald", false); 
-	    	chars[2][3] = new Characters("Mia", "Brown", false, "Dark Skin", "Black", false, false, true, false, "Long", false); 
-	    	chars[3][3] = new Characters("Sam", "Green", true, "Dark Skin", "Black", false, false, false, true, "Short", false); 
-	    	chars[0][4] = new Characters("Sofia", "Green", false, "Dark Skin", "Brown", false, false, true, false, "Short", true); 
-	    	chars[1][4] = new Characters("Lily", "Green", false, "Dark Skin", "Brown", false, false, true, true, "Long", false); 
-	    	chars[2][4] = new Characters("Daniel", "Green", true, "Light Skin", "Ginger", true, false, false, false, "Tied", false); 
-	   	chars[3][4] = new Characters("Al", "Green", true, "Dark Skin", "White", true, true, false, false, "Bald", false); 
-	    	chars[0][5] = new Characters("Laura", "Green", false, "Dark Skin", "Black", false, false, true, false, "Long", true); 
-	    	chars[1][5] = new Characters("Liz", "Blue", false, "Light Skin", "White", false, true, true, false, "Long", false); 
-	    	chars[2][5] = new Characters("Katie", "Blue", false, "Light Skin", "Blonde", false, false, false, true, "Tied", false); 
-	    	chars[3][5] = new Characters("Farah", "Blue", false, "Dark Skin", "Black", false, false, false, false, "Tied", false); 
+	    chars[1][0] = new Characters("Nick", "Brown", true, "Light Skin", "Blonde", false, false, false, false, "Short", true); 
+	    chars[2][0] = new Characters("David", "Brown", true, "Light Skin", "Blonde", true, false, true, true, "Short", false); 
+	    chars[3][0] = new Characters("Leo", "Brown", true, "Dark Skin", "White", true, false, true, false, "Short", false); 
+	    chars[0][1] = new Characters("Emma", "Brown", false, "Light Skin", "Ginger", false, false, false, false, "Tied", false); 
+	    chars[1][1] = new Characters("Ben", "Brown", true, "Light Skin", "Brown", false, true, false, false, "Short", true); 
+	    chars[2][1] = new Characters("Eric", "Blue", true, "Light Skin", "Black", false, false, false, false, "Short", false); 
+	    chars[3][1] = new Characters("Rachel", "Blue", false, "Light Skin", "Brown", false, true, false, false, "Long", true); 
+	    chars[0][2] = new Characters("Amy", "Brown", false, "Light Skin", "Black", false, true, false, false, "Short", false); 
+	    chars[1][2] = new Characters("Mike", "Brown", true, "Light Skin", "Black", false, false, true, true, "Short", false); 
+	    chars[2][2] = new Characters("Gabe", "Brown", true, "Dark Skin", "Black", false, false, false, false, "Short", false); 
+	    chars[3][2] = new Characters("Jordan", "Brown", true, "Dark Skin", "Black", true, false, false, false, "Short", true); 
+	    chars[0][3] = new Characters("Carmen", "Brown", false, "Dark Skin", "White", false, false, true, false, "Short", true); 
+	    chars[1][3] = new Characters("Joe", "Brown", true, "Dark Skin", "White", true, true, true, false, "Bald", false); 
+	    chars[2][3] = new Characters("Mia", "Brown", false, "Dark Skin", "Black", false, false, true, false, "Long", false); 
+	    chars[3][3] = new Characters("Sam", "Green", true, "Dark Skin", "Black", false, false, false, true, "Short", false); 
+	    chars[0][4] = new Characters("Sofia", "Green", false, "Dark Skin", "Brown", false, false, true, false, "Short", true); 
+	    chars[1][4] = new Characters("Lily", "Green", false, "Dark Skin", "Brown", false, false, true, true, "Long", false); 
+	    chars[2][4] = new Characters("Daniel", "Green", true, "Light Skin", "Ginger", true, false, false, false, "Tied", false); 
+	    chars[3][4] = new Characters("Al", "Green", true, "Dark Skin", "White", true, true, false, false, "Bald", false); 
+	    chars[0][5] = new Characters("Laura", "Green", false, "Dark Skin", "Black", false, false, true, false, "Long", true); 
+	    chars[1][5] = new Characters("Liz", "Blue", false, "Light Skin", "White", false, true, true, false, "Long", false); 
+	    chars[2][5] = new Characters("Katie", "Blue", false, "Light Skin", "Blonde", false, false, false, true, "Tied", false); 
+	    chars[3][5] = new Characters("Farah", "Blue", false, "Dark Skin", "Black", false, false, false, false, "Tied", false); 
 		
-	    	//initiate player character placeholder
-	    	playerChar = chars[0][0]; 
+	    //initiate player character placeholder
+	    playerChar = chars[0][0]; 
 	    
 		//Set icon image for button
 		charButton[0][0].setIcon(Olivia);
@@ -614,7 +617,43 @@ public class GuessWho{
 		}
 		
 		window.setVisible(true);
-		window.repaint();
+		
+		//Initiates the timer
+		while(true) {
+			getTimeInSeconds(); 
+			window.repaint();
+		}
+	}
+	
+	//Method for getting the time
+	public static void getTimeInSeconds() {
+		long getEndTime = System.currentTimeMillis();
+		int secs = (int)((getEndTime - getStartTime)/1000);
+		String sec = String.valueOf(secs);
+		if (secs >= 60) {
+			min++; 
+			getStartTime = System.currentTimeMillis();
+		}
+		else if (secs < 10 && min < 10) {
+				
+			timer.setText("0" + min + ":" + "0" + sec);
+
+		}
+		else if (secs >= 10 && min < 10){
+				
+			timer.setText("0" + min + ":" + sec);
+
+		}
+		else if (secs < 10 && min >= 10) {
+			
+			timer.setText(min + ":" + "0" + sec);
+			
+		}
+		else if (secs >= 10 && min >= 10) {
+			
+			timer.setText(min + ":" + sec); 
+			
+		}
 	}
 	
 	//Method for playing music
@@ -669,10 +708,7 @@ public class GuessWho{
 		}
 	}
 	
-	/* Description:
-	@param
-	@return
-	*/
+	//Method for ai selecting a hard question
 	public static void aiSelectsHardQuestion() {
 		
 		//Initiate property variable for characters
@@ -1028,9 +1064,22 @@ public class GuessWho{
 	static class Player1First implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 							
+			getStartTime = System.currentTimeMillis();
 			gameStarted = true; 
+			min = 0; 
+			
+			if (easyS == true) {
+				aiSelectsEasyQuestion();
+			}
+			if (normalS == true) {
+				aiSelectsNormalQuestion();
+			}
+			if (hardS == true) {
+				aiSelectsHardQuestion(); 
+			}
 			
 			settings.setBounds(850,550, 100, 100);
+			window.add(timer); 
 			window.add(questions);
 			window.add(confirmQuest); 
 			window.add(computerText); 
@@ -1057,14 +1106,15 @@ public class GuessWho{
 							
 			selectedQuestion = String.valueOf(questions.getSelectedItem());
 	
-		
 		}
 	}
 	
 	static class Player2First implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 							
+			getStartTime = System.currentTimeMillis();
 			gameStarted = true; 
+			min = 0;
 			
 			if (easyS == true) {
 				aiSelectsEasyQuestion();
@@ -1081,7 +1131,7 @@ public class GuessWho{
 			computerText.setText(aiSelectedQuestion);
 			window.add(no);
 			window.add(yes);
-			
+			window.add(timer); 
 			window.add(computerText); 
 			window.add(answer);
 			window.add(confirmAnswer); 
@@ -1254,7 +1304,8 @@ public class GuessWho{
 				window.add(guessWhoLogoInitial);
 				window.repaint();
 				winLose.setText("You won!");
-				loseLabel.setText("You correctly guessed the AI's character as: "+compChar.getName());				winLose.remove(corrChar);
+				loseLabel.setText("You correctly guessed the AI's character as: "+compChar.getName());				
+				winLose.remove(corrChar);
 				winLoseScreen.remove(corrChar);
 				winLoseScreen.remove(confirmChar);
 				winLoseScreen.remove(enterCorrectChar);
