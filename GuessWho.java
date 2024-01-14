@@ -292,7 +292,7 @@ public class GuessWho{
 		easyMode.setFont(font);
 		easyMode.setBounds(400, 180, 100, 50);
 		easyMode.setBorder(BorderFactory.createLineBorder(Color.black, 3));
-		easyMode.setOpaque(false);
+		easyMode.setBackground(Color.green);
 		easyMode.addActionListener(new easyButton());
 		settingsMenu.add(easyMode);
 		
@@ -686,8 +686,8 @@ public class GuessWho{
 	}
 	/* Description: A method that starts playing the input music
 	@param
-	Clip clip: stores a music clip; 
-	@return
+	Void no parameters
+ 	@return
 	Void no return value
 	*/
 	public static void playMusic(Clip clip) {
@@ -708,8 +708,8 @@ public class GuessWho{
 	}
 	/* Description: A method that stops the input music
 	@param
-	Clip clip: stores a music clip; 
-	@return
+	Void no parameters
+ 	@return
 	Void no return value
 	*/
 	public static void stopMusic(Clip clip) {
@@ -737,8 +737,8 @@ public class GuessWho{
 	}
 	/* Description: A method that chooses random questions for the ai to ask but each question can only be asked once
 	@param
-	Clip clip: stores a music clip; 
-	@return
+	Void no parameters
+ 	@return
 	Void no return value
 	*/
 	public static void aiSelectsNormalQuestion() {
@@ -758,8 +758,8 @@ public class GuessWho{
 	}
 	/* Description: A method that chooses the question that corresponds to the most common property from all the characters so that it would eliminate most characters. The Ai also bans the questions that were already answered. 
 	@param
-	Clip clip: stores a music clip; 
-	@return
+	Void no parameters
+ 	@return
 	Void no return value
 	*/
 	public static void aiSelectsHardQuestion() {
@@ -938,8 +938,8 @@ public class GuessWho{
 	}
 	/* Description: A method that generates a random character for the Ai 
 	@param
-	Clip clip: stores a music clip; 
-	@return
+	Void no parameters
+ 	@return
 	Void no return value
 	*/
 	public static void compCharacter() {
@@ -2078,8 +2078,7 @@ public class GuessWho{
 			
 			if (aiCards >= 23) {
 				window.getContentPane().removeAll();
-				window.add(guessWhoLogoInitial);
-				window.add(winLoseScreen); 
+				
 				Characters Placeholder = new Characters("Placeholder", "Blank", false, "Blank", "Blank", false, false, false, false, "Blank", false); 
 				Characters guessChar = Placeholder; 
 				
@@ -2096,6 +2095,8 @@ public class GuessWho{
 				if(guessChar!=Placeholder) {
 					winLose.setText("You lost!");
 					loseLabel.setText("The AI guessed your card was: " + guessChar.getName());
+					window.add(guessWhoLogoInitial);
+					window.add(winLoseScreen); 
 					window.repaint();
 					window.setVisible(true);
 				}
