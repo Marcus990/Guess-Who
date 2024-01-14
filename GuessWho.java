@@ -686,8 +686,8 @@ public class GuessWho{
 	}
 	/* Description: A method that starts playing the input music
 	@param
-	Clip clip: stores a music clip; 
-	@return
+	Void no parameters
+ 	@return
 	Void no return value
 	*/
 	public static void playMusic(Clip clip) {
@@ -708,8 +708,8 @@ public class GuessWho{
 	}
 	/* Description: A method that stops the input music
 	@param
-	Clip clip: stores a music clip; 
-	@return
+	Void no parameters
+ 	@return
 	Void no return value
 	*/
 	public static void stopMusic(Clip clip) {
@@ -737,8 +737,8 @@ public class GuessWho{
 	}
 	/* Description: A method that chooses random questions for the ai to ask but each question can only be asked once
 	@param
-	Clip clip: stores a music clip; 
-	@return
+	Void no parameters
+ 	@return
 	Void no return value
 	*/
 	public static void aiSelectsNormalQuestion() {
@@ -758,8 +758,8 @@ public class GuessWho{
 	}
 	/* Description: A method that chooses the question that corresponds to the most common property from all the characters so that it would eliminate most characters. The Ai also bans the questions that were already answered. 
 	@param
-	Clip clip: stores a music clip; 
-	@return
+	Void no parameters
+ 	@return
 	Void no return value
 	*/
 	public static void aiSelectsHardQuestion() {
@@ -938,8 +938,8 @@ public class GuessWho{
 	}
 	/* Description: A method that generates a random character for the Ai 
 	@param
-	Clip clip: stores a music clip; 
-	@return
+	Void no parameters
+ 	@return
 	Void no return value
 	*/
 	public static void compCharacter() {
