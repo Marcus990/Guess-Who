@@ -1,3 +1,10 @@
+//Assignment Title: Guess Who
+//Programmers: Kevin and Marcus
+//Date: January 12, 2023
+//Programming Language: Java
+//Purpose: The purpose of this program is to create a game called Guess Who where a player and an AI competes to see who could guess each other's character first by process of elimination. This project was created as part of Mr. A's final Guess Who Project for the ICS4U1 class. Multiple features were added as required by the rubric in order to create this final project. 
+
+//Import lines
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -33,107 +40,109 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+//Class header for GuessWho class
 public class GuessWho{
 	
 	//Initiate GUI variables
 	static JFrame window = new JFrame("Window");
 	
-	static JPanel gamePanel = new JPanel(); 
-	static JPanel options = new JPanel(); 
-	static JPanel winLoseScreen = new JPanel(); 
-	static JPanel settingsMenu = new JPanel();
-	static JPanel whoGoFirst = new JPanel();
+	static JPanel gamePanel = new JPanel(); //The character grid for the user to observe
+	static JPanel options = new JPanel();  //Options for which game mode is selected
+	static JPanel winLoseScreen = new JPanel();  //Panel that pops up when player wins/lose
+	static JPanel settingsMenu = new JPanel(); //Panel for the settings
+	static JPanel whoGoFirst = new JPanel(); //Panel for the who go first screen
 	
-	static JButton charButton[][] = new JButton[4][6]; 
-	static JButton playerComp = new JButton("     Player vs Computer (Online)     ");
-	static JButton realWorld = new JButton("Player vs Computer  (In-Person)");
-	static JButton confirm = new JButton("Confirm"); 
-	static JButton confirmQuest = new JButton("Confirm"); 
-	static JButton confirmChanges = new JButton("Confirm Changes"); 
-	static JButton confirmAnswer = new JButton("Confirm"); 
-	static JButton yes = new JButton("Yes");
-	static JButton no = new JButton("No"); 
-	static JButton restart = new JButton("Restart"); 
-	static JButton returnMenu = new JButton("Return to Main Menu"); 
-	static JButton player1First = new JButton("Player (Yourself)");  
-	static JButton player2First = new JButton("Computer (AI)"); 
-	static JButton howToPlay = new JButton("                          How To Play                          "); 
-	static JButton confirmChar = new JButton("Confirm"); 
-	static JButton on = new JButton("ON");
-	static JButton off = new JButton("OFF");
-	static JButton returnToMainMenu = new JButton("Return to Main Menu");
-	static JButton quitTheGame = new JButton("Quit the Game");
-	static JButton settings = new JButton();
-	static JButton exitButton = new JButton();
+	static JButton charButton[][] = new JButton[4][6]; //2D array of JButtons used to store the buttons the player will click to select a character
+	static JButton playerComp = new JButton("     Player vs Computer (Online)     "); // button for player vs computer online
+	static JButton realWorld = new JButton("Player vs Computer  (In-Person)"); // button for player vs computer in person
+	static JButton confirm = new JButton("Confirm"); //Button for confirm character
+	static JButton confirmQuest = new JButton("Confirm"); //Button for confirm question that user will ask
+	static JButton confirmChanges = new JButton("Confirm Changes"); //Button to confirm the changes that user made
+	static JButton confirmAnswer = new JButton("Confirm"); //Button to confirm the user input answer
+	static JButton yes = new JButton("Yes"); //Button for the user to say yes to question asked
+	static JButton no = new JButton("No"); //Button for the user to say no to questions
+	static JButton restart = new JButton("Restart"); //Button to return to restart the game
+	static JButton returnMenu = new JButton("Return to Main Menu"); //Button to return to menu
+	static JButton player1First = new JButton("Player (Yourself)"); //Button for you to go first
+	static JButton player2First = new JButton("Computer (AI)"); //Button for Ai to go first
+	static JButton howToPlay = new JButton("                          How To Play                          "); //Button for how to play gui
+	static JButton confirmChar = new JButton("Confirm"); //Button to confirm the selected character
+	static JButton on = new JButton("ON"); //Button to toggle the music on
+	static JButton off = new JButton("OFF"); //Button to toggle the music off
+	static JButton returnToMainMenu = new JButton("Return to Main Menu"); //button to return to main menu
+	static JButton quitTheGame = new JButton("Quit the Game"); //Button to terminate the program
+	static JButton settings = new JButton(); //Button to open the settings menu
+	static JButton exitButton = new JButton(); //Button to edit the settings menu
 
-	static JLabel selectDifficulty = new JLabel("Change Difficulty"); 
-	static JButton hardMode = new JButton("Hard");
-	static JButton normalMode = new JButton("Normal");
-	static JButton easyMode = new JButton("Easy"); 
+	static JLabel selectDifficulty = new JLabel("Change Difficulty"); //Panel to contain difficulty mode buttons
+	static JButton hardMode = new JButton("Hard"); //Button to select hard mode 
+	static JButton normalMode = new JButton("Normal"); //Button the select normal mode
+	static JButton easyMode = new JButton("Easy"); //Button to select easy mode
 	
-	static JLabel timer = new JLabel("Time: 00:00"); 
-	static JLabel timerBackground = new JLabel();
-	static JLabel endScreenTime = new JLabel();
-	static JLabel chooseText = new JLabel("Choose Who You Want to Go First!"); 
-	static JLabel winLose = new JLabel(); 
-	static JLabel loseLabel = new JLabel();
-	static JLabel title = new JLabel("Choose the Game Mode"); 
-	static JLabel credits = new JLabel("By Marcus Ng and Kevin Wang");
-	static JLabel selection = new JLabel("Choose your Character");
-	static JLabel character = new JLabel("N/A"); 
-	static JLabel computerText = new JLabel("Your opponent is waiting for your question...");
-	static JLabel compCards = new JLabel("Your opponent has flipped 0 cards...");
-	static JLabel guessAICharacterLabel = new JLabel("Have a final answer? Guess it here! Only one try!");
-	static JLabel yourCharacter = new JLabel("Your character is..."); 
-	static JLabel playerGUI = new JLabel(); 
-	static JLabel chooseChar = new JLabel("Please Choose a Character from your Deck of Guess Who Cards!"); 
-	static JLabel confirmWhenChosenChar = new JLabel("Press Confirm when you have Chosen a Character!"); 
-	static JLabel guessWhoLogo = new JLabel();
-	static JLabel guessWhoLogoInitial = new JLabel();
+	static JLabel timer = new JLabel("Time: 00:00"); //Label to initiate and show the timer
+	static JLabel timerBackground = new JLabel(); //Label to hold the timer background image icon that will go behind the timer label
+	static JLabel endScreenTime = new JLabel(); //Label holding the text that will display at the end screen showing what the user's final time was
+	static JLabel chooseText = new JLabel("Choose Who You Want to Go First!"); //Text to choose who go first
+	static JLabel winLose = new JLabel(); //Label that shows when player wins
+	static JLabel loseLabel = new JLabel(); //Label that shows when player loses
+	static JLabel title = new JLabel("Choose the Game Mode"); //Label to select the game modes
+	static JLabel credits = new JLabel("By Marcus Ng and Kevin Wang"); //Label for our group members names
+	static JLabel selection = new JLabel("Choose your Character"); //Label to ask user to choose their character
+	static JLabel character = new JLabel("N/A"); //Label to show who the player chose
+	static JLabel computerText = new JLabel("Your opponent is waiting for your question..."); //Label to show the AI’s output response 
+	static JLabel compCards = new JLabel("Your opponent has flipped 0 cards..."); //Label to show the # of cards Ai flipped
+	static JLabel guessAICharacterLabel = new JLabel("Have a final answer? Guess it here! Only one try!"); //Label to prompt user to enter their answer 
+	static JLabel yourCharacter = new JLabel("Your character is..."); //Label to remind user of who their character is 
+	static JLabel playerGUI = new JLabel(); //Label of showing your character as an image 
+	static JLabel chooseChar = new JLabel("Please Choose a Character from your Deck of Guess Who Cards!"); //Label to prompt user to choose a card from their deck
+	static JLabel confirmWhenChosenChar = new JLabel("Press Confirm when you have Chosen a Character!"); //Label to prompt user to press confirm after selecting character
+	static JLabel guessWhoLogo = new JLabel(); //Label that shows the guess who logo
+	static JLabel guessWhoLogoInitial = new JLabel(); 
 	static JLabel rightPersonPortrait = new JLabel();
 	static JLabel leftPersonPortrait = new JLabel();
-	static JLabel enterCorrectChar = new JLabel("Was the AI wrong? Enter your correct character below!");
-	static JLabel settingsTitle = new JLabel("Settings");
-	static JLabel toggleMusicPrompt = new JLabel("Toggle Music");
+	static JLabel enterCorrectChar = new JLabel("Was the AI wrong? Enter your correct character below!"); //Prompts user to enter their user if Ai guesses wrong
+	static JLabel settingsTitle = new JLabel("Settings"); //Label to show the settings
+	static JLabel toggleMusicPrompt = new JLabel("Toggle Music"); //Prompt to show where to toggle music
 
-	static JComboBox questions;
-	
+	static JComboBox questions; //A combo box to store and show all the questions
+	//A text area to show what the instructions are
 	static JTextArea information = new JTextArea("1) Once you open up the game, take a moment to enjoy the music before \nclicking the game mode you would like to play! \n2) When you're ready, click the difficulty you would like to play against for \nthe AI! \n3) Then, if you are playing the in-person version, select a character from a \nphysical deck of cards before pressing confirm. \n4) Now, it's time to play Guess Who! Select which player you would like to go first before asking your first question. \n5) When your opponent answers, click on characters on the grid at the left\nhand side of your screen to eliminate them. \n6) Then, when your opponent asks you a question, make sure to answer\ntruthfully! \n7) Going back and forth, one player will eventually end up with one\ncharacter by process of elimination. Put your final answer in the answer box and confirm! You only have one try, if you're wrong, you lose! \n8) Hopefully you've enjoyed playing our version of Guess Who! \n9) Have fun!", 5, 100);
-	static JTextArea displayWrongQuest = new JTextArea("N/A");
-	static JTextArea answer = new JTextArea("Insert your answer here"); 
-	static JTextArea corrChar = new JTextArea("Enter your character here"); 
+	static JTextArea displayWrongQuest = new JTextArea("N/A"); //text area to show what questions were answered wrong
+	static JTextArea answer = new JTextArea("Insert your answer here"); //text area to enter who they think the aid character is
+	static JTextArea corrChar = new JTextArea("Enter your character here"); //text area to allow users to enter their character for the wrong questions
 
-	static JScrollPane informationScrollBar = new JScrollPane(information);
-	static JScrollPane wrongQuestScrollBar = new JScrollPane(displayWrongQuest);
+	static JScrollPane informationScrollBar = new JScrollPane(information); //scroll pane to show the how to play instructions
+	static JScrollPane wrongQuestScrollBar = new JScrollPane(displayWrongQuest); //scroll pane to display the questions answered wrong
 	
-	static Characters[][] chars = new Characters[4][6];
-	static Characters compChar; 
-	static Characters playerChar; 
+	static Characters[][] chars = new Characters[4][6]; //A character variable to store all 24 characters
+	static Characters compChar; //A variable to store the computers character
+	static Characters playerChar; //A variable to store the player character
 	
-	//Initiate standard variables
-	static boolean[][] aiChars = new boolean[4][6]; 
-	static boolean[] plrProperty = new boolean[25]; 
-	static boolean bannedQuest[] = new boolean[25]; 
-	static boolean gameStarted = false;
-	static boolean won = false; 
-	static boolean lying = false; 
-	static boolean realW = false; 
-	static boolean easyS = true;
-	static boolean normalS = false;
-	static boolean hardS = false;
+	//Initiate standard variables 
+	static boolean[][] aiChars = new boolean[4][6]; //a boolean variable to store ai’s flipped/not flipped characters
+	static boolean[] plrProperty = new boolean[25]; //a boolean variable to store all properties of user input character
+	static boolean bannedQuest[] = new boolean[25]; //a Boolean variable to store the banned 
+	static boolean gameStarted = false; //a boolean variable to determine whether or not the game has started
+	static boolean won = false; //a boolean variable that activates when the player has won
+	static boolean lying = false; //a boolean variable that activates when the player has lost
+	static boolean realW = false; //a boolean variable that activates when the player chooses the official game mode
+	static boolean easyS = true; //a boolean variable that activates when the player chooses easy mode
+	static boolean normalS = false; //a boolean variable that activates when the player chooses normal mode
+	static boolean hardS = false; //a boolean variable that activates when the player choose hard mode
 	
-	static String[] questionList = new String[25]; 
+	static String[] questionList = new String[25]; //a string array that stores all 25 questions
+	//a string array that stores all the names of the characters
 	static String charNamesArray[] = {"Olivia","Nick","David","Leo","Emma","Ben","Eric","Rachel","Amy","Mike","Gabe","Jordan","Carmen", "Joe","Mia","Sam","Sofia","Lily","Daniel","Al","Laura","Liz","Katie","Farah"};
-	static String selectedQuestion; 
-	static String aiSelectedQuestion; 
+	static String selectedQuestion; //a string variable that stores the player’s selected question
+	static String aiSelectedQuestion; //a string variable that stores the ai’s selected question
 	
-	static int aiCards = 0; 
-	static int min = 0; 
+	static int aiCards = 0; //an integer variable that stores the # of cards that the ai has flipped
+	static int min = 0; //An integer variable that stores the minutes for the timer; 
 	
-	static ArrayList<ImageIcon> images = new ArrayList<ImageIcon>(); 
-	static ArrayList<Integer> savedIndex = new ArrayList<Integer>(); 
-	static ArrayList<Boolean> savedAns = new ArrayList<Boolean>(); 
-	static ArrayList<String> savedQuest = new ArrayList<String>(); 
+	static ArrayList<ImageIcon> images = new ArrayList<ImageIcon>(); //An arraylist that stores all the images of the characters
+	static ArrayList<Integer> savedIndex = new ArrayList<Integer>(); //an arraylist that stores the saved index of the question that the ai asked
+	static ArrayList<Boolean> savedAns = new ArrayList<Boolean>(); //an arraylist that stores the saved answers of the question that the ai asked
+	static ArrayList<String> savedQuest = new ArrayList<String>(); //an arraylist that stores the questions that the player asked
 
 	//Initiate images
 	static ImageIcon Olivia = new ImageIcon("IMG_3789.jpg");
@@ -168,11 +177,11 @@ public class GuessWho{
 	static ImageIcon ExitButton = new ImageIcon("Exit.png");
 	static ImageIcon TimerBackground = new ImageIcon("TimerBackground.png");
 	
-	static Font font; 
-	static Font timerFont;
+	static Font font; // a Font variable that stores the general font used in the program
+	static Font timerFont; // another Font variable that stores the general font used in the program
 	
-	static File backgroundMusicPath = new File("GuessWhoMusic.wav"); 
-	private static Clip backgroundMusic; 
+	static File backgroundMusicPath = new File("GuessWhoMusic.wav"); //The location to the wav background music file 
+	private static Clip backgroundMusic; //The clip that stores the actual music
 	
 	static long getStartTime = System.currentTimeMillis(); 
 	
@@ -635,59 +644,85 @@ public class GuessWho{
 		}
 	}
 	
-	//Method for getting the time
+	/* Description: A method that starts the timer for each second
+	@param
+	void no parameters
+	@return
+	Void no return value
+	*/
 	public static void getTimeInSeconds() {
-		long getEndTime = System.currentTimeMillis();
-		int secs = (int)((getEndTime - getStartTime)/1000);
-		String sec = String.valueOf(secs);
+		long getEndTime = System.currentTimeMillis(); //Get the current time from the system 
+		int secs = (int)((getEndTime - getStartTime)/1000); //Get the number of seconds passed
+		String sec = String.valueOf(secs); //Convert int to string to display on label
+		//Restarts the second timer once 60 seconds have passed and adds one to the minute timer
 		if (secs >= 60) {
 			min++; 
 			getStartTime = System.currentTimeMillis();
 		}
+		//Adds a 0 in front of the minutes and seconds label 
 		else if (secs < 10 && min < 10) {
 				
 			timer.setText("Time: 0" + min + ":" + "0" + sec);
 
 		}
+		//Adds a 0 in front of the minutes label only
 		else if (secs >= 10 && min < 10){
 				
 			timer.setText("Time: 0" + min + ":" + sec);
 
 		}
+		//Adds a 0 in front of the seconds label only
 		else if (secs < 10 && min >= 10) {
 			
 			timer.setText("Time: "+min + ":" + "0" + sec);
 			
 		}
+		//No 0’s required to be added
 		else if (secs >= 10 && min >= 10) {
 			
 			timer.setText("Time: "+min + ":" + sec); 
 			
 		}
 	}
-	
-	//Method for playing music
+	/* Description: A method that starts playing the input music
+	@param
+	Clip clip: stores a music clip; 
+	@return
+	Void no return value
+	*/
 	public static void playMusic(Clip clip) {
 		
 		clip.start(); 
 	
 	}
-	
-	//Method for looping music
+	/* Description: A method that starts looping the input music
+	@param
+	Clip clip: stores a music clip; 
+	@return
+	Void no return value
+	*/
 	public static void loopMusic(Clip clip) {
 		
 		clip.loop(clip.LOOP_CONTINUOUSLY);
 
 	}
-	
-	//Method for stopping music
+	/* Description: A method that stops the input music
+	@param
+	Clip clip: stores a music clip; 
+	@return
+	Void no return value
+	*/
 	public static void stopMusic(Clip clip) {
 		
 		clip.stop();
 		
 	}
-	
-	//Method for Ai easy mode selects question
+	/* Description: A method that chooses random questions from the question list for the ai to ask
+	@param
+	Void no parameters
+	@return
+	Void no return value
+	*/
 	public static void aiSelectsEasyQuestion() {
 		
 		//Gets random index
@@ -700,8 +735,12 @@ public class GuessWho{
 		savedQuest.add(aiSelectedQuestion);
 		
 	}
-	
-	//Method for Ai normal mode selects question
+	/* Description: A method that chooses random questions for the ai to ask but each question can only be asked once
+	@param
+	Clip clip: stores a music clip; 
+	@return
+	Void no return value
+	*/
 	public static void aiSelectsNormalQuestion() {
 		
 		//Selects question based on a random index and bans the question from appearing again
@@ -717,8 +756,12 @@ public class GuessWho{
 			}
 		}
 	}
-	
-	//Method for ai selecting a hard question
+	/* Description: A method that chooses the question that corresponds to the most common property from all the characters so that it would eliminate most characters. The Ai also bans the questions that were already answered. 
+	@param
+	Clip clip: stores a music clip; 
+	@return
+	Void no return value
+	*/
 	public static void aiSelectsHardQuestion() {
 		
 		//Initiate property variable for characters
@@ -737,6 +780,7 @@ public class GuessWho{
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 6; j++) {
 				
+				//Property count for eye colors
 				if (chars[i][j].getEyeColor() == "Brown" && aiChars[i][j] == true) {
 					propertyCount[0]++; 
 				}
@@ -746,18 +790,21 @@ public class GuessWho{
 				if (chars[i][j].getEyeColor() == "Blue" && aiChars[i][j] == true) {
 					propertyCount[2]++; 
 				}
+				//Property count for the gender
 				if (chars[i][j].getGender() == true && aiChars[i][j] == true) {
 					propertyCount[3]++; 
 				}
 				if (chars[i][j].getGender() == false && aiChars[i][j] == true) {
 					propertyCount[4]++; 
 				}
+				//Property count for the skin tone
 				if (chars[i][j].getSkinTone() == "Light Skin" && aiChars[i][j] == true) {
 					propertyCount[5]++; 
 				}
 				if (chars[i][j].getSkinTone() == "Dark Skin" && aiChars[i][j] == true) {
 					propertyCount[6]++; 
 				}
+				//Property count for the hair colors
 				if (chars[i][j].getHairColor() == "Black" && aiChars[i][j] == true) {
 					propertyCount[7]++; 
 				}
@@ -773,30 +820,35 @@ public class GuessWho{
 				if (chars[i][j].getHairColor() == "White" && aiChars[i][j] == true) {
 					propertyCount[11]++; 
 				}
+				//Property count for the facial hair
 				if (chars[i][j].getFacialHair() == true && aiChars[i][j] == true) {
 					propertyCount[12]++; 
 				}
 				if (chars[i][j].getFacialHair() == false && aiChars[i][j] == true) {
 					propertyCount[13]++; 
 				}
+				//Property count for glasses
 				if (chars[i][j].getGlasses() == true && aiChars[i][j] == true) {
 					propertyCount[14]++; 
 				}
 				if (chars[i][j].getGlasses() == false && aiChars[i][j] == true) {
 					propertyCount[15]++; 
 				}
+				//Property count for visible teeth
 				if (chars[i][j].getVisibleTeeth() == true && aiChars[i][j] == true) {
 					propertyCount[16]++; 
 				}
 				if (chars[i][j].getVisibleTeeth() == false && aiChars[i][j] == true) {
 					propertyCount[17]++; 
 				}
+				//Property count for wearing hat
 				if (chars[i][j].getWearHat() == true && aiChars[i][j] == true) {
 					propertyCount[18]++; 
 				}
 				if (chars[i][j].getWearHat() == false && aiChars[i][j] == true) {
 					propertyCount[19]++; 
 				}
+				//Property count for hair length
 				if (chars[i][j].getHairLength() == "Short" && aiChars[i][j] == true) {
 					propertyCount[20]++; 
 				}
@@ -809,6 +861,7 @@ public class GuessWho{
 				if (chars[i][j].getHairLength() == "Bald" && aiChars[i][j] == true) {
 					propertyCount[23]++; 
 				}
+				//Property count for piercings
 				if (chars[i][j].getPiercings() == true && aiChars[i][j] == true) {
 					propertyCount[24]++; 
 				}
@@ -825,6 +878,7 @@ public class GuessWho{
 			
 			if (propertyCount[i] >= mostNum) {
 				
+				//Sets the index of the question that would be asked and checks whether or not it is banned
 				if (bannedQuest[i] == false && propertyCount[i] != 24-aiCards) {
 					index = i;
 					mostNum = propertyCount[i]; 
@@ -844,6 +898,7 @@ public class GuessWho{
 		//Bans the question that have already appeared
 		bannedQuest[index] = true; 
 		
+		//Bans the questions that correspond with the already banned characters 
 		if (index == 3) {
 			bannedQuest[4] = true;
 		}
@@ -881,24 +936,26 @@ public class GuessWho{
 			bannedQuest[18] = true; 
 		}
 	}
-	
-	//Gets a random question for the Ai
+	/* Description: A method that generates a random character for the Ai 
+	@param
+	Clip clip: stores a music clip; 
+	@return
+	Void no return value
+	*/
 	public static void compCharacter() {
 				
 		int iValue = (int)(Math.random()*4); 
 		int jValue = (int)(Math.random()*6);
 		compChar = chars[iValue][jValue];
-	
-		System.out.println(compChar.getName()); 
-
-				
+		System.out.println(compChar.getName()); 		
 	}
-
+	//An action listener class that gets the user input character and outputs the questions that they answered incorrectly
 	static class EnterCorrectAns implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			
+			//Sets the plrChar variable as a placeholder
 			Characters plrChar = null; 
 
+			//Gives the plrChar variable the value of the player entered input if it exists
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 6; j++) {
 					
@@ -911,12 +968,15 @@ public class GuessWho{
 				}
 			}
 			
+			//Initiates all player property as false
 			for (int i = 0; i < 24; i++) {
 				plrProperty[i] = false; 
 			}
 			
+			//Sets the input players property 
 			if (plrChar != null) {
 				
+				//Sets the properties for eye color
 				if (plrChar.getEyeColor() == "Brown") {
 					plrProperty[0] = true; 
 				}
@@ -926,18 +986,21 @@ public class GuessWho{
 				if (plrChar.getEyeColor() == "Blue") {
 					plrProperty[2] = true; 
 				}
+				//Sets the properties for gender
 				if (plrChar.getGender() == true) {
 					plrProperty[3] = true; 
 				}
 				if (plrChar.getGender() == false) {
 					plrProperty[4] = true; 
 				}
+				//Sets the properties for skin tone
 				if (plrChar.getSkinTone() == "Light Skin") {
 					plrProperty[5] = true; 
 				}
 				if (plrChar.getSkinTone() == "Dark Skin") {
 					plrProperty[6] = true; 
 				}
+				//Sets the properties for hair color
 				if (plrChar.getHairColor() == "Black") {
 					plrProperty[7] = true; 
 				}
@@ -953,30 +1016,35 @@ public class GuessWho{
 				if (plrChar.getHairColor() == "White") {
 					plrProperty[11] = true; 
 				}
+				//Sets the properties for facial hair
 				if (plrChar.getFacialHair() == true) {
 					plrProperty[12] = true; 
 				}
 				if (plrChar.getFacialHair() == false) {
 					plrProperty[13] = true; 
 				}
+				//Sets the properties for glasses
 				if (plrChar.getGlasses() == true) {
 					plrProperty[14] = true; 
 				}
 				if (plrChar.getGlasses() == false) {
 					plrProperty[15] = true; 
 				}
+				//Sets the properties for visible teeth
 				if (plrChar.getVisibleTeeth() == true) {
 					plrProperty[16] = true; 
 				}
 				if (plrChar.getVisibleTeeth() == false) {
 					plrProperty[17] = true; 
 				}
+				//Sets the properties for wearing a hat
 				if (plrChar.getWearHat() == true) {
 					plrProperty[18] = true; 
 				}
 				if (plrChar.getWearHat() == false) {
 					plrProperty[19] = true; 
 				}
+				//Sets the properties for the hair length
 				if (plrChar.getHairLength() == "Short") {
 					plrProperty[20] = true; 
 				}
@@ -989,17 +1057,23 @@ public class GuessWho{
 				if (plrChar.getHairLength() == "Bald") {
 					plrProperty[23] = true; 
 				}
+				//Sets the properties for piercings
 				if (plrChar.getPiercings() == true) {
 					plrProperty[24] = true; 
 				}
 			}
+			//Output that the character does not exist if plrChar is null
 			else {
 				enterCorrectChar.setText("The character you entered does not exist!");
 			}
 			
+			//Initiate a place holder for the questions answered wrong
 			String temp = ""; 
+
+			//Clears the saved index so it does not overlap on itself
 			savedIndex.clear();	
 			
+			//Adds the index of the saved questions
 			for (int i = 0; i < savedQuest.size(); i++) {
 				for (int j = 0; j < 24; j++) {
 					
@@ -1013,12 +1087,14 @@ public class GuessWho{
 				}
 			}
 			
+			//Adds the questions that were answered wrong to the temp variable
 			for (int i = 0; i < savedIndex.size(); i++) {
 				
 				System.out.println(savedIndex.get(i)); 
 				
 				for (int j = 0; j < 24; j++) {
 					
+					//If player answered no but the answer was yes
 					if (savedIndex.get(i) == j && plrProperty[j] == true && savedAns.get(i) == false) {
 						
 						temp += questionList[j];
@@ -1028,6 +1104,7 @@ public class GuessWho{
 						temp += " \n ";
 						
 					}
+					//If player answered yes but the answer was no
 					else if (savedIndex.get(i) == j && plrProperty[j] == false && savedAns.get(i) == true) {
 						
 						temp += questionList[j];
@@ -1040,7 +1117,10 @@ public class GuessWho{
 				}	
 			}
 			
+			//Initiate a boolean that activates when plrChar is null
 			boolean charNameExists = false;
+
+			//Adds the question label to the scroll bar if plrChar is not null
 			for(int i = 0; i < charNamesArray.length; i++) {
 				if(corrChar.getText().equals(charNamesArray[i])) {
 					window.add(wrongQuestScrollBar, 0); 
@@ -1049,16 +1129,16 @@ public class GuessWho{
 				}
 			}
 			
+			//Remove the question scroll bar if plrChar is null
 			if(!charNameExists) {
 				window.remove(wrongQuestScrollBar);
 			}
-			//charNameExists = false;
 		}	
 	}
-	
+	//An action listener class called Instructions that displays the How to Play Menu GUI if the player clicks on that button in the main menu.
 	static class Instructions implements ActionListener {
+		//When the action is performed and the button is clicked, the window will remove the main menu and replace it with the how to play menu GUI
 		public void actionPerformed(ActionEvent e) {
-			
 			window.remove(options);
 			window.remove(credits);
 			window.remove(leftPersonPortrait);
@@ -1066,11 +1146,10 @@ public class GuessWho{
 			window.add(informationScrollBar); 
 			window.add(returnMenu); 
 			window.setVisible(true);
-			window.repaint();
-			
+			window.repaint();	
 		}	
 	}
- 	
+	//An action listener class that is called when the player clicks the "Player" would like to go first button. The program will then update the GUI so that the player can ask the first question
 	static class Player1First implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 							
@@ -1119,7 +1198,7 @@ public class GuessWho{
 	
 		}
 	}
-	
+	//An action listener class that is called when the player clicks the "Computer" would like to go first button. The program will then update the GUI so that the computer can ask the first question
 	static class Player2First implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 							
@@ -1171,7 +1250,7 @@ public class GuessWho{
 			
 		}
 	}
-	
+	//An action listener class that is called when the player clicks the "Easy" difficulty option in the Settings menu. The program will then change all questions asked by the AI to be easy and random questions.
 	static class easyButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -1185,7 +1264,7 @@ public class GuessWho{
 			
 		}
 	}
-	
+	//An action listener class that is called when the player clicks the "Normal" difficulty option in the Settings menu. The program will then change all questions asked by the AI to be normal questions that are not too easy, but are also not too hard as well.
 	static class normalButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -1199,7 +1278,7 @@ public class GuessWho{
 			
 		}
 	}
-	
+	//An action listener class that is called when the player clicks the "Hard" difficulty option in the Settings menu. The program will then change all questions asked by the AI to be hard, and all questions will follow an algorithm that asks questions that eliminate the most characters possible to guess the character in the shortest amount of rounds and tries.
 	static class hardButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -1213,7 +1292,7 @@ public class GuessWho{
 			
 		}
 	}
-	
+	//An action listener class called "Restart" that is called whenever the player clicks the "Restart" button or the "Return to Main Menu" button. This class will update all the GUI to the main menu options and will get rid of everything that was on the window before. Everything will essentially be reset so the player can restart and play the game again.
 	static class Restart implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -1304,8 +1383,8 @@ public class GuessWho{
 
 		}
 	}
-	
-	static class ConfirmAnswer implements ActionListener { //add
+	//An action listener class called ConfirmAnswer that is called when the player enters their final answer for the computer's character, and will display if the player guessed right or wrong. The class will update the GUI and show the win/lose screen depending on if the player guessed the AI's character right or wrong.
+	static class ConfirmAnswer implements ActionListener { 
 		public void actionPerformed(ActionEvent e) {
 			
 			if (answer.getText().equals(compChar.getName())) {
@@ -1329,22 +1408,27 @@ public class GuessWho{
 			window.repaint();
 		}
 	}
-	
-	//Implement action for yes button
+	//An action listener class called "YesButton", that is called when the player is answering the AI's question and picks "Yes". If the player is lying in the online mode, the program will tell the player that they are lying. Otherwise, in the in-person mode, the program will not know if the player is lying or not until the end when the player enters their correct character.
 	static class YesButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 						
+			//Initiates the variable that gets if the question was answered wrong
 			lying = false; 
+
+			//Saves the answer of the player
 			savedAns.add(true);
 			
+			//Flips the cards from the ai based on the answer of the player
 			if (aiSelectedQuestion == questions.getItemAt(0)) {
 				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
 				if (playerChar.getEyeColor() != "Brown" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1361,13 +1445,16 @@ public class GuessWho{
 				
 			}
 			if (aiSelectedQuestion == questions.getItemAt(1)) {
-				
+								//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getEyeColor() != "Green" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1384,13 +1471,16 @@ public class GuessWho{
 				
 			}
 			if (aiSelectedQuestion == questions.getItemAt(2)) {
-				
+								//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getEyeColor() != "Green" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1407,13 +1497,16 @@ public class GuessWho{
 				
 			}
 			if (aiSelectedQuestion == questions.getItemAt(3)) {
-				
+								//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getGender() != true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1430,13 +1523,16 @@ public class GuessWho{
 				
 			}
 			if (aiSelectedQuestion == questions.getItemAt(4)) {
-				
+								//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getGender() != false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1452,7 +1548,8 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(5)) {
-				
+								//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getSkinTone() != "Light Skin" && realW == false) {
 					
 					 
@@ -1460,6 +1557,8 @@ public class GuessWho{
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1475,12 +1574,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(6)) {
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getSkinTone() != "Dark Skin" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1496,12 +1599,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(7)) {
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairColor() != "Black" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1517,13 +1624,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(8)) {
-				
+								//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairColor() != "Brown" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1539,13 +1649,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(9)) {
-				
+								//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairColor() != "Ginger" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1561,12 +1674,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(10)) {
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairColor() != "Blonde" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1582,13 +1699,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(11)) {
-				
+								//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairColor() != "White" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1604,13 +1724,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(12)) {
-				
+			//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getFacialHair() != true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1626,13 +1749,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(13)) {
-				
+			//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getFacialHair() != false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1648,13 +1774,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(14)) {
-				
+			//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getGlasses() != true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1670,13 +1799,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(15)) {
-				
+			//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getGlasses() != false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1692,13 +1824,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(16)) {
-			
+			//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getVisibleTeeth() != true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1714,13 +1849,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(17)) {
-				
+			//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getVisibleTeeth() != false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1736,13 +1874,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(18)) {
-				
+			//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getWearHat() != true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1758,13 +1899,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(19)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getWearHat() != false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1780,12 +1924,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(20)) {
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairLength() != "Short" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1801,13 +1949,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(21)) {
-				
+			//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairLength() != "Tied" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1823,13 +1974,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(22)) {
-				
+			//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairLength() != "Long" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1845,13 +1999,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(23)) {
-				
+			//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairLength() != "Bald" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1867,13 +2024,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(24)) {
-				
+			//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getPiercings() != true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1889,6 +2049,7 @@ public class GuessWho{
 				}
 			}
 			
+			//Conitnues the round once player has answered correctly
 			if (lying == false) {
 				window.remove(yes);
 				window.remove(no);
@@ -1898,8 +2059,10 @@ public class GuessWho{
 				computerText.setText("Your opponent is waiting for your question...");
 			}
 			
+			//Resets the int ai flipped cards to 0 so it does not overlap
 			aiCards = 0; 
 			
+			//Adds to the ai flipped cards 
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 6; j++) {
 					
@@ -1908,8 +2071,10 @@ public class GuessWho{
 					}
 				}
 			}
-			
+
+			//Set the text label of the ai cards 
 			compCards.setText("Your opponent has flipped " + aiCards + " cards...");
+
 			
 			if (aiCards >= 23) {
 				window.getContentPane().removeAll();
@@ -1941,8 +2106,7 @@ public class GuessWho{
 			}
 		}
 	}
-	
-	//Implement action for no button
+	//An action listener class called "NoButton", that is called when the player is answering the AI's question and picks "No". If the player is lying in the online mode, the program will tell the player that they are lying. Otherwise, in the in-person mode, the program will not know if the player is lying or not until the end when the player enters their correct character.
 	static class NoButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -1950,13 +2114,15 @@ public class GuessWho{
 			savedAns.add(false); 
 			
 			if (aiSelectedQuestion == questions.getItemAt(0)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
 				if (playerChar.getEyeColor() == "Brown" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1973,13 +2139,16 @@ public class GuessWho{
 				
 			}
 			if (aiSelectedQuestion == questions.getItemAt(1)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getEyeColor() == "Green" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -1996,13 +2165,16 @@ public class GuessWho{
 				
 			}
 			if (aiSelectedQuestion == questions.getItemAt(2)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getEyeColor() == "Green" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2019,13 +2191,16 @@ public class GuessWho{
 				
 			}
 			if (aiSelectedQuestion == questions.getItemAt(3)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getGender() == true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2042,13 +2217,16 @@ public class GuessWho{
 				
 			}
 			if (aiSelectedQuestion == questions.getItemAt(4)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getGender() == false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2064,13 +2242,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(5)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getSkinTone() == "Light Skin" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2086,12 +2267,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(6)) {
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getSkinTone() == "Dark Skin" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2107,12 +2292,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(7)) {
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairColor() == "Black" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2128,13 +2317,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(8)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairColor() == "Brown" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2150,13 +2342,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(9)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairColor() == "Ginger" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2172,12 +2367,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(10)) {
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairColor() == "Blonde" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2193,13 +2392,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(11)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairColor() == "White" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2215,13 +2417,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(12)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getFacialHair() == true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2237,13 +2442,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(13)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getFacialHair() == false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2259,13 +2467,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(14)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getGlasses() == true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2281,13 +2492,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(15)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getGlasses() == false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2303,13 +2517,17 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(16)) {
-			
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
+
 				if (playerChar.getVisibleTeeth() == true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2325,13 +2543,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(17)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getVisibleTeeth() == false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2347,13 +2568,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(18)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getWearHat() == true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2369,13 +2593,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(19)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getWearHat() == false && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2391,12 +2618,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(20)) {
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairLength() == "Short" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2412,13 +2643,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(21)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairLength() == "Tied" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2434,13 +2668,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(22)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairLength() == "Long" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2456,13 +2693,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(23)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getHairLength() == "Bald" && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2478,13 +2718,16 @@ public class GuessWho{
 				}
 			}
 			if (aiSelectedQuestion == questions.getItemAt(24)) {
-				
+				//Set the computer text to prompt the user to try again if the player chooses wrong answer
+
 				if (playerChar.getPiercings() == true && realW == false) {
 					
 					computerText.setText("Stop lying!");
 					lying = true; 
 					
 				} 
+				//Flips the cards from the ai based on the questions
+
 				else {
 					for (int i = 0; i < 4; i++) {
 						for (int j = 0; j < 6; j++) {
@@ -2500,6 +2743,7 @@ public class GuessWho{
 				}
 			}
 			
+			//Adds the label for the next round if the user input the correct answer
 			if (lying == false) {
 				window.remove(yes);
 				window.remove(no);
@@ -2509,8 +2753,10 @@ public class GuessWho{
 				computerText.setText("Your opponent is waiting for your question...");
 			}
 			
+			//Resets the ai cards to 0 so it doesn’t overlap
 			aiCards = 0; 
 			
+			//Adds to the ai cards for each flipped character
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 6; j++) {
 					
@@ -2520,7 +2766,9 @@ public class GuessWho{
 				}
 			}
 			
+			//Set the computer text to the flipped cards
 			compCards.setText("Your opponent has flipped " + aiCards + " cards...");
+
 
 			if (aiCards >= 23) {
 				window.getContentPane().removeAll();
@@ -2551,8 +2799,7 @@ public class GuessWho{
 			
 		}
 	}
-	
-	//Implement action for confirm changes button
+	//An action listener class for the "Confirm Changes" button that is called when the confirm changes button is pressed by the player. This button is pressed after the AI answers the question and the player has to press on characters on the left to eliminate them. The player will press this button when they have finished eliminating players and can confirm their changes.
 	static class ConfirmChanges implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 
@@ -2576,7 +2823,7 @@ public class GuessWho{
 		}
 	}
 	
-	//Implement action for character selection button
+	//An action listener class for the CharSelection button that is pressed after the player selects their character. This only applies to the Online mode. 
 	static class CharSelection implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -2800,7 +3047,7 @@ public class GuessWho{
 		}
 	}
 	
-	//Implement action for ask questions button
+	//An action listener class used for updating the GUI based on the AI's answer to the player's question. This class will set the text on the screen of the AI's answer, which will then allow the player to start eliminating characters.
 	static class AskQuestion implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 						
@@ -3039,8 +3286,7 @@ public class GuessWho{
 			
 		}
 	}
-	
-	//Implement action for confirm button
+	//An action listener class that is called when the player needs to press the "Confirm" button to confirm that they have chosen a character, either online or in-person with a physical deck of Guess Who character cards.
 	static class Confirm implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			
@@ -3061,8 +3307,7 @@ public class GuessWho{
 			}			
 		}
 	}
-	
-	//Implement action for start player vs computer button
+	//An action listener class that is called when the player selects they want to player the "Player vs Computer Online" game mode. 
 	static class StartPlayerComp implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 	
@@ -3087,8 +3332,7 @@ public class GuessWho{
 			window.repaint();
 		}
 	}
-	
-	//Implement action for start real life plays button
+	//An action listener class that is called when the player selects they want to play the "Player vs Computer In-Person" Mode. 
 	static class StartRealGame implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 	
@@ -3114,6 +3358,7 @@ public class GuessWho{
 			selectedQuestion = String.valueOf(questions.getSelectedItem());
 		}
 	}
+	//An action listener class that is called when the player clicks the settings menu. This class will display the Settings Menu GUI when the settings icon is pressed.
 	static class clickSettings implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			window.add(settingsMenu, 0);
@@ -3132,6 +3377,7 @@ public class GuessWho{
 			window.repaint();
 		}
 	}
+	//An action listener class that is called when the player presses the "X" button in the Settings Menu that will then exit out of the Settings Menu when the X is pressed. 
 	static class clickExitButton implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			window.remove(settingsMenu);
@@ -3149,16 +3395,19 @@ public class GuessWho{
 			window.repaint();
 		}
 	}
+	//An action listener class that is called when the player clicks they want the Music "ON" in the Settings Menu.
 	static class clickOn implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			loopMusic(backgroundMusic);
 		}
 	}
+	//An action listener class that is called when the player clicks they want the Music "OFF" in the Settings Menu.
 	static class clickOff implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			stopMusic(backgroundMusic);
 		}
 	}
+	//An action listener class that is called when the player clicks they want to Quit the game in the Settings Menu. This class will exit out of the program. 
 	static class quitButtonPressed implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			System.exit(0);
