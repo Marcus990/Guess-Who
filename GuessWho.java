@@ -2079,7 +2079,7 @@ public class GuessWho{
 			if (aiCards >= 23) {
 				window.getContentPane().removeAll();
 				window.add(guessWhoLogoInitial);
-				window.add(winLoseScreen);
+				window.add(winLoseScreen); 
 				Characters Placeholder = new Characters("Placeholder", "Blank", false, "Blank", "Blank", false, false, false, false, "Blank", false); 
 				Characters guessChar = Placeholder; 
 				
@@ -2095,12 +2095,22 @@ public class GuessWho{
 				
 				if(guessChar!=Placeholder) {
 					winLose.setText("You lost!");
-					loseLabel.setText("The AI guessed your card was: " + guessChar.getName()); 
-					window.repaint();
-					window.setVisible(true);
+					loseLabel.setText("The AI guessed your card was: " + guessChar.getName());
+					if(!realW) {
+						winLoseScreen.remove(corrChar);
+						winLoseScreen.remove(enterCorrectChar);
+						winLoseScreen.remove(confirmChar);
+					}
 				}
 				else 
 					loseLabel.setText("None of the characters matched your description!");
+					if(!realW) {
+						winLoseScreen.remove(corrChar);
+						winLoseScreen.remove(enterCorrectChar);
+						winLoseScreen.remove(confirmChar);
+					}
+				window.repaint();
+				window.setVisible(true);
 				endScreenTime.setText("Your Final "+timer.getText());
 			}
 		}
@@ -2768,12 +2778,10 @@ public class GuessWho{
 			//Set the computer text to the flipped cards
 			compCards.setText("Your opponent has flipped " + aiCards + " cards...");
 
-
 			if (aiCards >= 23) {
 				window.getContentPane().removeAll();
 				window.add(winLoseScreen); 
 				window.add(guessWhoLogoInitial);
-				window.repaint();
 				Characters Placeholder = new Characters("Placeholder", "Blank", false, "Blank", "Blank", false, false, false, false, "Blank", false); 
 				Characters guessChar = Placeholder; 
 				
@@ -2787,15 +2795,26 @@ public class GuessWho{
 					}
 				}
 				
-				if (guessChar != Placeholder) {
-					winLose.setText("You lost!");		
-					loseLabel.setText("The AI guessed your character was: " + guessChar.getName());
+				if(guessChar!=Placeholder) {
+					winLose.setText("You lost!");
+					loseLabel.setText("The AI guessed your card was: " + guessChar.getName());
+					if(!realW) {
+						winLoseScreen.remove(corrChar);
+						winLoseScreen.remove(enterCorrectChar);
+						winLoseScreen.remove(confirmChar);
+					}
 				}
-				else
+				else 
 					loseLabel.setText("None of the characters matched your description!");
+					if(!realW) {
+						winLoseScreen.remove(corrChar);
+						winLoseScreen.remove(enterCorrectChar);
+						winLoseScreen.remove(confirmChar);
+					}
 				endScreenTime.setText("Your Final "+timer.getText());
+				window.repaint();
+				window.setVisible(true);
 			}
-			
 		}
 	}
 	//An action listener class for the "Confirm Changes" button that is called when the confirm changes button is pressed by the player. This button is pressed after the AI answers the question and the player has to press on characters on the left to eliminate them. The player will press this button when they have finished eliminating players and can confirm their changes.
