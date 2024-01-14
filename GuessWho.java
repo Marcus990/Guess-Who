@@ -2078,7 +2078,8 @@ public class GuessWho{
 			
 			if (aiCards >= 23) {
 				window.getContentPane().removeAll();
-				
+				window.add(guessWhoLogoInitial);
+				window.add(winLoseScreen);
 				Characters Placeholder = new Characters("Placeholder", "Blank", false, "Blank", "Blank", false, false, false, false, "Blank", false); 
 				Characters guessChar = Placeholder; 
 				
@@ -2094,9 +2095,7 @@ public class GuessWho{
 				
 				if(guessChar!=Placeholder) {
 					winLose.setText("You lost!");
-					loseLabel.setText("The AI guessed your card was: " + guessChar.getName());
-					window.add(guessWhoLogoInitial);
-					window.add(winLoseScreen); 
+					loseLabel.setText("The AI guessed your card was: " + guessChar.getName()); 
 					window.repaint();
 					window.setVisible(true);
 				}
