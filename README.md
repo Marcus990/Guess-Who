@@ -2,4 +2,6 @@ This is an online revitalised version of the popular Guess Who game which was de
 
 This project incorporated complex features using data structures and algorithms that included an AI computer opponent that strategically guesses the other player’s character through a logic-based approach and analysis of player input.
 
+The project also takes advantage of the object-oriented nature of Java and special emphasis is placed on object oriented programming. OOP concepts and structures incorporated into the project code include inheritance, abstract classes, polymorphism, encapsulation, and more.
+
 The Java Swing framework was also used to create a user-friendly GUI that allows the player to seamlessly interact with the program and software.
