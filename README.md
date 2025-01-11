@@ -1,3 +1,5 @@
+##Guess-Who
+
 This is an online revitalised version of the popular Guess Who game which was developed using mainly Java and the Eclipse IDE.
 
 This project incorporated complex features using data structures and algorithms that included an AI computer opponent that strategically guesses the other player’s character through a logic-based approach and analysis of player input. The difficulty of the computer opponent was able to be changed, allowing the player to play against an easier AI opponent.
